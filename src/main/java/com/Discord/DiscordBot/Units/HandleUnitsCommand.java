@@ -34,10 +34,13 @@ public class HandleUnitsCommand {
                 .setTitle(String.format("Unit %s Question", unit))
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
-                .addField("A)", question.getOptionA(), false)
-                .addField("B)", question.getOptionB(), false)
-                .addField("C)", question.getOptionC(), false)
-                .addField("D)", question.getOptionD(), false)
+                .addField("Options:", // Single field or else sus choice placement
+                        "A) " + question.getOptionA() + "\n" +
+                                "B) " + question.getOptionB() + "\n" +
+                                "C) " + question.getOptionC() + "\n" +
+                                "D) " + question.getOptionD(),
+                        false
+                )
                 .setFooter("Choose the correct answer below");
 
         // Create message with buttons

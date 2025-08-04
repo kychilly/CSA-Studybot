@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class ButtonListener extends ListenerAdapter {
 
+    // The names really should be "previous questions choices"
     public static Map<User, Question> incorrectUserQuestions = new HashMap<>();
     public static Map<User, String> incorrectUserAnswers = new HashMap<>();
 
@@ -108,10 +109,13 @@ public class ButtonListener extends ListenerAdapter {
                 .setTitle("Question Review")
                 .setColor(Color.YELLOW)
                 .setDescription(question.getQuestion())
-                .addField("A)", question.getOptionA(), false)
-                .addField("B)", question.getOptionB(), false)
-                .addField("C)", question.getOptionC(), false)
-                .addField("D)", question.getOptionD(), false)
+                .addField("Options:", // Single field or else sus choice placement
+                        "A) " + question.getOptionA() + "\n" +
+                                "B) " + question.getOptionB() + "\n" +
+                                "C) " + question.getOptionC() + "\n" +
+                                "D) " + question.getOptionD(),
+                        false
+                )
                 .addField("", // Empty field name
                         "Your answer: " + String.format("||%s) %s||",
                                 incorrectUserAnswers.get(user).toUpperCase(),
@@ -149,10 +153,13 @@ public class ButtonListener extends ListenerAdapter {
                 .setTitle("Unit 1 Question")
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
-                .addField("A)", question.getOptionA(), false)
-                .addField("B)", question.getOptionB(), false)
-                .addField("C)", question.getOptionC(), false)
-                .addField("D)", question.getOptionD(), false);
+                .addField("Options:", // Single field or else sus choice placement
+                "A) " + question.getOptionA() + "\n" +
+                        "B) " + question.getOptionB() + "\n" +
+                        "C) " + question.getOptionC() + "\n" +
+                        "D) " + question.getOptionD(),
+                false
+        );
 
         event.getChannel().sendMessageEmbeds(embedBuilder.build())
                 .addActionRow(
