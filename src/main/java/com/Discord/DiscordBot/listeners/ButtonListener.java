@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class ButtonListener extends ListenerAdapter {
 
-    private static final Map<User, Question> incorrectUserQuestions = new HashMap<>();
-    private static final Map<User, String> incorrectUserAnswers = new HashMap<>();
+    public static Map<User, Question> incorrectUserQuestions = new HashMap<>();
+    public static Map<User, String> incorrectUserAnswers = new HashMap<>();
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
@@ -39,7 +39,7 @@ public class ButtonListener extends ListenerAdapter {
         } catch (Exception e) {
             event.getHook().sendMessage("An error occurred while processing your request.")
                     .setEphemeral(true).queue();
-            System.out.println("YOU HAVE A MASSIVE BUG: " + e);
+            event.getChannel().sendMessage("YOU HAVE A MASSIVE BUG: " + e).queue();
         }
     }
 
@@ -54,10 +54,12 @@ public class ButtonListener extends ListenerAdapter {
         Question question = ActiveQuestionTracker.getActiveQuestion(user);
         boolean isCorrect = Unit1.checkAnswer(question, answer);
 
-        if (!isCorrect) {
+//        if (!isCorrect) {
+        // I know this says incorrect, but this just stores the user's previous
+        // questions and answers for possible review lol
             incorrectUserQuestions.put(user, question);
             incorrectUserAnswers.put(user, answer);
-        }
+//        }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(isCorrect ? "Correct Answer! 🎉" : "Incorrect Answer ❌")
@@ -132,6 +134,10 @@ public class ButtonListener extends ListenerAdapter {
     }
 
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {
+        if (incorrectUserAnswers.get(user) != null) { // Should be both
+            incorrectUserAnswers.remove(user);
+            incorrectUserQuestions.remove(user);
+        }
         Question question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions());
         if (question == null) {
             event.getHook().sendMessage("No more questions available for Unit 1.")

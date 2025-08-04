@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.Units;
 
+import com.Discord.DiscordBot.listeners.ButtonListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -21,6 +22,11 @@ public class HandleUnitsCommand {
         if (question == null) {
             event.getChannel().sendMessage(String.format("No questions available for Unit %s", unit)).queue();
             return;
+        }
+        // Just checks in case somehow the answers werent removed previously cause it is new question
+        if (ButtonListener.incorrectUserAnswers.get(user) != null) { // Should be both
+            ButtonListener.incorrectUserAnswers.remove(user);
+            ButtonListener.incorrectUserQuestions.remove(user);
         }
 
         // Create question embed
