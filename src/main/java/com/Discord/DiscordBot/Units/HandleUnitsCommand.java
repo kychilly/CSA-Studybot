@@ -1,0 +1,52 @@
+package com.Discord.DiscordBot.Units;
+
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+
+import java.awt.*;
+import java.util.ArrayList;
+
+public class HandleUnitsCommand {
+
+    // This should be for all 4 units. Parameters the unit()
+    public static void execute(MessageReceivedEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
+        if (ActiveQuestionTracker.hasActiveQuestion(user)) {
+            event.getChannel().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.").queue();
+            return;
+        }
+
+        Question question = QuestionBank.getRandomQuestion(specificQuestionList);
+        if (question == null) {
+            event.getChannel().sendMessage(String.format("No questions available for Unit %s", unit)).queue();
+            return;
+        }
+
+        // Create question embed
+        EmbedBuilder embedBuilder = new EmbedBuilder()
+                .setTitle(String.format("Unit %s Question", unit))
+                .setColor(Color.BLUE)
+                .setDescription(question.getQuestion())
+                .addField("A)", question.getOptionA(), false)
+                .addField("B)", question.getOptionB(), false)
+                .addField("C)", question.getOptionC(), false)
+                .addField("D)", question.getOptionD(), false)
+                .setFooter("Choose the correct answer below");
+
+        // Create message with buttons
+        MessageCreateBuilder messageBuilder = new MessageCreateBuilder()
+                .setEmbeds(embedBuilder.build())
+                .addActionRow( // I'm too lazy to get the real addActionRow thing lol, change that later
+                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_A", "A"),
+                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_B", "B"),
+                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_C", "C"),
+                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_D", "D")
+                );
+
+        event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
+            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong());
+        });
+    }
+
+}

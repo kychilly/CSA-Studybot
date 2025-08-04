@@ -20,51 +20,17 @@ public class UnitListener extends ListenerAdapter {
         if (user.isBot()) return;
 
         if (message.equalsIgnoreCase("!unit1")) {
-            handleUnit1Command(event, user);
-        } else if (message.equalsIgnoreCase("!unit2")) {
-            event.getChannel().sendMessage("Sorry! Unit 2 is not implemented yet!").queue();
+            HandleUnitsCommand.execute(event, user, 1, QuestionBank.getUnit1Questions());
+        } else if (message.equalsIgnoreCase("!unit2")) { // Unit 2, 3, and 4 not implemented yet
+            HandleUnitsCommand.execute(event, user, 2, QuestionBank.getUnit2Questions());
         } else if (message.equalsIgnoreCase("!unit3")) {
-            event.getChannel().sendMessage("Sorry! Unit 3 is not implemented yet!").queue();
+            HandleUnitsCommand.execute(event, user, 3, QuestionBank.getUnit3Questions());
         } else if (message.equalsIgnoreCase("!unit4")) {
-            event.getChannel().sendMessage("Sorry! Unit 2=4 is not implemented yet!").queue();
+            HandleUnitsCommand.execute(event, user, 4, QuestionBank.getUnit4Questions());
         }
+
+        // otherwise do nothing
     }
 
-    private void handleUnit1Command(MessageReceivedEvent event, User user) {
-        if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getChannel().sendMessage("You already have an active question! Please answer that first.").queue();
-            return;
-        }
 
-        Question question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions());
-        if (question == null) {
-            event.getChannel().sendMessage("No questions available for Unit 1.").queue();
-            return;
-        }
-
-        // Create question embed
-        EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("Unit 1 Question")
-                .setColor(Color.BLUE)
-                .setDescription(question.getQuestion())
-                .addField("A)", question.getOptionA(), false)
-                .addField("B)", question.getOptionB(), false)
-                .addField("C)", question.getOptionC(), false)
-                .addField("D)", question.getOptionD(), false)
-                .setFooter("Choose the correct answer below");
-
-        // Create message with buttons
-        MessageCreateBuilder messageBuilder = new MessageCreateBuilder()
-                .setEmbeds(embedBuilder.build())
-                .addActionRow( // I'm too lazy to get the real addActionRow thing lol, change that later
-                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_A", "A"),
-                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_B", "B"),
-                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_C", "C"),
-                        net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_D", "D")
-                );
-
-        event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
-            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong());
-        });
-    }
 }

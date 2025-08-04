@@ -15,7 +15,8 @@ import java.util.Map;
 
 public class ButtonListener extends ListenerAdapter {
 
-    private static final Map<User, Question> incorrectAnswers = new HashMap<>();
+    private static final Map<User, Question> incorrectUserQuestions = new HashMap<>();
+    private static final Map<User, String> incorrectUserAnswers = new HashMap<>();
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
@@ -43,7 +44,7 @@ public class ButtonListener extends ListenerAdapter {
 
     private void handleAnswer(ButtonInteractionEvent event, User user, String buttonId) {
         if (!ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getHook().sendMessage("You don't have an active question. Use `!unit1` to get started!")
+            event.getHook().sendMessage("You don't have an active question. Use `!unit1, !unit2, !unit3, or !unit4` to get started!")
                     .setEphemeral(true).queue();
             return;
         }
@@ -53,7 +54,8 @@ public class ButtonListener extends ListenerAdapter {
         boolean isCorrect = Unit1.checkAnswer(question, answer);
 
         if (!isCorrect) {
-            incorrectAnswers.put(user, question);
+            incorrectUserQuestions.put(user, question);
+            incorrectUserAnswers.put(user, answer);
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -61,9 +63,17 @@ public class ButtonListener extends ListenerAdapter {
                 .setColor(isCorrect ? Color.GREEN : Color.RED)
                 .setDescription(isCorrect
                         ? "**Well done!** You got it right!"
-                        : String.format("**Correct answer:** ||%s) %s||",
-                        question.getCorrectAnswer(),
-                        getAnswerText(question, question.getCorrectAnswer())));
+                        : "**Oops,** You made a little mistake!")
+                .addField("Your answer:",
+                String.format("%s) %s",
+                        answer.toUpperCase(),
+                        getAnswerText(question, answer)),
+                false)
+                .addField("Correct answer:",
+                        String.format("%s) %s",
+                                question.getCorrectAnswer(),
+                                getAnswerText(question, question.getCorrectAnswer())),
+                        false);
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
@@ -84,7 +94,7 @@ public class ButtonListener extends ListenerAdapter {
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {
-        Question question = incorrectAnswers.get(user);
+        Question question = incorrectUserQuestions.get(user);
         if (question == null) {
             event.getHook().sendMessage("No previous incorrect question to review.")
                     .setEphemeral(true).queue();
@@ -99,18 +109,25 @@ public class ButtonListener extends ListenerAdapter {
                 .addField("B)", question.getOptionB(), false)
                 .addField("C)", question.getOptionC(), false)
                 .addField("D)", question.getOptionD(), false)
-                .addField("Correct Answer",
-                        String.format("||%s) %s||",
+                .addField("Your answer:",
+                        String.format("%s) %s",
+                                incorrectUserAnswers.get(user).toUpperCase(),
+                                getAnswerText(question, incorrectUserAnswers.get(user))),
+                        false)
+                .addField("Correct answer:",
+                        String.format("%s) %s",
                                 question.getCorrectAnswer(),
                                 getAnswerText(question, question.getCorrectAnswer())),
                         false);
 
-        event.getHook().sendMessageEmbeds(embedBuilder.build())
-                .addActionRow(
-                        Button.primary("new_question", "Try Another Question")
-                )
-                .setEphemeral(false) // Can be true, but rather have everyone see
-                .queue();
+        MessageEditBuilder messageBuilder = new MessageEditBuilder()
+                .setEmbeds(embedBuilder.build());
+        messageBuilder.setActionRow(
+                Button.primary("new_question", "Try Another Question"));
+
+        event.getHook().editOriginal(messageBuilder.build()).queue();
+        incorrectUserAnswers.remove(user);
+        incorrectUserQuestions.remove(user);
     }
 
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {
