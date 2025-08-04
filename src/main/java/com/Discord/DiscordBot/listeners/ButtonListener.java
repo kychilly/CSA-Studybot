@@ -53,7 +53,7 @@ public class ButtonListener extends ListenerAdapter {
 
         String answer = buttonId.substring("answer_".length());
         Question question = ActiveQuestionTracker.getActiveQuestion(user);
-        boolean isCorrect = Unit1.checkAnswer(question, answer);
+        boolean isCorrect = CheckQuestionAnswer.checkAnswer(question, answer);
 
 //        if (!isCorrect) {
         // I know this says incorrect, but this just stores the user's previous
