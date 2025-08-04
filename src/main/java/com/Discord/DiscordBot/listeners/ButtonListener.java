@@ -39,6 +39,7 @@ public class ButtonListener extends ListenerAdapter {
         } catch (Exception e) {
             event.getHook().sendMessage("An error occurred while processing your request.")
                     .setEphemeral(true).queue();
+            System.out.println("YOU HAVE A MASSIVE BUG: " + e);
         }
     }
 
@@ -64,16 +65,16 @@ public class ButtonListener extends ListenerAdapter {
                 .setDescription(isCorrect
                         ? "**Well done!** You got it right!"
                         : "**Oops,** You made a little mistake!")
-                .addField("Your answer:",
-                String.format("%s) %s",
-                        answer.toUpperCase(),
-                        getAnswerText(question, answer)),
-                false)
-                .addField("Correct answer:",
-                        String.format("%s) %s",
+                .addField("", // Empty field name
+                        "Your answer: " + String.format("||%s) %s||",
+                                incorrectUserAnswers.get(user).toUpperCase(),
+                                getAnswerText(question, incorrectUserAnswers.get(user))) +
+                                "\n" + // Newline instead of a new field
+                                "Correct answer: " + String.format("||%s) %s||",
                                 question.getCorrectAnswer(),
                                 getAnswerText(question, question.getCorrectAnswer())),
-                        false);
+                        false
+                );
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
@@ -109,16 +110,16 @@ public class ButtonListener extends ListenerAdapter {
                 .addField("B)", question.getOptionB(), false)
                 .addField("C)", question.getOptionC(), false)
                 .addField("D)", question.getOptionD(), false)
-                .addField("Your answer:",
-                        String.format("%s) %s",
+                .addField("", // Empty field name
+                        "Your answer: " + String.format("||%s) %s||",
                                 incorrectUserAnswers.get(user).toUpperCase(),
-                                getAnswerText(question, incorrectUserAnswers.get(user))),
-                        false)
-                .addField("Correct answer:",
-                        String.format("%s) %s",
+                                getAnswerText(question, incorrectUserAnswers.get(user))) +
+                                "\n" + // Newline instead of a new field
+                                "Correct answer: " + String.format("||%s) %s||",
                                 question.getCorrectAnswer(),
                                 getAnswerText(question, question.getCorrectAnswer())),
-                        false);
+                        false
+                );
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
