@@ -2,6 +2,7 @@ package com;
 
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.commands.CommandManager;
+import com.Discord.DiscordBot.listeners.ButtonListener;
 import com.Discord.DiscordBot.listeners.UnitListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -35,13 +36,13 @@ public class DiscordBot {
         // Register event listeners
         shardManager.addEventListener(new CommandManager());
         shardManager.addEventListener(new UnitListener());
+        shardManager.addEventListener(new ButtonListener());
 
     }
 
     public static void main(String[] args) {
         try {
             new DiscordBot();
-            QuestionBank questionBank = new QuestionBank();
         } catch (LoginException e) {
             System.out.println("Error: Invalid bot token - check your .env file");
         } catch (Exception e) {
