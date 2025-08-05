@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionBank {
-    public static ArrayList<Question> unit1Questions;
-    public static ArrayList<Question> unit2Questions;
-    public static ArrayList<Question> unit3Questions;
-    public static ArrayList<Question> unit4Questions;
+    public static ArrayList<Question> unit1Questions = new ArrayList<>();
+    public static ArrayList<Question> unit2Questions = new ArrayList<>();
+    public static ArrayList<Question> unit3Questions = new ArrayList<>();
+    public static ArrayList<Question> unit4Questions = new ArrayList<>();
 
     public QuestionBank() {
         initializeQuestions();
@@ -49,7 +49,7 @@ public class QuestionBank {
     // Get random question given the ArrayList(unit1Questions gets random from unit1Questions)
     public static Question getRandomQuestion(ArrayList<Question> questions) {
         if (questions.isEmpty()) {
-            System.out.println("Question list is null");
+            System.out.println("Make more questions lol");
             return null;
         }
         return questions.get((int)(Math.random()*questions.size()));
