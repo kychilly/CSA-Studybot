@@ -26,6 +26,8 @@ public class CommandManager extends ListenerAdapter {
         String command = event.getName();
         if (command.equalsIgnoreCase("help")) {
             HelpCommand.execute(event);
+        } else if (command.equalsIgnoreCase("questions")) {
+            QuestionsCommand.execute(event);
         }
 
     }
@@ -35,6 +37,7 @@ public class CommandManager extends ListenerAdapter {
         List<CommandData> commandData = new ArrayList<>();
 
         commandData.add(HelpCommand.getCommandData());
+        commandData.add(QuestionsCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
@@ -50,6 +53,7 @@ public class CommandManager extends ListenerAdapter {
         List<CommandData> commandData = new ArrayList<>();
 
         commandData.add(HelpCommand.getCommandData());
+        commandData.add(QuestionsCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
