@@ -17,8 +17,8 @@ public class HelpCommand {
 
         embed.setTitle("📚 AP CSA StudyBot Help")
                 .setDescription("Thank you for using the **AP CSA StudyBot**! Here's how to use this bot:")
-                .addField("🔹 `!unit1`, `!unit2`, etc.",
-                        "Get a practice question from the specified unit. For example, `!unit1` gives you a question from Unit 1.",
+                .addField("🔹 `!unit1` or `!u1`, `!unit2` or `!u2`, etc.",
+                        "Get a practice question from the specified unit. For example, `!unit1` or `!u1` gives you a question from Unit 1.",
                         false)
                 .addField("🧪 `(currently in developement) !unit1test`, `!unit2test`, etc.",
                         "Generates a mini test from that unit. For example, `!unit1test` gives you a short test from Unit 1.",

@@ -3,6 +3,7 @@ package com;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.commands.CommandManager;
 import com.Discord.DiscordBot.listeners.ButtonListener;
+import com.Discord.DiscordBot.listeners.JoinGuild;
 import com.Discord.DiscordBot.listeners.UnitListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -37,6 +38,7 @@ public class DiscordBot {
         shardManager.addEventListener(new CommandManager());
         shardManager.addEventListener(new UnitListener());
         shardManager.addEventListener(new ButtonListener());
+        shardManager.addEventListener(new JoinGuild());
 
     }
 
