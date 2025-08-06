@@ -1,7 +1,6 @@
 package com.Discord.DiscordBot.Units;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionBank {
     public static ArrayList<Question> unit1Questions = new ArrayList<>();
@@ -17,6 +16,8 @@ public class QuestionBank {
         // Initialize other units eventually
         Unit1.initializeUnit1Questions();
         Unit2.initializeUnit2Questions();
+        Unit3.initializeUnit3Questions();
+        Unit4.initializeUnit4Questions();
     }
 
     public void initializeUnit2Questions() {

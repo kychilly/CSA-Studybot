@@ -25,7 +25,7 @@ public class DiscordBot {
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.watching("khan academy"));
+        builder.setActivity(Activity.watching("youtube"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
@@ -43,7 +43,7 @@ public class DiscordBot {
     public static void main(String[] args) {
         try {
             new DiscordBot();
-            QuestionBank questionBank = new QuestionBank(); // Needs to be here
+            QuestionBank questionBank = new QuestionBank(); // Needs to be here to initialize questions lol
         } catch (LoginException e) {
             System.out.println("Error: Invalid bot token - check your .env file");
         } catch (Exception e) {

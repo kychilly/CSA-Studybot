@@ -68,7 +68,7 @@ public class ButtonListener extends ListenerAdapter {
                 .setTitle(isCorrect ? "Correct Answer! 🎉" : "Incorrect Answer ❌")
                 .setColor(isCorrect ? Color.GREEN : Color.RED)
                 .setDescription(isCorrect
-                        ? user.getAsMention() + "**Well done!** You got it right!"
+                        ? user.getAsMention() + " **Well done!** You got it right!"
                         : getRandomWrongAnswer())
                 .addField("", // Empty field name
                         "Your answer: " + String.format("||%s) %s||",
@@ -174,7 +174,7 @@ public class ButtonListener extends ListenerAdapter {
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("Unit 1 Question")
+                .setTitle(String.format("Unit %d Question", unit))
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement

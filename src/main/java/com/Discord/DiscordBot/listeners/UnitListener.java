@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
+import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
+import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
+
 public class UnitListener extends ListenerAdapter {
 
     @Override
@@ -18,6 +21,16 @@ public class UnitListener extends ListenerAdapter {
         String message = event.getMessage().getContentRaw().trim();
 
         if (user.isBot()) return;
+
+        if (message.equalsIgnoreCase("!end")) {
+            // Idk how to implement this yet lol
+        }
+
+        // Just tells you how many questions there are. should probably be a slash command btw
+        if (message.equalsIgnoreCase("!questions")) {
+            SendAvailableQuestionsCommand.execute(event);
+
+        }
 
         if (message.equalsIgnoreCase("!unit1") || message.equalsIgnoreCase("!u1")) {
             HandleUnitsCommand.execute(event, user, 1, QuestionBank.getUnit1Questions());
