@@ -9,6 +9,9 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
+import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
+
 public class HandleUnitsCommand {
 
     // This should be for all 4 units. Parameters the unit()
@@ -18,15 +21,22 @@ public class HandleUnitsCommand {
             return;
         }
 
+        if (incorrectUserAnswers.get(user) != null) { // Should always remove last
+            incorrectUserAnswers.remove(user);
+            incorrectUserQuestions.remove(user);
+        }
+
         Question question = QuestionBank.getRandomQuestion(specificQuestionList);
         if (question == null) {
             event.getChannel().sendMessage(String.format("No questions available for Unit %s", unit)).queue();
             return;
         }
+
         // Just checks in case somehow the answers werent removed previously cause it is new question
-        if (ButtonListener.incorrectUserAnswers.get(user) != null) { // Should be both
-            ButtonListener.incorrectUserAnswers.remove(user);
-            ButtonListener.incorrectUserQuestions.remove(user);
+        // Jk, this is needed now since only removing when asking a next question
+        if (incorrectUserAnswers.get(user) != null) { // Should be both
+            incorrectUserAnswers.remove(user);
+            incorrectUserQuestions.remove(user);
         }
 
         // Create question embed

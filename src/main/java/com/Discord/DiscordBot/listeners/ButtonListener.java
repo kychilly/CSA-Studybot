@@ -137,16 +137,34 @@ public class ButtonListener extends ListenerAdapter {
                 Button.primary("new_question", "Try Another Question"));
 
         event.getHook().editOriginal(messageBuilder.build()).queue();
-        incorrectUserAnswers.remove(user);
-        incorrectUserQuestions.remove(user);
+//        incorrectUserAnswers.remove(user); temp removing, see if this works
+//        incorrectUserQuestions.remove(user);
     }
 
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {
-        if (incorrectUserAnswers.get(user) != null) { // Should be both
+
+        // A bit of spagetti code, gets the same unit for the new question button
+        int unit = incorrectUserQuestions.get(user).getUnit();
+        Question question;
+        if (unit == 1) {
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions());
+        } else if (unit == 2) {
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit2Questions());
+        } else if (unit == 3) {
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit3Questions());
+        } else if (unit == 4) {
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit4Questions());
+        } else {
+            event.getChannel().sendMessage("I HAVE A MASSIVE BUG IN handleNewQuestion in ButtonListener. \nUnit is " + unit).queue();
+            return;
+        }
+
+        if (incorrectUserAnswers.get(user) != null) { // Should always remove last
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
         }
-        Question question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions());
+
+
         if (question == null) {
             event.getHook().sendMessage("No more questions available for Unit 1.")
                     .setEphemeral(true).queue();
