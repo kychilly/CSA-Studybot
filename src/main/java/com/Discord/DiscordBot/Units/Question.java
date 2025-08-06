@@ -8,9 +8,10 @@ public class Question {
     private final String optionD;
     private final String correctAnswer;
     private final int unit;
+    private final int questionId;
 
     public Question(String question, String optionA, String optionB,
-                    String optionC, String optionD, String correctAnswer, int unit) {
+                    String optionC, String optionD, String correctAnswer, int unit, int questionId) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -18,6 +19,7 @@ public class Question {
         this.optionD = optionD;
         this.correctAnswer = correctAnswer.toUpperCase();
         this.unit = unit;
+        this.questionId = questionId;
     }
 
     // Getters
@@ -28,6 +30,7 @@ public class Question {
     public String getOptionD() { return optionD; }
     public String getCorrectAnswer() { return correctAnswer; }
     public int getUnit() { return unit; }
+    public int getQuestionId() { return questionId; }
 
     public boolean isCorrect(String answer) {
         return answer.equalsIgnoreCase(correctAnswer);

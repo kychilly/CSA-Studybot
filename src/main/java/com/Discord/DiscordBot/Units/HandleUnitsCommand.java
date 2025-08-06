@@ -41,7 +41,7 @@ public class HandleUnitsCommand {
                                 "D) " + question.getOptionD(),
                         false
                 )
-                .setFooter("Choose the correct answer below");
+                .setFooter(String.format("Choose the correct answer below (ID: %d)", question.getQuestionId()));
 
         // Create message with buttons
         MessageCreateBuilder messageBuilder = new MessageCreateBuilder()
@@ -54,7 +54,7 @@ public class HandleUnitsCommand {
                 );
 
         event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
-            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong());
+            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId());
         });
     }
 

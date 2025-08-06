@@ -77,7 +77,8 @@ public class ButtonListener extends ListenerAdapter {
                                 question.getCorrectAnswer(),
                                 getAnswerText(question, question.getCorrectAnswer())),
                         false
-                );
+                )
+                .setFooter(String.format("(ID: %d)", incorrectUserQuestions.get(user).getQuestionId()));
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
@@ -105,8 +106,10 @@ public class ButtonListener extends ListenerAdapter {
             return;
         }
 
+        int unit = question.getUnit();
+
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("Question Review")
+                .setTitle(String.format("Unit %d Question Review", unit))
                 .setColor(Color.YELLOW)
                 .setDescription(question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement
@@ -125,7 +128,8 @@ public class ButtonListener extends ListenerAdapter {
                                 question.getCorrectAnswer(),
                                 getAnswerText(question, question.getCorrectAnswer())),
                         false
-                );
+                )
+                .setFooter(String.format("(ID: %d)", incorrectUserQuestions.get(user).getQuestionId()));
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
@@ -159,7 +163,8 @@ public class ButtonListener extends ListenerAdapter {
                         "C) " + question.getOptionC() + "\n" +
                         "D) " + question.getOptionD(),
                 false
-        );
+        )
+                .setFooter(String.format("Choose the correct answer below (ID: %d)", question.getQuestionId()));
 
         event.getChannel().sendMessageEmbeds(embedBuilder.build())
                 .addActionRow(
@@ -169,7 +174,7 @@ public class ButtonListener extends ListenerAdapter {
                         Button.primary("answer_D", "D")
                 )
                 .queue(sentMessage -> {
-                    ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong());
+                    ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId());
                 });
     }
 
