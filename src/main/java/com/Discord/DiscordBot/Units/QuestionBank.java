@@ -16,6 +16,7 @@ public class QuestionBank {
     private void initializeQuestions() {
         // Initialize other units eventually
         Unit1.initializeUnit1Questions();
+        Unit2.initializeUnit2Questions();
     }
 
     public void initializeUnit2Questions() {

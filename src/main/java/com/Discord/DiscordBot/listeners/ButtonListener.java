@@ -33,7 +33,7 @@ public class ButtonListener extends ListenerAdapter {
             if (buttonId.startsWith("answer_")) {
                 handleAnswer(event, user, buttonId);
             } else if (buttonId.equals("new_question")) {
-                handleNewQuestion(event, user);
+                handleNewQuestion(event, user); // Get this to get the unit you are currently on
             } else if (buttonId.equals("review_question")) {
                 handleReviewQuestion(event, user);
             }
