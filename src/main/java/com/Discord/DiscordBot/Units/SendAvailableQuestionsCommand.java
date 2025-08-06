@@ -17,7 +17,7 @@ public class SendAvailableQuestionsCommand {
         embed.setColor(0x3498db); // Blue color
 
         embed.setDescription(String.format(
-                "**Total Questions:** %d\n\nUse `!unit<number>` to start practicing!",
+                "**Total Questions:** %d\n\nUse `!u<number>` or `!unit<number>` to start practicing!",
                 sum
         ));
 
@@ -61,7 +61,7 @@ public class SendAvailableQuestionsCommand {
         embed.setColor(0x3498db); // Blue color
 
         embed.setDescription(String.format(
-                "**Total Questions:** %d\n\nUse `!unit<number>` to start practicing!",
+                "**Total Questions:** %d\n\nUse `!u<number>` or `!unit<number>` to start practicing!",
                 sum
         ));
 
