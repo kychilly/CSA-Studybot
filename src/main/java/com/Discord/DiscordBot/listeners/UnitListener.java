@@ -19,13 +19,13 @@ public class UnitListener extends ListenerAdapter {
 
         if (user.isBot()) return;
 
-        if (message.equalsIgnoreCase("!unit1")) {
+        if (message.equalsIgnoreCase("!unit1") || message.equalsIgnoreCase("!u1")) {
             HandleUnitsCommand.execute(event, user, 1, QuestionBank.getUnit1Questions());
-        } else if (message.equalsIgnoreCase("!unit2")) { // Unit 2, 3, and 4 not implemented yet
+        } else if (message.equalsIgnoreCase("!unit2")  || message.equalsIgnoreCase("!u2")) { // Unit 2, 3, and 4 not implemented yet
             HandleUnitsCommand.execute(event, user, 2, QuestionBank.getUnit2Questions());
-        } else if (message.equalsIgnoreCase("!unit3")) {
+        } else if (message.equalsIgnoreCase("!unit3")  || message.equalsIgnoreCase("!u3")) {
             HandleUnitsCommand.execute(event, user, 3, QuestionBank.getUnit3Questions());
-        } else if (message.equalsIgnoreCase("!unit4")) {
+        } else if (message.equalsIgnoreCase("!unit4")  || message.equalsIgnoreCase("!u4")) {
             HandleUnitsCommand.execute(event, user, 4, QuestionBank.getUnit4Questions());
         }
 

@@ -43,7 +43,7 @@ public class DiscordBot {
     public static void main(String[] args) {
         try {
             new DiscordBot();
-            QuestionBank questionBank = new QuestionBank();
+            QuestionBank questionBank = new QuestionBank(); // Needs to be here
         } catch (LoginException e) {
             System.out.println("Error: Invalid bot token - check your .env file");
         } catch (Exception e) {

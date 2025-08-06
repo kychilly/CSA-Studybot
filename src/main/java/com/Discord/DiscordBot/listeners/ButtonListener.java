@@ -13,6 +13,8 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.Discord.DiscordBot.Units.CheckQuestionAnswer.wrongAnswers;
+
 public class ButtonListener extends ListenerAdapter {
 
     // The names really should be "previous questions choices"
@@ -66,8 +68,8 @@ public class ButtonListener extends ListenerAdapter {
                 .setTitle(isCorrect ? "Correct Answer! 🎉" : "Incorrect Answer ❌")
                 .setColor(isCorrect ? Color.GREEN : Color.RED)
                 .setDescription(isCorrect
-                        ? "**Well done!** You got it right!"
-                        : "**Oops,** You made a little mistake!")
+                        ? user.getAsMention() + "**Well done!** You got it right!"
+                        : getRandomWrongAnswer())
                 .addField("", // Empty field name
                         "Your answer: " + String.format("||%s) %s||",
                                 incorrectUserAnswers.get(user).toUpperCase(),
@@ -159,7 +161,7 @@ public class ButtonListener extends ListenerAdapter {
             return;
         }
 
-        if (incorrectUserAnswers.get(user) != null) { // Should always remove last
+        if (incorrectUserAnswers.get(user) != null) { // Should always remove last/never null
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
         }
@@ -204,5 +206,9 @@ public class ButtonListener extends ListenerAdapter {
             case "D" -> question.getOptionD();
             default -> "";
         };
+    }
+
+    private String getRandomWrongAnswer() {
+        return wrongAnswers[((int)(Math.random()*wrongAnswers.length))];
     }
 }
