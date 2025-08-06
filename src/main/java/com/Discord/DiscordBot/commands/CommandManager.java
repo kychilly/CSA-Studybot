@@ -24,8 +24,8 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
-        if (command.equalsIgnoreCase("tester")) {
-            //add code here
+        if (command.equalsIgnoreCase("help")) {
+            HelpCommand.execute(event);
         }
 
     }
@@ -34,8 +34,7 @@ public class CommandManager extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         List<CommandData> commandData = new ArrayList<>();
 
-        //filler commands
-        commandData.add(Commands.slash("welcome", "welcomes user"));
+        commandData.add(HelpCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
@@ -50,7 +49,7 @@ public class CommandManager extends ListenerAdapter {
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         List<CommandData> commandData = new ArrayList<>();
 
-
+        commandData.add(HelpCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
