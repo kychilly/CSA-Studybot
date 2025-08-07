@@ -20,18 +20,6 @@ public class QuestionBank {
         Unit4.initializeUnit4Questions();
     }
 
-    public void initializeUnit2Questions() {
-
-    }
-
-    public void initializeUnit3Questions() {
-
-    }
-
-    public void initializeUnit4Questions() {
-
-    }
-
     public static ArrayList<Question> getUnit1Questions() {
         return unit1Questions;
     }
@@ -49,11 +37,16 @@ public class QuestionBank {
     }
 
     // Get random question given the ArrayList(unit1Questions gets random from unit1Questions)
-    public static Question getRandomQuestion(ArrayList<Question> questions) {
+    public static Question getRandomQuestion(ArrayList<Question> questions, int prevQuestionId) {
         if (questions.isEmpty()) {
             System.out.println("Make more questions lol");
             return null;
         }
-        return questions.get((int)(Math.random()*questions.size()));
+        // Makes sure the question is not the same one from before
+        Question question;
+        do {
+            question = questions.get((int) (Math.random() * questions.size()));
+        } while (question.getQuestionId() == prevQuestionId);
+        return question;
     }
 }

@@ -21,12 +21,15 @@ public class HandleUnitsCommand {
             return;
         }
 
+        int prevQuestion = incorrectUserQuestions.get(user) == null
+                ? -1 : incorrectUserQuestions.get(user).getQuestionId();
+
         if (incorrectUserAnswers.get(user) != null) { // Should always remove last
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
         }
 
-        Question question = QuestionBank.getRandomQuestion(specificQuestionList);
+        Question question = QuestionBank.getRandomQuestion(specificQuestionList, prevQuestion);
         if (question == null) {
             event.getChannel().sendMessage(String.format("No questions available for Unit %s", unit)).queue();
             return;

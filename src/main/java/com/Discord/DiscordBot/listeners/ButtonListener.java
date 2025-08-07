@@ -21,6 +21,7 @@ public class ButtonListener extends ListenerAdapter {
     public static Map<User, Question> incorrectUserQuestions = new HashMap<>();
     public static Map<User, String> incorrectUserAnswers = new HashMap<>();
 
+
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         String buttonId = event.getComponentId();
@@ -146,16 +147,19 @@ public class ButtonListener extends ListenerAdapter {
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {
 
         // A bit of spagetti code, gets the same unit for the new question button
+        // Implementing different question ID\
+
         int unit = incorrectUserQuestions.get(user).getUnit();
+        int prevQuestionId = incorrectUserQuestions.get(user).getQuestionId();
         Question question;
         if (unit == 1) {
-            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions());
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions(), prevQuestionId);
         } else if (unit == 2) {
-            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit2Questions());
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit2Questions(), prevQuestionId);
         } else if (unit == 3) {
-            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit3Questions());
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit3Questions(), prevQuestionId);
         } else if (unit == 4) {
-            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit4Questions());
+            question = QuestionBank.getRandomQuestion(QuestionBank.getUnit4Questions(), prevQuestionId);
         } else {
             event.getChannel().sendMessage("I HAVE A MASSIVE BUG IN handleNewQuestion in ButtonListener. \nUnit is " + unit).queue();
             return;
