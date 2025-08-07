@@ -7,6 +7,7 @@ public class QuestionBank {
     public static ArrayList<Question> unit2Questions = new ArrayList<>();
     public static ArrayList<Question> unit3Questions = new ArrayList<>();
     public static ArrayList<Question> unit4Questions = new ArrayList<>();
+    public static ArrayList<Question> questionBank = new ArrayList<>();
 
     public QuestionBank() {
         initializeQuestions();
@@ -20,20 +21,25 @@ public class QuestionBank {
         Unit4.initializeUnit4Questions();
     }
 
+    public static ArrayList<Question> getQuestionBank() { return questionBank; }
     public static ArrayList<Question> getUnit1Questions() {
         return unit1Questions;
     }
-
     public static ArrayList<Question> getUnit2Questions() {
         return unit2Questions;
     }
-
     public static ArrayList<Question> getUnit3Questions() {
         return unit3Questions;
     }
-
     public static ArrayList<Question> getUnit4Questions() {
         return unit4Questions;
+    }
+
+    public void initializeQuestionBank() {
+        questionBank.addAll(unit1Questions);
+        questionBank.addAll(unit2Questions);
+        questionBank.addAll(unit3Questions);
+        questionBank.addAll(unit4Questions);
     }
 
     // Get random question given the ArrayList(unit1Questions gets random from unit1Questions)
