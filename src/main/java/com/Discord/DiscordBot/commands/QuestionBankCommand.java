@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.Discord.DiscordBot.listeners.ButtonListener.getAnswerText;
+
 public class QuestionBankCommand {
     private static final int QUESTIONS_PER_PAGE = 5;
     private static final Map<Long, Integer> userPageStates = new HashMap<>();
@@ -86,9 +88,9 @@ public class QuestionBankCommand {
 
                 embed.addField(
                         String.format("(ID: %d) Question %d - %s", q.getQuestionId(), i + 1, q.getQuestionDifficulty()),
-                        String.format("%s\nA) %s\nB) %s\nC) %s\nD) %s%s",
+                        String.format("%s\nA) %s\nB) %s\nC) %s\nD) %s\nAnswer: ||%s - %s||%s",
                                 q.getQuestion(), q.getOptionA(), q.getOptionB(),
-                                q.getOptionC(), q.getOptionD(), divider),
+                                q.getOptionC(), q.getOptionD(), q.getCorrectAnswer(), getAnswerText(q, q.getCorrectAnswer()), divider),
                         false
                 );
 

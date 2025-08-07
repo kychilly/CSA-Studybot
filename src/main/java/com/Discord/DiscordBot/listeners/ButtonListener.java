@@ -206,7 +206,7 @@ public class ButtonListener extends ListenerAdapter {
                 });
     }
 
-    private String getAnswerText(Question question, String option) {
+    public static String getAnswerText(Question question, String option) {
         return switch (option.toUpperCase()) {
             case "A" -> question.getOptionA();
             case "B" -> question.getOptionB();
