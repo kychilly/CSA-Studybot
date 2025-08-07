@@ -112,7 +112,7 @@ public class ButtonListener extends ListenerAdapter {
         int unit = question.getUnit();
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle(String.format("Unit %d Question Review", unit))
+                .setTitle(String.format("Unit %d Question Review (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.YELLOW)
                 .setDescription(question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement
@@ -150,7 +150,8 @@ public class ButtonListener extends ListenerAdapter {
         // Implementing different question ID\
 
         int unit = incorrectUserQuestions.get(user).getUnit();
-        int prevQuestionId = incorrectUserQuestions.get(user).getQuestionId();
+        int prevQuestionId = incorrectUserQuestions.get(user) != null
+                ? incorrectUserQuestions.get(user).getQuestionId() : -1;
         Question question;
         if (unit == 1) {
             question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions(), prevQuestionId);
@@ -178,7 +179,7 @@ public class ButtonListener extends ListenerAdapter {
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle(String.format("Unit %d Question", unit))
+                .setTitle(String.format("Unit %s Question (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement

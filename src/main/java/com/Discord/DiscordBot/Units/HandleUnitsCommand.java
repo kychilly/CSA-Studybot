@@ -21,8 +21,8 @@ public class HandleUnitsCommand {
             return;
         }
 
-        int prevQuestion = incorrectUserQuestions.get(user) == null
-                ? -1 : incorrectUserQuestions.get(user).getQuestionId();
+        int prevQuestion = incorrectUserQuestions.get(user) != null
+                ? incorrectUserQuestions.get(user).getQuestionId() : -1;
 
         if (incorrectUserAnswers.get(user) != null) { // Should always remove last
             incorrectUserAnswers.remove(user);
@@ -44,7 +44,7 @@ public class HandleUnitsCommand {
 
         // Create question embed
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle(String.format("Unit %s Question", unit))
+                .setTitle(String.format("Unit %s Question (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement

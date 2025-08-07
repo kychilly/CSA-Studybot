@@ -11,7 +11,6 @@ public class Unit1 {
 
     public static int numUnit1Questions;
 
-    // Used to create the unit 1 questions
     public static void initializeUnit1Questions() {
         unit1Questions = new ArrayList<>();
 
@@ -19,306 +18,306 @@ public class Unit1 {
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"hello\".substring(1, 4));\n```",
                 "ell", "hel", "llo", "hello",
-                "A", 1, 1));
+                "A", 1, 1, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"APCSA\".length());\n```",
                 "4", "5", "6", "Error",
-                "B", 1, 2));
+                "B", 1, 2, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"computer\".indexOf('p'));\n```",
                 "2", "3", "4", "-1",
-                "B", 1, 3));
+                "B", 1, 3, "easy"));
 
         // Math class questions
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Math.pow(2, 3));\n```",
                 "6", "8", "8.0", "9.0",
-                "C", 1, 4));
+                "C", 1, 4, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println((int)(Math.random() * 10));\n```",
                 "0-9", "1-10", "0-10", "1-9",
-                "A", 1, 5));
+                "A", 1, 5, "medium"));
 
         // String concatenation
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(1 + 2 + \"3\" + 4 + 5);\n```",
                 "12345", "3345", "1239", "33",
-                "B", 1, 6));
+                "B", 1, 6, "medium"));
 
         // More String methods
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"banana\".substring(2, 5));\n```",
                 "nan", "ana", "nana", "ban",
-                "A", 1, 7));
+                "A", 1, 7, "easy"));
 
         // Object method calls
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = \"hello\";\nSystem.out.println(s.toUpperCase().substring(1));\n```",
                 "HELLO", "ELLO", "HELL", "ello",
-                "B", 1, 8));
+                "B", 1, 8, "medium"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"abc\".compareTo(\"abb\"));\n```",
                 "-1", "0", "1", "2",
-                "C", 1, 9));
+                "C", 1, 9, "medium"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"Java\".equals(\"java\"));\n```",
                 "true", "false", "0", "1",
-                "B", 1, 10));
+                "B", 1, 10, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"hello\".charAt(1));\n```",
                 "h", "e", "l", "o",
-                "B", 1, 11));
+                "B", 1, 11, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"text\".replace('t', 'p'));\n```",
                 "pexp", "text", "pep", "pext",
-                "A", 1, 12));
+                "A", 1, 12, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"ABCD\".toLowerCase());\n```",
                 "abcd", "ABCD", "aBcD", "error",
-                "A", 1, 13));
+                "A", 1, 13, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\" hello \".trim());\n```",
                 "hello", " hello", "hello ", " hello ",
-                "A", 1, 14));
+                "A", 1, 14, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"a\".compareTo(\"b\"));\n```",
                 "-1", "0", "1", "2",
-                "A", 1, 15));
+                "A", 1, 15, "medium"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"abc\".concat(\"def\"));\n```",
                 "abcdef", "abc def", "abc+def", "error",
-                "A", 1, 16));
+                "A", 1, 16, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"Mississippi\".indexOf(\"iss\", 2));\n```",
                 "1", "2", "4", "-1",
-                "C", 1, 17));
+                "C", 1, 17, "hard"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"wxyz\".startsWith(\"wx\"));\n```",
                 "true", "false", "0", "1",
-                "A", 1, 18));
+                "A", 1, 18, "easy"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"hello\".replace(\"ll\", \"rr\"));\n```",
                 "herro", "hello", "heo", "error",
-                "A", 1, 19));
+                "A", 1, 19, "easy"));
         // Primitive types and operators
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nint x = 5;\ndouble y = 2;\nSystem.out.println(x / y);\n```",
                 "2", "2.0", "2.5", "3",
-                "C", 1, 20));
+                "C", 1, 20, "medium"));
 
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(17 % 5);\n```",
                 "2", "3", "3.4", "4",
-                "A", 1, 21));
+                "A", 1, 21, "easy"));
 
-// Object reference questions
+        // Object reference questions
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s1 = \"hello\";\nString s2 = s1;\ns1 = \"world\";\nSystem.out.println(s2);\n```",
                 "hello", "world", "null", "Error",
-                "A", 1, 22));
+                "A", 1, 22, "medium"));
 
-// Operator precedence
+        // Operator precedence
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(3 + 4 * 5);\n```",
                 "35", "23", "60", "Error",
-                "B", 1, 23));
+                "B", 1, 23, "easy"));
 
-// Casting questions
+        // Casting questions
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\ndouble d = 4.7;\nint i = (int) d;\nSystem.out.println(i);\n```",
                 "4", "4.7", "5", "Error",
-                "A", 1, 24));
+                "A", 1, 24, "easy"));
 
-// Compound assignment
+        // Compound assignment
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nint x = 5;\nx *= 3 + 2;\nSystem.out.println(x);\n```",
                 "17", "25", "13", "30",
-                "B", 1, 25));
+                "B", 1, 25, "medium"));
 
-// String comparison
+        // String comparison
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s1 = \"hello\";\nString s2 = new String(\"hello\");\nSystem.out.println(s1 == s2);\n```",
                 "true", "false", "0", "Error",
-                "B", 1, 26));
+                "B", 1, 26, "hard"));
 
-// Escape sequences
+        // Escape sequences
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"a\\tb\\nc\");\n```",
                 "a b c", "a\\tb\\nc", "a\tb\nc", "Error",
-                "C", 1, 27));
+                "C", 1, 27, "easy"));
 
-// Integer division
+        // Integer division
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(10 / 4);\n```",
                 "2", "2.5", "3", "3.0",
-                "A", 1, 28));
+                "A", 1, 28, "easy"));
 
-// Compound operators with casting
+        // Compound operators with casting
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nint x = 5;\nx += 3.5;\nSystem.out.println(x);\n```",
                 "8", "8.5", "9", "Error",
-                "A", 1, 29));
+                "A", 1, 29, "hard"));
 
-// String method chaining
+        // String method chaining
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\" Hello World \".trim().substring(6).toLowerCase());\n```",
                 "world", "world ", "World", "error",
-                "A", 1, 30));
+                "A", 1, 30, "hard"));
         // Object method calls with null
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = null;\nSystem.out.println(s.length());\n```",
                 "0", "4", "null", "Throws NullPointerException",
-                "D", 1, 31));
+                "D", 1, 31, "medium"));
 
-// String immutability
+        // String immutability
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = \"hello\";\ns.toUpperCase();\nSystem.out.println(s);\n```",
                 "HELLO", "hello", "Error", "null",
-                "B", 1, 32));
+                "B", 1, 32, "medium"));
 
-// Method chaining with Math class
+        // Method chaining with Math class
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Math.sqrt(Math.pow(3, 2)));\n```",
                 "3", "3.0", "9", "9.0",
-                "B", 1, 33));
+                "B", 1, 33, "medium"));
 
-// String comparison with case sensitivity
+        // String comparison with case sensitivity
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"Hello\".equalsIgnoreCase(\"hELLo\"));\n```",
                 "true", "false", "0", "1",
-                "A", 1, 34));
+                "A", 1, 34, "easy"));
 
-// String constructor behavior
+        // String constructor behavior
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString a = \"AP\";\nString b = new String(\"AP\");\nSystem.out.println(a.equals(b));\n```",
                 "true", "false", "Error", "null",
-                "A", 1, 35));
+                "A", 1, 35, "medium"));
 
-// Substring edge case
+        // Substring edge case
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"java\".substring(1,1));\n```",
                 "j", "a", "av", "(empty string)",
-                "D", 1, 36));
+                "D", 1, 36, "hard"));
 
-// String format method
+        // String format method
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(String.format(\"%s-%d\", \"CS\", 2024));\n```",
                 "CS-2024", "CS2024", "Error", "null",
-                "A", 1, 37));
+                "A", 1, 37, "medium"));
 
-// Wrapper class methods
+        // Wrapper class methods
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Integer.parseInt(\"10\"));\n```",
                 "10", "\"10\"", "10.0", "Error",
-                "A", 1, 38));
+                "A", 1, 38, "easy"));
 
-// String contains() method
+        // String contains() method
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"programming\".contains(\"gram\"));\n```",
                 "true", "false", "3", "Error",
-                "A", 1, 39));
+                "A", 1, 39, "easy"));
 
-// String lastIndexOf()
+        // String lastIndexOf()
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"banana\".lastIndexOf('a'));\n```",
                 "1", "3", "5", "6",
-                "C", 1, 40));
-    // String pool
+                "C", 1, 40, "medium"));
+        // String pool
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s1 = \"AP\";\nString s2 = \"AP\";\nSystem.out.println(s1 == s2);\n```",
                 "true", "false", "Error", "null",
-                "A", 1, 41));
+                "A", 1, 41, "hard"));
         // Math class rounding
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Math.round(3.5));\n```",
                 "3", "3.0", "4", "4.0",
-                "C", 1, 42));
+                "C", 1, 42, "easy"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"a1b2c3\".replaceAll(\"\\\\d\", \"*\"));\n```",
                 "a*b*c*", "a1b2c3", "******", "Error",
-                "A", 1, 43));
+                "A", 1, 43, "hard"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = \"  AP CSA  \";\nSystem.out.println(s.trim().length());\n```",
                 "5", "6", "9", "10",
-                "A", 1, 44));
+                "A", 1, 44, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Integer.valueOf(\"10\") + 5);\n```",
                 "15", "105", "\"105\"", "Error",
-                "A", 1, 45));
+                "A", 1, 45, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"Hello\".regionMatches(true, 1, \"ELL\", 0, 2));\n```",
                 "true", "false", "Error", "null",
-                "A", 1, 46));
+                "A", 1, 46, "hard"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Math.abs(-2147483648));\n```",
                 "2147483648", "2147483647", "-2147483648", "Error",
-                "C", 1, 47));
+                "C", 1, 47, "hard"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Arrays.toString(\"A,B,C\".split(\",\")));\n```",
                 "[A, B, C]", "[A,B,C]", "[ABC]", "Error",
-                "A", 1, 48));
+                "A", 1, 48, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nStringBuilder sb = new StringBuilder(\"AP\");\nsb.append(\"CSA\");\nSystem.out.println(sb);\n```",
                 "AP", "CSA", "APCSA", "Error",
-                "C", 1, 49));
+                "C", 1, 49, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Double.compare(0.1 + 0.2, 0.3));\n```",
                 "0", "1", "-1", "false",
-                "B", 1, 50));
+                "B", 1, 50, "hard"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"hello\".substring(5));\n```",
                 "(empty string)", "Error", "h", "o",
-                "A", 1, 51));
+                "A", 1, 51, "medium"));
         unit1Questions.add(new Question(
                 "Which range of values can be produced?\n```java\n(int)(Math.random() * 20) + 5;\n```",
                 "0-19", "5-20", "5-24", "5-19",
-                "C", 1, 52));
+                "C", 1, 52, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(String.valueOf(123).length());\n```",
                 "3", "123", "1", "Error",
-                "A", 1, 53));
+                "A", 1, 53, "easy"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = \"Java\";\ns.toLowerCase();\nSystem.out.println(s);\n```",
                 "java", "Java", "JAVA", "Error",
-                "B", 1, 54));
+                "B", 1, 54, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nString s = null;\nSystem.out.println(s == null ? \"empty\" : s.length());\n```",
                 "0", "empty", "null", "Error",
-                "B", 1, 55));
+                "B", 1, 55, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"APCSA\".startsWith(\"AP\", 0));\n```",
                 "true", "false", "0", "1",
-                "A", 1, 56));
+                "A", 1, 56, "easy"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println((double)(5 / 2));\n```",
                 "2", "2.0", "2.5", "3.0",
-                "B", 1, 57));
+                "B", 1, 57, "hard"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(\"banana\".replaceFirst(\"a\", \"o\"));\n```",
                 "bonana", "banono", "bonono", "Error",
-                "A", 1, 58));
+                "A", 1, 58, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(Math.min(3.2, 3));\n```",
                 "3", "3.0", "3.2", "Error",
-                "B", 1, 59));
+                "B", 1, 59, "medium"));
         unit1Questions.add(new Question(
                 "What is printed by the following code?\n```java\nSystem.out.println(String.join(\"-\", \"A\",\"B\",\"C\"));\n```",
                 "A-B-C", "ABC", "A,B,C", "Error",
-                "A", 1, 60));
+                "A", 1, 60, "easy"));
 
         numUnit1Questions = unit1Questions.size();
         System.out.println(String.format("There are %d questions in unit 1", numUnit1Questions));
