@@ -124,7 +124,7 @@ public class QuestionBankCommand {
 
         if (user.isBot()) return;
 
-        event.deferEdit().queue(); // Important for button interactions
+        // event.deferEdit().queue(); // Important for button interactions
 
         long userId = user.getIdLong();
         int currentPage = userPageStates.getOrDefault(userId, 0);
