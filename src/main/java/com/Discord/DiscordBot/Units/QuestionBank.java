@@ -19,6 +19,7 @@ public class QuestionBank {
         Unit2.initializeUnit2Questions();
         Unit3.initializeUnit3Questions();
         Unit4.initializeUnit4Questions();
+        initializeQuestionBank();
     }
 
     public static ArrayList<Question> getQuestionBank() { return questionBank; }

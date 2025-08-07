@@ -1,6 +1,7 @@
 package com.Discord.DiscordBot.listeners;
 
 import com.Discord.DiscordBot.Units.*;
+import com.Discord.DiscordBot.commands.QuestionBankCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -39,6 +40,8 @@ public class ButtonListener extends ListenerAdapter {
                 handleNewQuestion(event, user); // Get this to get the unit you are currently on
             } else if (buttonId.equals("review_question")) {
                 handleReviewQuestion(event, user);
+            } else if (buttonId.startsWith("qbank_")) {
+                QuestionBankCommand.handleButtonInteraction(event);
             }
         } catch (Exception e) {
             event.getHook().sendMessage("An error occurred while processing your request.")

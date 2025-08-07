@@ -28,6 +28,8 @@ public class CommandManager extends ListenerAdapter {
             HelpCommand.execute(event);
         } else if (command.equalsIgnoreCase("questions")) {
             QuestionsCommand.execute(event);
+        } else if (command.equalsIgnoreCase("question-bank")) {
+            QuestionBankCommand.execute(event);
         }
 
     }
@@ -38,6 +40,7 @@ public class CommandManager extends ListenerAdapter {
 
         commandData.add(HelpCommand.getCommandData());
         commandData.add(QuestionsCommand.getCommandData());
+        commandData.add(QuestionBankCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
@@ -54,6 +57,7 @@ public class CommandManager extends ListenerAdapter {
 
         commandData.add(HelpCommand.getCommandData());
         commandData.add(QuestionsCommand.getCommandData());
+        commandData.add(QuestionBankCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
