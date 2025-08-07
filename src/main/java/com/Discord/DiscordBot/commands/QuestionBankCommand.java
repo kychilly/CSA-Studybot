@@ -82,13 +82,17 @@ public class QuestionBankCommand {
         } else {
             for (int i = startIdx; i < endIdx; i++) {
                 Question q = questions.get(i);
+                String divider = (i < endIdx - 1) ? "\n-------------------------" : "";
+
                 embed.addField(
-                        String.format("Question %d (ID: %d)", i + 1, q.getQuestionId()),
-                        String.format("%s\nA) %s\nB) %s\nC) %s\nD) %s\nDifficulty: %s",
+                        String.format("(ID: %d) Question %d - %s", q.getQuestionId(), i + 1, q.getQuestionDifficulty()),
+                        String.format("%s\nA) %s\nB) %s\nC) %s\nD) %s%s",
                                 q.getQuestion(), q.getOptionA(), q.getOptionB(),
-                                q.getOptionC(), q.getOptionD(), q.getQuestionDifficulty()),
+                                q.getOptionC(), q.getOptionD(), divider),
                         false
                 );
+
+
             }
 
             embed.setFooter(String.format("Showing questions %d-%d of %d in Unit %d",
@@ -123,8 +127,6 @@ public class QuestionBankCommand {
         User user = event.getUser();
 
         if (user.isBot()) return;
-
-        // event.deferEdit().queue(); // Important for button interactions
 
         long userId = user.getIdLong();
         int currentPage = userPageStates.getOrDefault(userId, 0);
