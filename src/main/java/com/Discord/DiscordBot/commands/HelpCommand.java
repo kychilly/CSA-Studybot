@@ -26,8 +26,15 @@ public class HelpCommand {
                 .addField("🎲 `(currently in development) !test`",
                         "Get a randomized test from *all* units. A great way to prepare for the AP exam!",
                         false)
+                .addField("❔ `/question-bank`",
+                        "Gives a question bank you can look at.",
+                        false)
+                .addField("\u200B", "\u200B", false)
+                .addField("💬 Need help or have suggestions?",
+                        "Feel free to message me at <@840216337119969301> or [jyam478@gmail.com](mailto:jyam478@gmail.com)",
+                        false)
                 .setColor(0x1E90FF) // DodgerBlue color
-                .setFooter("Good luck studying!", null);
+                .setFooter("Good luck studying!!!", null);
 
         event.replyEmbeds(embed.build()).queue();
     }
