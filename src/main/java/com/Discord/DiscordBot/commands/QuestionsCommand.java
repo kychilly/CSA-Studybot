@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 public class QuestionsCommand {
 
     public static CommandData getCommandData() {
-        return Commands.slash("questions", "gets information about the CSA questions");
+        return Commands.slash("csa-info", "gets information about the CSA questions and curriculum");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {
