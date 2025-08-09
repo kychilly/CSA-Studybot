@@ -2,6 +2,7 @@ package com.Discord.DiscordBot.listeners;
 
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.QuestionBankCommand;
+import com.Discord.DiscordBot.commands.TestCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -42,7 +43,10 @@ public class ButtonListener extends ListenerAdapter {
                 handleReviewQuestion(event, user);
             } else if (buttonId.startsWith("qbank_")) {
                 QuestionBankCommand.handleButtonInteraction(event);
+            } else if (buttonId.startsWith("test_")) {
+                TestCommand.handleButtonInteraction(event);
             }
+
         } catch (Exception e) {
             event.getHook().sendMessage("An error occurred while processing your request.")
                     .setEphemeral(true).queue();
@@ -205,6 +209,9 @@ public class ButtonListener extends ListenerAdapter {
                     ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId());
                 });
     }
+
+
+
 
     public static String getAnswerText(Question question, String option) {
         return switch (option.toUpperCase()) {
