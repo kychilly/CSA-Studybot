@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.TestSession;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
@@ -23,9 +24,12 @@ public class TestCommand {
     public static SlashCommandData getCommandData() {
         return Commands.slash("test", "Take a practice test with randomized questions")
                 .addOptions(
-                        new OptionData(OptionType.INTEGER, "num-questions", "Number of questions (default: 10)", false)
-                                .setMinValue(1)
-                                .setMaxValue(50),
+                        new OptionData(OptionType.INTEGER, "num-questions", "Number of questions to test. (default: 10)", false)
+                                .addChoice("5 Questions", 5)
+                                .addChoice("10 Questions", 10)
+                                .addChoice("15 Questions", 15)
+                                .addChoice("20 Questions", 20)
+                                .addChoice("50 Questions", 50),
                         new OptionData(OptionType.INTEGER, "unit", "Specific unit to test", false)
                                 .addChoice("Unit 1", 1)
                                 .addChoice("Unit 2", 2)
@@ -95,8 +99,13 @@ public class TestCommand {
                 showTestResults(event, session);
                 break;
 
-            case "test_preview_review":  // Preview button (before submission)
+            case "test_preview_review":  // before submitting
                 showPreviewReview(event, session);
+                break;
+
+            case "test_results_review":  // Full review button (after submission)
+                session.setCurrentIndex(0);
+                showFullReview(event, session);
                 break;
 
             case "test_preview_prev":
@@ -111,11 +120,6 @@ public class TestCommand {
 
             case "test_preview_back":
                 updateTestMessage(event, session);
-                break;
-
-            case "test_results_review":  // Full review button (after submission)
-                session.setCurrentIndex(0); // Reset to first question
-                showFullReview(event, session);
                 break;
 
             case "test_review_prev":
@@ -154,7 +158,8 @@ public class TestCommand {
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Test Results")
-                .setDescription(String.format("You scored **%d/%d** (%.1f%%)", score, total, percentage))
+                .setDescription(String.format("You scored **%d/%d** (%.1f%%)\n%s", score, total, percentage, getScoreMessage(percentage)))
+                .setFooter(getOtherScoreMessage(percentage))
                 .setColor(percentage >= 70 ? 0x00FF00 : 0xFF0000);
 
         // Now show the full review button
@@ -240,45 +245,6 @@ public class TestCommand {
         return embed.build();
     }
 
-    private static void showReviewFromResults(ButtonInteractionEvent event, TestSession session) {
-        // Create paginated review with navigation
-        session.setCurrentIndex(0); // Start at first question
-        showReviewQuestion(event, session);
-    }
-
-    private static void showReviewQuestion(ButtonInteractionEvent event, TestSession session) {
-        int currentIndex = session.getCurrentIndex();
-        Question question = session.getQuestions().get(currentIndex);
-        String userAnswer = session.getUserAnswer(currentIndex);
-        String correctAnswer = question.getCorrectAnswer();
-        boolean isCorrect = correctAnswer.equalsIgnoreCase(userAnswer);
-
-        EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("Review - Question " + (currentIndex + 1) + "/" + session.getTotalQuestions())
-                .setDescription(question.getQuestion())
-                .addField("Your Answer", userAnswer != null ? userAnswer : "Not answered", false)
-                .addField("Correct Answer", correctAnswer, false)
-                .setColor(isCorrect ? 0x00FF00 : 0xFF0000)
-                .setFooter(isCorrect ? "You got this right!" : "This was incorrect");
-
-        // Create navigation buttons
-        List<Button> buttons = new ArrayList<>();
-
-        if (currentIndex > 0) {
-            buttons.add(Button.primary("test_review_prev", "◀ Previous"));
-        }
-
-        if (currentIndex < session.getTotalQuestions() - 1) {
-            buttons.add(Button.primary("test_review_next", "Next ▶"));
-        }
-
-        buttons.add(Button.danger("test_review_close", "✖ Close Review"));
-
-        event.getHook().editOriginalEmbeds(embed.build())
-                .setComponents(ActionRow.of(buttons))
-                .queue();
-    }
-
     private static void showPreviewReview(ButtonInteractionEvent event, TestSession session) {
         int currentIndex = session.getCurrentIndex();
         Question question = session.getQuestions().get(currentIndex);
@@ -331,6 +297,41 @@ public class TestCommand {
                 ActionRow.of(answerButtons),
                 ActionRow.of(navButtons)
         );
+    }
+
+    // This should be different for all subjects.
+    // CSA
+    // 5 = 77%+
+    // 4 = 60%+
+    // 3 = 42%+
+    // 2 = 36%+
+    // 1 = 36%-
+    public static String getScoreMessage(double percentage) {
+        if (percentage >= 77) {
+            return "Your score likely earns you a **5**.";
+        } else if (percentage >= 60) {
+            return "Your score likely earns you a **4**.";
+        } else if (percentage >= 42) {
+            return "Your score likely earns you a **3**.";
+        } else if (percentage >= 36) {
+            return "Your score likely earns you a **2**.";
+        } else {
+            return "Your score likely earns you a **1**.";
+        }
+    }
+
+    public static String getOtherScoreMessage(double percentage) {
+        if (percentage >= 77) {
+            return Constants.FIVE_SCORE_MESSAGES.get((int)(Math.random() * Constants.FIVE_SCORE_MESSAGES.size()));
+        } else if (percentage >= 60) {
+            return Constants.FOUR_SCORE_MESSAGES.get((int)(Math.random() * Constants.FOUR_SCORE_MESSAGES.size()));
+        } else if (percentage >= 42) {
+            return Constants.THREE_SCORE_MESSAGES.get((int)(Math.random() * Constants.THREE_SCORE_MESSAGES.size()));
+        } else if (percentage >= 36) {
+            return Constants.TWO_SCORE_MESSAGES.get((int)(Math.random() * Constants.TWO_SCORE_MESSAGES.size()));
+        } else {
+            return Constants.ONE_SCORE_MESSAGES.get((int)(Math.random() * Constants.ONE_SCORE_MESSAGES.size()));
+        }
     }
 
 }

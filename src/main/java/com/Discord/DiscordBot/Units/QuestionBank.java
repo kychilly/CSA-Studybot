@@ -14,7 +14,6 @@ public class QuestionBank {
     }
 
     private void initializeQuestions() {
-        // Initialize other units eventually
         Unit1.initializeUnit1Questions();
         Unit2.initializeUnit2Questions();
         Unit3.initializeUnit3Questions();
@@ -53,7 +52,7 @@ public class QuestionBank {
         } else if (n == 4) {
             return unit4Questions;
         }
-        System.out.println("bug in QuestionBank line 56 getSpecificQuestionMethod(int n)");
+        System.out.println("bug in QuestionBank line 55 getSpecificQuestionMethod(int n)");
         return unit4Questions;
     }
 

@@ -10,22 +10,28 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.Discord.DiscordBot.Constants.numUnits;
 import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
 import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
 
 public class UnitsCommand {
 
-    private static int numUnits = 4;
-
     public static CommandData getCommandData() {
         return Commands.slash("question", "A random AP CSA question")
-                .addOption(OptionType.INTEGER, "unit", "The unit you would like to study (1-4). Leave blank if you want a random question.", false);
+                .addOptions(
+                        new OptionData(OptionType.INTEGER, "unit", "The unit you would like to study. Blank = random unit", false)
+                                .addChoice("Unit 1", 1)
+                                .addChoice("Unit 2", 2)
+                                .addChoice("Unit 3", 3)
+                                .addChoice("Unit 4", 4)
+                );
     }
 
     public static void execute(SlashCommandInteractionEvent event) {
