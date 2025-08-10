@@ -40,15 +40,15 @@ public class ButtonListener extends ListenerAdapter {
 
         try {
             if (buttonId.startsWith("answer_")) {
-                handleAnswer(event, user, buttonId);
+                handleAnswer(event, user, buttonId); // Code for button answer
             } else if (buttonId.equals("new_question")) {
-                handleNewQuestion(event, user); // Get this to get the unit you are currently on + bug here
+                handleNewQuestion(event, user); // For entirely new question
             } else if (buttonId.equals("review_question")) {
-                handleReviewQuestion(event, user);
+                handleReviewQuestion(event, user); // For review button
             } else if (buttonId.startsWith("qbank_")) {
-                QuestionBankCommand.handleButtonInteraction(event);
+                QuestionBankCommand.handleButtonInteraction(event); // Question bank command
             } else if (buttonId.startsWith("test_")) {
-                TestCommand.handleButtonInteraction(event);
+                TestCommand.handleButtonInteraction(event); // Test command
             }
 
         } catch (Exception e) {
@@ -83,6 +83,11 @@ public class ButtonListener extends ListenerAdapter {
         incorrectMessageIds.put(event.getMessageIdLong(), user);
 //        }
 
+        // Points!!!
+        // Going to take it from ActiveQuestions, can also take it from incorrectUserQuestions for future ref
+        int points = isCorrect ? calculatePoints(ActiveQuestionTracker.getActiveQuestion(user)) : 0;
+
+        // Build the sussy embed
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(isCorrect ? "Correct Answer! 🎉" : "Incorrect Answer ❌")
                 .setColor(isCorrect ? Color.GREEN : Color.RED)
@@ -99,24 +104,20 @@ public class ButtonListener extends ListenerAdapter {
                                 getAnswerText(question, question.getCorrectAnswer())),
                         false
                 )
-                .setFooter(String.format("(ID: %d)", incorrectUserQuestions.get(user).getQuestionId()));
+                .setFooter(String.format("Points Earned: %d   |   (ID: %d)", points, incorrectUserQuestions.get(user).getQuestionId()));
 
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
 
-//        if (!isCorrect) { Right now, able to put both buttons when answered question
+        // Sets buttons up for result
             messageBuilder.setActionRow(
                     Button.primary("new_question", "Try Another Question"),
                     Button.danger("review_question", "Review Question")
             );
-//        } else {
-//            messageBuilder.setActionRow(
-//                    Button.primary("new_question", "Try Another Question")
-//            );
-//        }
 
         event.getHook().editOriginal(messageBuilder.build()).queue();
         ActiveQuestionTracker.removeActiveQuestion(user, event.getMessageIdLong());
+        System.out.println("Points dont do anything yet btw add json later(handleAnswer line 120)"); // Remove this later lol
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {
@@ -270,5 +271,27 @@ public class ButtonListener extends ListenerAdapter {
 
     private String getRandomWrongAnswer() {
         return wrongAnswers[((int)(Math.random()*wrongAnswers.length))];
+    }
+    // Easy: 1-3
+    // Medium: 2-4
+    // Hard: 3-5
+    public int calculatePoints(Question question) {
+        int points;
+        switch (question.getQuestionDifficulty()) {
+            case "easy":
+                points = (int)(Math.random()*3)+1;
+                break;
+            case "medium":
+                points = (int)(Math.random()*3)+2;
+                break;
+            case "hard":
+                points = (int)(Math.random()*3)+3;
+                break;
+            default:
+                points = 1; // In case a scary bug happens lol
+                System.out.println("bug with calculatePoints in ButtonListener");
+                break; // Break here just in case of more bugs
+        }
+        return points;
     }
 }
