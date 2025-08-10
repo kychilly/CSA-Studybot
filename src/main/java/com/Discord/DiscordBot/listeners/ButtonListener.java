@@ -173,9 +173,16 @@ public class ButtonListener extends ListenerAdapter {
 
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {
 
-        // A bit of spagetti code, gets the same unit for the new question button
-        // Implementing different question ID\
+        // Checks to make sure before you get to click again, if you have an active question. If so, dont let them get a new question
+        if (ActiveQuestionTracker.hasActiveQuestion(user)) {
+            event.getHook().sendMessage("You already have an active question! Please answer that first.")
+                    .setEphemeral(true)
+                    .queue();
+            return;
+        }
 
+        // A bit of spagetti code, gets the same unit for the new question button
+        // Implementing different question ID
         int unit;
         int prevQuestionId = -1;
 
