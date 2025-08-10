@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TestCommand {
@@ -53,6 +54,9 @@ public class TestCommand {
             event.reply("No questions available for the selected unit.").setEphemeral(true).queue();
             return;
         }
+
+        // Ends the previous test(maybe implement timer later)
+        removeUserTest(event);
 
         TestSession session = new TestSession(questions);
         activeTests.put(event.getUser().getIdLong(), session);
@@ -359,6 +363,26 @@ public class TestCommand {
             return Constants.TWO_SCORE_MESSAGES.get((int)(Math.random() * Constants.TWO_SCORE_MESSAGES.size()));
         } else {
             return Constants.ONE_SCORE_MESSAGES.get((int)(Math.random() * Constants.ONE_SCORE_MESSAGES.size()));
+        }
+    }
+
+    public static void removeUserTest(SlashCommandInteractionEvent event) {
+        Long userId = event.getUser().getIdLong();
+        if (activeTests.containsKey(userId)) {
+            event.getUser().openPrivateChannel().queue(
+                    privateChannel -> {
+                        privateChannel.sendMessage("⌛ Your previous test was ended as you started a new test.").queue(
+                                success -> activeTests.remove(userId),
+                                error -> {
+                                    // Fallback to ephemeral reply if DM fails
+                                    event.reply("⌛ Your previous test was ended as you started a new test.")
+                                            .setEphemeral(true)
+                                            .queue(hook -> hook.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
+                                    activeTests.remove(userId);
+                                }
+                        );
+                    }
+            );
         }
     }
 
