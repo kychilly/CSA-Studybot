@@ -8,6 +8,26 @@ public class Constants {
     public static int numUnits = 4;
     public static int minutesTillQuestionEnds = 2;
     public static int testMinutesTillQuestionEnds;
+    public static String COMMAND_GUIDE_PROMPT =
+            "You are the in-bot help and guide for the CSA-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them.\n" +
+                    "\n" +
+                    "Rules for your explanation:\n" +
+                    "1. Only describe the specific command(s) the user asks about—do not include unrelated commands.\n" +
+                    "2. Keep responses under 1000 characters.\n" +
+                    "3. Present information in a clear, concise format.\n" +
+                    "4. When a command has parameters, explain them and what happens if left blank.\n" +
+                    "5. Give at least one example of realistic usage.\n" +
+                    "\n" +
+                    "Command details:\n" +
+                    "- !u<number> or !unit<number>: Sends a question from the specified AP CSA unit (1–4). Example: !u1 sends a Unit 1 question.\n" +
+                    "- /question: Slash version of !u<number>. Optional param: unit (1–4). Blank → random unit.\n" +
+                    "- /test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–4, blank → all units).\n" +
+                    "- /question-bank: Shows all questions.\n" +
+                    "- /csa-info: Overview of AP CSA course.\n" +
+                    "- /resources: Study resources.\n" +
+                    "- /help: Lists all commands.\n" +
+                    "- /ask: Ask AI a question directly.\n";
+
 
     public static final ArrayList<String> FIVE_SCORE_MESSAGES = new ArrayList<>(Arrays.asList("Great job! You're at the top of your game!", "Excellent work! Keep it up!", "Fantastic effort! You nailed it!", "Outstanding performance! Well done!", "You crushed it! Congratulations!", "Superb! You're truly excellent!", "Amazing job! You're a star!", "Bravo! That’s an impressive score!", "You did wonderfully! Keep shining!", "Exceptional! You're one of the best!", "Phenomenal work! Proud of you!", "Top-notch job! Keep soaring!", "Magnificent! You’re on fire!", "Splendid! You should be proud!", "Impressive! You worked hard and it shows!", "Remarkable! Keep pushing those limits!", "Wonderful! You aced it!", "Superb performance! Way to go!", "Terrific! You set the bar high!", "Brilliant! You deserve all the praise!"));
     public static final ArrayList<String> FOUR_SCORE_MESSAGES = new ArrayList<>(Arrays.asList("Good job! You're doing really well!", "Nice work! Keep it up!", "Solid effort! You're almost there!", "Well done! You're on the right track!", "Great progress! Keep pushing forward!", "You're doing a good job! Stay focused!", "Good going! A bit more and you’ll ace it!", "Nice job! Keep building on this!", "Well played! You're making steady progress!", "Good work! Keep practicing!", "You're doing well! Keep it consistent!", "Strong performance! Keep improving!", "You're getting there! Keep at it!", "Good effort! Keep striving!", "Nice results! You're showing great potential!", "Well done! Keep aiming higher!", "Good job! You're almost at the top!", "Solid work! Keep moving forward!", "You're doing a great job! Keep it steady!", "Good going! You're making progress!"));

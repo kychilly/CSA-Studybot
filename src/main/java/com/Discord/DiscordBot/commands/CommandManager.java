@@ -38,6 +38,8 @@ public class CommandManager extends ListenerAdapter {
             UnitsCommand.execute(event);
         } else if (command.equalsIgnoreCase("resources")) {
             ResourcesCommand.execute(event);
+        } else if (command.equalsIgnoreCase("ask")) {
+            GPTCommand.execute(event);
         }
 
     }
@@ -51,6 +53,7 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(TestCommand.getCommandData());
         commandData.add(UnitsCommand.getCommandData());
         commandData.add(ResourcesCommand.getCommandData());
+        commandData.add(GPTCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()
