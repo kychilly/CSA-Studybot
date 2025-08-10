@@ -247,7 +247,7 @@ public class ButtonListener extends ListenerAdapter {
                         Button.primary("answer_D", "D")
                 )
                 .queue(sentMessage -> {
-                    ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId());
+                    ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId(), event.getChannelIdLong());
                 });
     }
 

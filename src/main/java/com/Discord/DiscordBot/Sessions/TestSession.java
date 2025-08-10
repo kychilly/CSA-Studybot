@@ -37,10 +37,6 @@ public class TestSession {
         return userAnswers.get(index);
     }
 
-    public Map<Integer, String> getUserAnswers() {
-        return new HashMap<>(userAnswers);
-    }
-
     public long getMessageId() {
         return messageId;
     }

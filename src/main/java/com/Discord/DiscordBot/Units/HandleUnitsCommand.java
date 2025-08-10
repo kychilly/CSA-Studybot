@@ -16,6 +16,7 @@ public class HandleUnitsCommand {
 
     // This should be for all 4 units. Parameters the unit()
     public static void execute(MessageReceivedEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
+
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
             event.getChannel().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.").queue();
             return;
@@ -86,8 +87,10 @@ public class HandleUnitsCommand {
                         net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_D", "D")
                 );
 
+        long channelId = event.getChannel().getIdLong();
+
         event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
-            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId());
+            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId(), channelId);
         });
 
     }

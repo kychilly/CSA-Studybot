@@ -116,7 +116,7 @@ public class UnitsCommand {
                 .setEphemeral(false) // Make visible to everyone
                 .queue(interactionHook -> {
                     interactionHook.retrieveOriginal().queue(message -> {
-                        ActiveQuestionTracker.addActiveQuestion(user, question, message.getIdLong(), question.getQuestionId());
+                        ActiveQuestionTracker.addActiveQuestion(user, question, message.getIdLong(), question.getQuestionId(), event.getChannelIdLong());
                     });
                 });
     }
