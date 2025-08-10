@@ -8,18 +8,18 @@ import java.util.Map;
 public class ActiveQuestionTracker {
 
     private static final Map<User, Question> userQuestions = new HashMap<>();
-    private static final Map<User, Long> messageIds = new HashMap<>(); // The IDs of the question messages the bot sent.
+    private static final Map<Long, User> activeMessageIds = new HashMap<>(); // The IDs of the question messages the bot sent. Returns the user message associated with
     private static final Map<User, Integer> questionIds = new HashMap<>(); // The IDs of the user's questions
 
     public static void addActiveQuestion(User user, Question question, long messageId, int questionId) {
         userQuestions.put(user, question);
-        messageIds.put(user, messageId);
+        activeMessageIds.put(messageId, user);
         questionIds.put(user, questionId);
     }
 
-    public static void removeActiveQuestion(User user) {
+    public static void removeActiveQuestion(User user, Long messageId) {
         userQuestions.remove(user);
-        messageIds.remove(user);
+        activeMessageIds.remove(messageId);
         questionIds.remove(user);
     }
 
@@ -31,8 +31,8 @@ public class ActiveQuestionTracker {
         return userQuestions.get(user);
     }
 
-    public static Long getMessageId(User user) {
-        return messageIds.get(user);
+    public static User getUserByMessageId(Long messageId) {
+        return activeMessageIds.get(messageId);
     }
 
     public static int getQuestionId(User user) {

@@ -17,6 +17,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.Discord.DiscordBot.Units.ActiveQuestionTracker.getUserByMessageId;
 import static com.Discord.DiscordBot.Units.CheckQuestionAnswer.wrongAnswers;
 
 public class ButtonListener extends ListenerAdapter {
@@ -24,6 +25,7 @@ public class ButtonListener extends ListenerAdapter {
     // The names really should be "previous questions choices"
     public static Map<User, Question> incorrectUserQuestions = new HashMap<>();
     public static Map<User, String> incorrectUserAnswers = new HashMap<>();
+    public static Map<Long, User> incorrectMessageIds = new HashMap<>();
 
 
     @Override
@@ -62,6 +64,12 @@ public class ButtonListener extends ListenerAdapter {
                     .setEphemeral(true).queue();
             return;
         }
+        // Now, check if this is your active question
+        if (!user.equals(getUserByMessageId(event.getMessage().getIdLong()))) { // Checks if the current user isnt equal to whatever the hashmap had in store for that specific message
+            event.getHook().sendMessage("This is not your active question to answer!")
+                    .setEphemeral(true).queue();
+            return;
+        }
 
         String answer = buttonId.substring("answer_".length());
         Question question = ActiveQuestionTracker.getActiveQuestion(user);
@@ -72,6 +80,7 @@ public class ButtonListener extends ListenerAdapter {
         // questions and answers for possible review lol
         incorrectUserQuestions.put(user, question);
         incorrectUserAnswers.put(user, answer);
+        incorrectMessageIds.put(event.getMessageIdLong(), user);
 //        }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -95,19 +104,19 @@ public class ButtonListener extends ListenerAdapter {
         MessageEditBuilder messageBuilder = new MessageEditBuilder()
                 .setEmbeds(embedBuilder.build());
 
-        if (!isCorrect) {
+//        if (!isCorrect) { Right now, able to put both buttons when answered question
             messageBuilder.setActionRow(
                     Button.primary("new_question", "Try Another Question"),
                     Button.danger("review_question", "Review Question")
             );
-        } else {
-            messageBuilder.setActionRow(
-                    Button.primary("new_question", "Try Another Question")
-            );
-        }
+//        } else {
+//            messageBuilder.setActionRow(
+//                    Button.primary("new_question", "Try Another Question")
+//            );
+//        }
 
         event.getHook().editOriginal(messageBuilder.build()).queue();
-        ActiveQuestionTracker.removeActiveQuestion(user);
+        ActiveQuestionTracker.removeActiveQuestion(user, event.getMessageIdLong());
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {
@@ -117,7 +126,12 @@ public class ButtonListener extends ListenerAdapter {
 
         Question question = incorrectUserQuestions.get(user);
         if (question == null) {
-            event.getHook().sendMessage("No previous incorrect question to review.")
+            event.getHook().sendMessage("No previous question to review!")
+                    .setEphemeral(true).queue();
+            return;
+        }
+        if (!user.equals(incorrectMessageIds.get(messageID))) {
+            event.getHook().sendMessage("This is not your question to review!")
                     .setEphemeral(true).queue();
             return;
         }
@@ -192,6 +206,17 @@ public class ButtonListener extends ListenerAdapter {
         if (incorrectUserAnswers.get(user) != null) { // Should always remove last(never null unless first interaction)
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
+            // Also remove the user from incorrectMessageIds (needs a better method here)
+            Long entryToRemove = -1L;
+            for (Map.Entry<Long, User> entry : incorrectMessageIds.entrySet()) {
+                if (entry.getValue().equals(user)) {
+                    entryToRemove = entry.getKey();
+                }
+            }
+            if (entryToRemove == -1L) {
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+            }
+            incorrectMessageIds.remove(entryToRemove);
         }
 
 

@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
+import static com.Discord.DiscordBot.listeners.ButtonListener.*;
 
 public class HandleUnitsCommand {
 
@@ -27,6 +27,16 @@ public class HandleUnitsCommand {
         if (incorrectUserAnswers.get(user) != null) { // Should always remove last
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
+            Long entryToRemove = -1L;
+            for (Map.Entry<Long, User> entry : incorrectMessageIds.entrySet()) {
+                if (entry.getValue().equals(user)) {
+                    entryToRemove = entry.getKey();
+                }
+            }
+            if (entryToRemove == -1L) {
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+            }
+            incorrectMessageIds.remove(entryToRemove);
         }
 
         Question question = QuestionBank.getRandomQuestion(specificQuestionList, prevQuestion);
@@ -40,6 +50,16 @@ public class HandleUnitsCommand {
         if (incorrectUserAnswers.get(user) != null) { // Should be both
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
+            Long entryToRemove = -1L;
+            for (Map.Entry<Long, User> entry : incorrectMessageIds.entrySet()) {
+                if (entry.getValue().equals(user)) {
+                    entryToRemove = entry.getKey();
+                }
+            }
+            if (entryToRemove == -1L) {
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+            }
+            incorrectMessageIds.remove(entryToRemove);
         }
 
         // Create question embed
@@ -69,6 +89,7 @@ public class HandleUnitsCommand {
         event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
             ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId());
         });
+        // little testing to see what is
     }
 
 }
