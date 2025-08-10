@@ -39,9 +39,7 @@ public class ButtonListener extends ListenerAdapter {
             if (buttonId.startsWith("answer_")) {
                 handleAnswer(event, user, buttonId);
             } else if (buttonId.equals("new_question")) {
-                System.out.println("got here");
                 handleNewQuestion(event, user); // Get this to get the unit you are currently on + bug here
-
             } else if (buttonId.equals("review_question")) {
                 handleReviewQuestion(event, user);
             } else if (buttonId.startsWith("qbank_")) {
@@ -160,16 +158,18 @@ public class ButtonListener extends ListenerAdapter {
         // Implementing different question ID\
 
         int unit;
-        int prevQuestionId;
+        int prevQuestionId = -1;
 
-        if (incorrectUserQuestions.isEmpty()) { // For when the bot shuts off, completely random question now
-            unit = (int)(Math.random()* Constants.numUnits)+1;
-            prevQuestionId = -1; // Cause no previous question
+        // Try to get last incorrect question
+        Question previousQuestion = incorrectUserQuestions.get(user);
+        if (previousQuestion != null) {
+            unit = previousQuestion.getUnit();
+            prevQuestionId = previousQuestion.getQuestionId();
         } else {
-            unit = incorrectUserQuestions.get(user).getUnit();
-            prevQuestionId = incorrectUserQuestions.get(user) != null
-                    ? incorrectUserQuestions.get(user).getQuestionId() : -1;
+            // If no previous question, pick a random unit
+            unit = (int)(Math.random() * Constants.numUnits) + 1;
         }
+
         Question question;
         if (unit == 1) {
             question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions(), prevQuestionId);
