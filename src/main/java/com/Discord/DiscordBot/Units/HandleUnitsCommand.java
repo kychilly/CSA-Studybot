@@ -46,7 +46,7 @@ public class HandleUnitsCommand {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(String.format("Unit %s Question (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.BLUE)
-                .setDescription(question.getQuestion())
+                .setDescription(user.getAsMention() + ", " + question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement
                         "A) " + question.getOptionA() + "\n" +
                                 "B) " + question.getOptionB() + "\n" +

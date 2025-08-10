@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActiveQuestionTracker {
+
     private static final Map<User, Question> userQuestions = new HashMap<>();
-    private static final Map<User, Long> messageIds = new HashMap<>();
-    private static final Map<User, Integer> questionIds = new HashMap<>();
+    private static final Map<User, Long> messageIds = new HashMap<>(); // The IDs of the question messages the bot sent.
+    private static final Map<User, Integer> questionIds = new HashMap<>(); // The IDs of the user's questions
 
     public static void addActiveQuestion(User user, Question question, long messageId, int questionId) {
         userQuestions.put(user, question);

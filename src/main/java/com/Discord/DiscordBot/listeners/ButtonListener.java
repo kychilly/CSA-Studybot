@@ -5,6 +5,7 @@ import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.QuestionBankCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -69,8 +70,8 @@ public class ButtonListener extends ListenerAdapter {
 //        if (!isCorrect) {
         // I know this says incorrect, but this just stores the user's previous
         // questions and answers for possible review lol
-            incorrectUserQuestions.put(user, question);
-            incorrectUserAnswers.put(user, answer);
+        incorrectUserQuestions.put(user, question);
+        incorrectUserAnswers.put(user, answer);
 //        }
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -110,6 +111,10 @@ public class ButtonListener extends ListenerAdapter {
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {
+
+        Message message = event.getMessage();
+        long messageID = message.getIdLong(); // This is the messageID of what the message the button was attached to was
+
         Question question = incorrectUserQuestions.get(user);
         if (question == null) {
             event.getHook().sendMessage("No previous incorrect question to review.")
@@ -122,7 +127,7 @@ public class ButtonListener extends ListenerAdapter {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(String.format("Unit %d Question Review (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.YELLOW)
-                .setDescription(question.getQuestion())
+                .setDescription(user.getAsMention() + ", " + question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement
                         "A) " + question.getOptionA() + "\n" +
                                 "B) " + question.getOptionB() + "\n" +
@@ -199,14 +204,14 @@ public class ButtonListener extends ListenerAdapter {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(String.format("Unit %s Question (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.BLUE)
-                .setDescription(question.getQuestion())
+                .setDescription(user.getAsMention() + ", " + question.getQuestion())
                 .addField("Options:", // Single field or else sus choice placement
-                "A) " + question.getOptionA() + "\n" +
-                        "B) " + question.getOptionB() + "\n" +
-                        "C) " + question.getOptionC() + "\n" +
-                        "D) " + question.getOptionD(),
-                false
-        )
+                        "A) " + question.getOptionA() + "\n" +
+                                "B) " + question.getOptionB() + "\n" +
+                                "C) " + question.getOptionC() + "\n" +
+                                "D) " + question.getOptionD(),
+                        false
+                )
                 .setFooter(String.format("Choose the correct answer below (ID: %d)", question.getQuestionId()));
 
         event.getChannel().sendMessageEmbeds(embedBuilder.build())
@@ -220,9 +225,6 @@ public class ButtonListener extends ListenerAdapter {
                     ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId());
                 });
     }
-
-
-
 
     public static String getAnswerText(Question question, String option) {
         return switch (option.toUpperCase()) {
