@@ -15,11 +15,12 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.Discord.DiscordBot.Constants.numUnits;
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
+import static com.Discord.DiscordBot.listeners.ButtonListener.*;
+import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectMessageIds;
 
 public class UnitsCommand {
 
@@ -52,59 +53,72 @@ public class UnitsCommand {
 
     // Stealing the HandleUnitCommand thing, but changing MessageRecievedEvent to SlashCommand
     public static void sendUnit(SlashCommandInteractionEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
+        // Check for active question
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getChannel().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.").queue();
+            event.reply(user.getAsMention() + ", you already have an active question! Please answer that first.")
+                    .setEphemeral(true)
+                    .queue();
             return;
         }
 
+        // Get previous question ID if exists
         int prevQuestion = incorrectUserQuestions.get(user) != null
                 ? incorrectUserQuestions.get(user).getQuestionId() : -1;
 
-        if (incorrectUserAnswers.get(user) != null) { // Should always remove last
+        // Clean up previous question data if exists
+        if (incorrectUserAnswers.get(user) != null) {
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
+            incorrectMessageIds.entrySet().removeIf(entry -> entry.getValue().equals(user));
         }
 
+        // Get new question
         Question question = QuestionBank.getRandomQuestion(specificQuestionList, prevQuestion);
         if (question == null) {
-            event.getChannel().sendMessage(String.format("No questions available for Unit %s", unit)).queue();
+            event.reply(String.format("No questions available for Unit %s", unit))
+                    .setEphemeral(true)
+                    .queue();
             return;
         }
 
-        // Just checks in case somehow the answers werent removed previously cause it is new question
-        // Jk, this is needed now since only removing when asking a next question
-        if (incorrectUserAnswers.get(user) != null) { // Should be both
+        // Double-cleanup (same as original)
+        if (incorrectUserAnswers.get(user) != null) {
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
+            incorrectMessageIds.entrySet().removeIf(entry -> entry.getValue().equals(user));
         }
 
-        // Create question embed
+        // Build question embed
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(String.format("Unit %s Question (%s)", unit, question.getQuestionDifficulty()))
                 .setColor(Color.BLUE)
                 .setDescription(question.getQuestion())
-                .addField("Options:", // Single field or else sus choice placement
+                .addField("Options:",
                         "A) " + question.getOptionA() + "\n" +
                                 "B) " + question.getOptionB() + "\n" +
                                 "C) " + question.getOptionC() + "\n" +
                                 "D) " + question.getOptionD(),
-                        false
-                )
+                        false)
                 .setFooter(String.format("Choose the correct answer below (ID: %d)", question.getQuestionId()));
 
-        // Create message with buttons
+        // Build message with buttons
         MessageCreateBuilder messageBuilder = new MessageCreateBuilder()
                 .setEmbeds(embedBuilder.build())
-                .addActionRow( // I'm too lazy to get the real addActionRow thing lol, change that later
+                .addActionRow(
                         net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_A", "A"),
                         net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_B", "B"),
                         net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_C", "C"),
                         net.dv8tion.jda.api.interactions.components.buttons.Button.primary("answer_D", "D")
                 );
 
-        event.reply(messageBuilder.build()).queue(msg -> {
-            ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId());
-        });
+        // Send as reply
+        event.reply(messageBuilder.build())
+                .setEphemeral(false) // Make visible to everyone
+                .queue(interactionHook -> {
+                    interactionHook.retrieveOriginal().queue(message -> {
+                        ActiveQuestionTracker.addActiveQuestion(user, question, message.getIdLong(), question.getQuestionId());
+                    });
+                });
     }
 
 }

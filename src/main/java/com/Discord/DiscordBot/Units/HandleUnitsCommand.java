@@ -89,7 +89,7 @@ public class HandleUnitsCommand {
         event.getChannel().sendMessage(messageBuilder.build()).queue(msg -> {
             ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId());
         });
-        // little testing to see what is
+
     }
 
 }
