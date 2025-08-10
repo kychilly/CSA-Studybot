@@ -36,6 +36,8 @@ public class CommandManager extends ListenerAdapter {
             TestCommand.execute(event); // Needs work
         } else if (command.equalsIgnoreCase("question")) {
             UnitsCommand.execute(event);
+        } else if (command.equalsIgnoreCase("resources")) {
+            ResourcesCommand.execute(event);
         }
 
     }
@@ -48,6 +50,7 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(QuestionBankCommand.getCommandData());
         commandData.add(TestCommand.getCommandData());
         commandData.add(UnitsCommand.getCommandData());
+        commandData.add(ResourcesCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()

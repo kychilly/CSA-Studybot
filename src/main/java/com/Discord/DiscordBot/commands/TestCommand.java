@@ -25,6 +25,7 @@ public class TestCommand {
         return Commands.slash("test", "Take a practice test with randomized questions")
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "num-questions", "Number of questions to test. (default: 10)", false)
+                                .addChoice("remove this later", 1)
                                 .addChoice("5 Questions", 5)
                                 .addChoice("10 Questions", 10)
                                 .addChoice("15 Questions", 15)
@@ -68,19 +69,31 @@ public class TestCommand {
 
     public static void handleButtonInteraction(ButtonInteractionEvent event) {
         long userId = event.getUser().getIdLong();
+
+        // First check if the user has an active test
         if (!activeTests.containsKey(userId)) {
-            event.reply("You don't have an active test session or it has expired.")
-                    .setEphemeral(true).queue();
+            sendEphemeralReply(event, "You don't have an active test session or it has expired.");
             return;
         }
 
         TestSession session = activeTests.get(userId);
+
+        // Check if the button is from the user's test message
+        if (event.getMessageIdLong() != session.getMessageId()) {
+            sendEphemeralReply(event, "This isn't your test! Please start your own test with `/test`.");
+            return;
+        }
+
         String buttonId = event.getComponentId();
 
         if (session.isSubmitted() && !buttonId.startsWith("test_review_") && !buttonId.equals("test_results_review")) {
-            event.reply("This test has already been submitted. Use the review button to see your answers.")
-                    .setEphemeral(true).queue();
+            sendEphemeralReply(event, "This test has already been submitted. Use the review button to see your answers.");
             return;
+        }
+
+        // Defer the reply if we haven't already
+        if (!event.isAcknowledged()) {
+            event.deferEdit().queue();
         }
 
         switch (buttonId) {
@@ -146,9 +159,15 @@ public class TestCommand {
     }
 
     private static void updateTestMessage(ButtonInteractionEvent event, TestSession session) {
-        event.getHook().editOriginalEmbeds(createTestEmbed(session))
-                .setComponents(createActionRows(session))
-                .queue();
+        if (event.isAcknowledged()) {
+            event.getHook().editOriginalEmbeds(createTestEmbed(session))
+                    .setComponents(createActionRows(session))
+                    .queue();
+        } else {
+            event.editMessageEmbeds(createTestEmbed(session))
+                    .setComponents(createActionRows(session))
+                    .queue();
+        }
     }
 
     private static void showTestResults(ButtonInteractionEvent event, TestSession session) {
@@ -160,7 +179,8 @@ public class TestCommand {
                 .setTitle("Test Results")
                 .setDescription(String.format("You scored **%d/%d** (%.1f%%)\n%s", score, total, percentage, getScoreMessage(percentage)))
                 .setFooter(getOtherScoreMessage(percentage))
-                .setColor(percentage >= 70 ? 0x00FF00 : 0xFF0000);
+                .setThumbnail(event.getUser().getEffectiveAvatarUrl())
+                .setColor(percentage >= 42 ? 0x00FF00 : 0xFF0000);
 
         // Now show the full review button
         Button reviewButton = Button.secondary("test_results_review", "🔍 Review Test with Answers");
@@ -297,6 +317,14 @@ public class TestCommand {
                 ActionRow.of(answerButtons),
                 ActionRow.of(navButtons)
         );
+    }
+
+    private static void sendEphemeralReply(ButtonInteractionEvent event, String message) {
+        if (event.isAcknowledged()) {
+            event.getHook().sendMessage(message).setEphemeral(true).queue();
+        } else {
+            event.reply(message).setEphemeral(true).queue();
+        }
     }
 
     // This should be different for all subjects.
