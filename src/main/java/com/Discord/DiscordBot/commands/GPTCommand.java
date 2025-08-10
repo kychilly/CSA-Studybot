@@ -30,8 +30,8 @@ public class GPTCommand {
     private static final long COOLDOWN_MILLIS = 5000; // 5 seconds
 
     public static CommandData getCommandData() {
-        return Commands.slash("ask", "Ask KycheGPT a question!")
-                .addOption(OptionType.STRING,"prompt", "What do you want to ask KycheGPT?", true);
+        return Commands.slash("ask", "Ask me a question!")
+                .addOption(OptionType.STRING,"prompt", "What do you want to ask me?", true);
     }
 
     public static void execute(SlashCommandInteractionEvent event) {
