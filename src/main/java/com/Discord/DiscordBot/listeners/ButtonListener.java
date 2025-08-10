@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.listeners;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.QuestionBankCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
@@ -38,7 +39,9 @@ public class ButtonListener extends ListenerAdapter {
             if (buttonId.startsWith("answer_")) {
                 handleAnswer(event, user, buttonId);
             } else if (buttonId.equals("new_question")) {
-                handleNewQuestion(event, user); // Get this to get the unit you are currently on
+                System.out.println("got here");
+                handleNewQuestion(event, user); // Get this to get the unit you are currently on + bug here
+
             } else if (buttonId.equals("review_question")) {
                 handleReviewQuestion(event, user);
             } else if (buttonId.startsWith("qbank_")) {
@@ -156,9 +159,17 @@ public class ButtonListener extends ListenerAdapter {
         // A bit of spagetti code, gets the same unit for the new question button
         // Implementing different question ID\
 
-        int unit = incorrectUserQuestions.get(user).getUnit();
-        int prevQuestionId = incorrectUserQuestions.get(user) != null
-                ? incorrectUserQuestions.get(user).getQuestionId() : -1;
+        int unit;
+        int prevQuestionId;
+
+        if (incorrectUserQuestions.isEmpty()) { // For when the bot shuts off, completely random question now
+            unit = (int)(Math.random()* Constants.numUnits)+1;
+            prevQuestionId = -1; // Cause no previous question
+        } else {
+            unit = incorrectUserQuestions.get(user).getUnit();
+            prevQuestionId = incorrectUserQuestions.get(user) != null
+                    ? incorrectUserQuestions.get(user).getQuestionId() : -1;
+        }
         Question question;
         if (unit == 1) {
             question = QuestionBank.getRandomQuestion(QuestionBank.getUnit1Questions(), prevQuestionId);
@@ -173,7 +184,7 @@ public class ButtonListener extends ListenerAdapter {
             return;
         }
 
-        if (incorrectUserAnswers.get(user) != null) { // Should always remove last/never null
+        if (incorrectUserAnswers.get(user) != null) { // Should always remove last(never null unless first interaction)
             incorrectUserAnswers.remove(user);
             incorrectUserQuestions.remove(user);
         }
