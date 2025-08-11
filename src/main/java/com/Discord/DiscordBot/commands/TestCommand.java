@@ -21,7 +21,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TestCommand {
+
     private static final Map<Long, TestSession> activeTests = new HashMap<>();
+
+    public static Map<Long, TestSession> getActiveTests() {
+        return activeTests;
+    }
 
     public static SlashCommandData getCommandData() {
         return Commands.slash("test", "Take a practice test with randomized questions")
@@ -90,6 +95,13 @@ public class TestCommand {
             return;
         }
 
+        // Reset inactivity timer on every button click
+        if (session != null) { // Don't think this can ever be null, but just in case
+            session.setLastActivityTime(System.currentTimeMillis());
+        } else {
+            System.out.println("somehow null, TestCommand handleButtonInteraction");
+        }
+
         String buttonId = event.getComponentId();
 
         if (session.isSubmitted() && !buttonId.startsWith("test_review_") && !buttonId.equals("test_results_review")) {
@@ -97,7 +109,7 @@ public class TestCommand {
             return;
         }
 
-        // Defer the reply if we haven't already
+        // Defer the reply if we haven't already(just in case, should never happen though)
         if (!event.isAcknowledged()) {
             event.deferEdit().queue();
         }
@@ -164,6 +176,7 @@ public class TestCommand {
         }
     }
 
+
     private static void updateTestMessage(ButtonInteractionEvent event, TestSession session) {
         if (event.isAcknowledged()) {
             event.getHook().editOriginalEmbeds(createTestEmbed(session))
@@ -195,7 +208,7 @@ public class TestCommand {
         event.getHook().editOriginalEmbeds(embed.build())
                 .setComponents(ActionRow.of(reviewButton))
                 .queue();
-        System.out.println("points doesnt do anything in test yet btw");
+        System.out.println("points doesnt do anything in test yet btw(showTestResults in TestCommand)");
     }
 
     private static void showFullReview(ButtonInteractionEvent event, TestSession session) {

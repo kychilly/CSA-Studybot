@@ -1,5 +1,7 @@
 package com;
 
+import com.Discord.DiscordBot.Constants;
+import com.Discord.DiscordBot.Sessions.SessionCleanupService;
 import com.Discord.DiscordBot.Units.ActiveQuestionTracker;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.commands.CommandManager;
@@ -25,6 +27,7 @@ public class DiscordBot {
     private final ShardManager shardManager;
     private final Dotenv config;
     private final ScheduledExecutorService scheduler;
+    private SessionCleanupService sessionCleanupService;
 
     public DiscordBot() throws LoginException {
         config = Dotenv.configure().ignoreIfMissing().load();
@@ -54,6 +57,15 @@ public class DiscordBot {
                 ActiveQuestionTracker.checkForExpiredQuestions(shardManager);
             }
         }, 0, 30, TimeUnit.SECONDS); // Checks every 30 seconds
+
+        // Initialize session cleanup
+        this.sessionCleanupService = new SessionCleanupService(
+                shardManager,
+                5,    // Check every 5 minutes
+                Constants.testTimeoutInMinutes    // 30 minute timeout
+        );
+        sessionCleanupService.startCleanupTask();
+
     }
 
     public static void main(String[] args) {

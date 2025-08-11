@@ -15,7 +15,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 import static com.Discord.DiscordBot.Constants.numUnits;

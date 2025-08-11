@@ -6,8 +6,8 @@ import java.util.Arrays;
 public class Constants {
 
     public static int numUnits = 4;
-    public static int minutesTillQuestionEnds = 2;
-    public static int testMinutesTillQuestionEnds;
+    public static int unitQuestionTimeoutInMinutes = 2;
+    public static int testTimeoutInMinutes = 30;
     public static String COMMAND_GUIDE_PROMPT =
             "You are the in-bot help and guide for the CSA-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them.\n" +
                     "\n" +
