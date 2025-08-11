@@ -4,6 +4,7 @@ import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.TestSession;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
+import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -55,7 +56,8 @@ public class TestCommand {
             return;
         }
 
-        // Ends the previous test(maybe implement timer later)
+        // Ends the previous test no matter what (maybe implement timer later)
+        // Method checks if there was a previous test. If not, does nothing
         removeUserTest(event);
 
         TestSession session = new TestSession(questions);
@@ -182,7 +184,8 @@ public class TestCommand {
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Test Results")
                 .setDescription(String.format("You scored **%d/%d** (%.1f%%)\n%s", score, total, percentage, getScoreMessage(percentage)))
-                .setFooter(getOtherScoreMessage(percentage))
+                .addField("", getOtherScoreMessage(percentage), false)
+                .setFooter(String.format("Points earned: %d", CalculatePoints.calculateTestPoints(session)))
                 .setThumbnail(event.getUser().getEffectiveAvatarUrl())
                 .setColor(percentage >= 42 ? 0x00FF00 : 0xFF0000);
 
@@ -192,12 +195,13 @@ public class TestCommand {
         event.getHook().editOriginalEmbeds(embed.build())
                 .setComponents(ActionRow.of(reviewButton))
                 .queue();
+        System.out.println("points doesnt do anything in test yet btw");
     }
 
     private static void showFullReview(ButtonInteractionEvent event, TestSession session) {
         int currentIndex = session.getCurrentIndex();
         Question question = session.getQuestions().get(currentIndex);
-        String userAnswer = session.getUserAnswer(currentIndex);
+        String userAnswer = session.getUserAnswerByIndex(currentIndex);
         String correctAnswer = question.getCorrectAnswer();
         boolean isCorrect = correctAnswer.equalsIgnoreCase(userAnswer);
 
@@ -252,7 +256,7 @@ public class TestCommand {
         Question current = session.getCurrentQuestion();
         int currentIndex = session.getCurrentIndex();
         int total = session.getTotalQuestions();
-        String userAnswer = session.getUserAnswer(currentIndex);
+        String userAnswer = session.getUserAnswerByIndex(currentIndex);
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Question " + (currentIndex + 1) + " of " + total)
@@ -272,7 +276,7 @@ public class TestCommand {
     private static void showPreviewReview(ButtonInteractionEvent event, TestSession session) {
         int currentIndex = session.getCurrentIndex();
         Question question = session.getQuestions().get(currentIndex);
-        String userAnswer = session.getUserAnswer(currentIndex);
+        String userAnswer = session.getUserAnswerByIndex(currentIndex);
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Preview - Question " + (currentIndex + 1) + "/" + session.getTotalQuestions())

@@ -4,6 +4,7 @@ import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.QuestionBankCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
+import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -85,7 +86,7 @@ public class ButtonListener extends ListenerAdapter {
 
         // Points!!!
         // Going to take it from ActiveQuestions, can also take it from incorrectUserQuestions for future ref
-        int points = isCorrect ? calculatePoints(ActiveQuestionTracker.getActiveQuestion(user)) : 0;
+        int points = isCorrect ? CalculatePoints.calculatePoints(ActiveQuestionTracker.getActiveQuestion(user)) : 0;
 
         // Build the sussy embed
         EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -272,26 +273,5 @@ public class ButtonListener extends ListenerAdapter {
     private String getRandomWrongAnswer() {
         return wrongAnswers[((int)(Math.random()*wrongAnswers.length))];
     }
-    // Easy: 1-3
-    // Medium: 2-4
-    // Hard: 3-5
-    public int calculatePoints(Question question) {
-        int points;
-        switch (question.getQuestionDifficulty()) {
-            case "easy":
-                points = (int)(Math.random()*3)+1;
-                break;
-            case "medium":
-                points = (int)(Math.random()*3)+2;
-                break;
-            case "hard":
-                points = (int)(Math.random()*3)+3;
-                break;
-            default:
-                points = 1; // In case a scary bug happens lol
-                System.out.println("bug with calculatePoints in ButtonListener");
-                break; // Break here just in case of more bugs
-        }
-        return points;
-    }
+
 }

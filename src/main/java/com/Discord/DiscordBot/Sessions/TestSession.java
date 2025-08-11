@@ -17,8 +17,8 @@ public class TestSession {
         this.currentIndex = 0;
     }
 
-    public Question getCurrentQuestion() {
-        return questions.get(currentIndex);
+    public List<Question> getQuestionList() {
+        return questions;
     }
 
     public int getCurrentIndex() {
@@ -33,8 +33,16 @@ public class TestSession {
         return questions.size();
     }
 
-    public String getUserAnswer(int index) {
+    public Question getCurrentQuestion() {
+        return questions.get(currentIndex);
+    }
+
+    public String getUserAnswerByIndex(int index) {
         return userAnswers.get(index);
+    }
+
+    public Question getQuestionByIndex(int n) {
+        return questions.get(n);
     }
 
     public long getMessageId() {
