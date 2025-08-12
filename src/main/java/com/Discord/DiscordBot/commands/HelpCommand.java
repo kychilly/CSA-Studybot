@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 public class HelpCommand {
 
     public static CommandData getCommandData() {
-        return Commands.slash("help", "Displays a help page for users");
+        return Commands.slash("csa-help", "Displays a help page for users");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

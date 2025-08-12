@@ -16,12 +16,11 @@ import java.io.IOException;
 public class ProfileCommand extends ListenerAdapter {
 
     public static CommandData getCommandData() {
-        return Commands.slash("profile", "Gets your profile!")
+        return Commands.slash("csa-profile", "Gets your profile!")
                 .addOption(OptionType.USER, "user", "Who's profile do you want to see? Leave blank if you just want yours", false);
     }
 
     public static void execute(SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("profile")) return;
 
         User targetUser = event.getOption("user") == null
                 ? event.getUser()

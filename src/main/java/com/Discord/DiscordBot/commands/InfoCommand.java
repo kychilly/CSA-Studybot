@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
-public class QuestionsCommand {
+public class InfoCommand {
 
     public static CommandData getCommandData() {
         return Commands.slash("csa-info", "gets information about the CSA questions and curriculum");

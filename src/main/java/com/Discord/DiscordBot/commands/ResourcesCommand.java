@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 public class ResourcesCommand {
 
     public static SlashCommandData getCommandData() {
-        return Commands.slash("resources", "Get helpful resources for AP CSA");
+        return Commands.slash("csa-resources", "Get helpful resources for AP CSA");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

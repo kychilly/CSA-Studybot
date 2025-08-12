@@ -28,7 +28,7 @@ public class QuestionBankCommand {
     private static final Map<Long, Integer> userUnitStates = new HashMap<>();
 
     public static CommandData getCommandData() {
-        return Commands.slash("question-bank", "Browse all available questions by unit");
+        return Commands.slash("csa-question-bank", "Browse all available questions by unit");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

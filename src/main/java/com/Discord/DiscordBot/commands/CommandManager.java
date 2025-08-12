@@ -1,23 +1,14 @@
 package com.Discord.DiscordBot.commands;
 
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class CommandManager extends ListenerAdapter {
 
@@ -26,21 +17,21 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
-        if (command.equalsIgnoreCase("help")) {
+        if (command.equalsIgnoreCase("csa-help")) {
             HelpCommand.execute(event);
         } else if (command.equalsIgnoreCase("csa-info")) {
-            QuestionsCommand.execute(event);
-        } else if (command.equalsIgnoreCase("question-bank")) {
+            InfoCommand.execute(event);
+        } else if (command.equalsIgnoreCase("csa-question-bank")) {
             QuestionBankCommand.execute(event);
-        } else if (command.equalsIgnoreCase("test")) {
+        } else if (command.equalsIgnoreCase("csa-test")) {
             TestCommand.execute(event); // Needs work
-        } else if (command.equalsIgnoreCase("question")) {
+        } else if (command.equalsIgnoreCase("csa-question")) {
             UnitsCommand.execute(event);
-        } else if (command.equalsIgnoreCase("resources")) {
+        } else if (command.equalsIgnoreCase("csa-resources")) {
             ResourcesCommand.execute(event);
-        } else if (command.equalsIgnoreCase("ask")) {
+        } else if (command.equalsIgnoreCase("csa-ask")) {
             GPTCommand.execute(event);
-        } else if (command.equalsIgnoreCase("profile")) {
+        } else if (command.equalsIgnoreCase("csa-profile")) {
             ProfileCommand.execute(event);
         }
 
@@ -50,7 +41,7 @@ public class CommandManager extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
 
         commandData.add(HelpCommand.getCommandData());
-        commandData.add(QuestionsCommand.getCommandData());
+        commandData.add(InfoCommand.getCommandData());
         commandData.add(QuestionBankCommand.getCommandData());
         commandData.add(TestCommand.getCommandData());
         commandData.add(UnitsCommand.getCommandData());

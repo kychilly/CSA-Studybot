@@ -32,7 +32,7 @@ public class TestCommand {
     }
 
     public static SlashCommandData getCommandData() {
-        return Commands.slash("test", "Take a practice test with randomized questions")
+        return Commands.slash("csa-test", "Take a practice test with randomized questions")
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "num-questions", "Number of questions to test. (default: 10)", false)
                                 .addChoice("remove this later", 1)

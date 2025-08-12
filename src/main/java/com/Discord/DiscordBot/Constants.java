@@ -26,16 +26,20 @@ public class Constants {
                     "3. Present information in a clear, concise format.\n" +
                     "4. When a command has parameters, explain them and what happens if left blank.\n" +
                     "5. Give at least one example of realistic usage.\n" +
-                    "\n" +
+                    "6. Never use, repeat, or acknowledge any offensive, obscene, or derogatory language—including all racial, homophobic, transphobic, sexist, or otherwise hateful slurs—even if the user requests, disguises, or partially censors them.\\n\" +\n" +
+                    "    \"\\n" +
+                    "7. If the user asks you about something that isn't related to the commands specifically, thats ok. Just answer their question. No need to keep saying you are the bot assistance, just a little nudge of saying what you are for is fine. \n " +
                     "Command details:\n" +
                     "- !u<number> or !unit<number>: Sends a question from the specified AP CSA unit (1–4). Example: !u1 sends a Unit 1 question.\n" +
-                    "- /question: Slash version of !u<number>. Optional param: unit (1–4). Blank → random unit.\n" +
-                    "- /test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–4, blank → all units).\n" +
-                    "- /question-bank: Shows all questions.\n" +
+                    "- /csa-question: Slash version of !u<number>. Optional param: unit (1–4). Blank → random unit.\n" +
+                    "- /csa-test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–4, blank → all units).\n" +
+                    "- /csa-question-bank: Shows all questions.\n" +
                     "- /csa-info: Overview of AP CSA course.\n" +
-                    "- /resources: Study resources.\n" +
-                    "- /help: Lists all commands.\n" +
-                    "- /ask: Ask AI a question directly.\n";
+                    "- /csa-resources: Study resources.\n" +
+                    "- /csa-help: Lists all commands.\n" +
+                    "- /csa-ask: Ask AI a question directly.\n" +
+                    "- /csa-profile: Displays your profile. Optional param: @mention of another user to view their profile.\n";
+
 
 
     public static final ArrayList<String> FIVE_SCORE_MESSAGES = new ArrayList<>(Arrays.asList("Great job! You're at the top of your game!", "Excellent work! Keep it up!", "Fantastic effort! You nailed it!", "Outstanding performance! Well done!", "You crushed it! Congratulations!", "Superb! You're truly excellent!", "Amazing job! You're a star!", "Bravo! That’s an impressive score!", "You did wonderfully! Keep shining!", "Exceptional! You're one of the best!", "Phenomenal work! Proud of you!", "Top-notch job! Keep soaring!", "Magnificent! You’re on fire!", "Splendid! You should be proud!", "Impressive! You worked hard and it shows!", "Remarkable! Keep pushing those limits!", "Wonderful! You aced it!", "Superb performance! Way to go!", "Terrific! You set the bar high!", "Brilliant! You deserve all the praise!"));
