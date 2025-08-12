@@ -1,10 +1,7 @@
 package com.Discord.DiscordBot.Sessions;
-
-import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.Question;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class TestSession {
     private final List<Question> questions;
@@ -84,13 +81,8 @@ public class TestSession {
         lastActivityTime = time;
     }
 
-    // Change
     public long getLastActivityTime() {
         return lastActivityTime;
-    }
-
-    public boolean isExpired(long currentTime) {
-        return (currentTime - lastActivityTime) > TimeUnit.MINUTES.toMillis(30);
     }
 
     public int calculateScore() {
@@ -102,6 +94,7 @@ public class TestSession {
         }
         return score;
     }
+
     public List<Question> getQuestions() {
         return Collections.unmodifiableList(questions);
     }

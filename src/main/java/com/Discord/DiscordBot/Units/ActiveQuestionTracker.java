@@ -45,14 +45,11 @@ public class ActiveQuestionTracker {
         return activeMessageIds.get(messageId);
     }
 
-    public static int getQuestionId(User user) {
-        return questionIds.get(user);
-    }
 
     // Sussy timer stuff
     public static void checkForExpiredQuestions(ShardManager shardManager) {
         long currentTime = System.currentTimeMillis();
-        long timeoutMillis = 2 * 60 * 1000; // 2 minutes in milliseconds
+        long timeoutMillis = 1000L * 60 * Constants.unitQuestionTimeoutInMinutes; // 2 minutes in milliseconds
 
         // Create a copy to avoid concurrent modification
         new HashMap<>(questionTimestamps).forEach((user, timestamp) -> {
@@ -68,11 +65,11 @@ public class ActiveQuestionTracker {
     private static void notifyUserOfExpiration(ShardManager shardManager, User user) {
         Long channelId = getChannelIdForUser(user);
 
-        if (channelId != null) {
+        if (channelId != null) { // So far, only sends DM notification??? possible fix later
             TextChannel channel = shardManager.getTextChannelById(channelId);
             if (channel != null) {
-                try {
-                    channel.sendMessage(user.getAsMention() + " ⌛ Your question has expired because you didn't respond within 2 minutes.")
+                try { // Just sends the message that the user hasn't answered in like 2 minutes
+                    channel.sendMessage(user.getAsMention() + " ⌛ Your question has expired because you didn't respond within " + Constants.unitQuestionTimeoutInMinutes + " minutes.")
                             .queue(
                                     success -> {},
                                     error -> sendDMNotification(shardManager, user)

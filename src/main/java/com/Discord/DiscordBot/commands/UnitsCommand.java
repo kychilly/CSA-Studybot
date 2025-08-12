@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.ActiveQuestionTracker;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
@@ -26,7 +27,7 @@ public class UnitsCommand {
     public static CommandData getCommandData() {
         return Commands.slash("question", "A random AP CSA question")
                 .addOptions(
-                        new OptionData(OptionType.INTEGER, "unit", "The unit you would like to study. Blank = random unit", false)
+                        new OptionData(OptionType.INTEGER, "unit", "The unit you would like to study. Leave blank to be tested on a random unit.", false)
                                 .addChoice("Unit 1", 1)
                                 .addChoice("Unit 2", 2)
                                 .addChoice("Unit 3", 3)
@@ -39,7 +40,7 @@ public class UnitsCommand {
         if (event.getOption("unit") != null) {
             unit = Objects.requireNonNull(event.getOption("unit")).getAsInt();
             if (1 > unit || unit > 4) {
-                event.reply(String.format("Unit %d is not a unit in AP CSA! Please choose a unit 1-4.", unit)).setEphemeral(true).queue();
+                event.reply(String.format("Unit %d is not a unit in AP CSA! Please choose a unit 1-%d.", unit, Constants.numUnits)).setEphemeral(true).queue();
                 return;
             }
         }

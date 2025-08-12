@@ -1,6 +1,5 @@
 package com.Discord.DiscordBot.Sessions;
 
-import com.Discord.DiscordBot.Sessions.TestSession;
 import com.Discord.DiscordBot.commands.TestCommand;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import java.util.*;

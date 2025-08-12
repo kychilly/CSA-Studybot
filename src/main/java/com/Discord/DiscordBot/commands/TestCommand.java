@@ -96,11 +96,8 @@ public class TestCommand {
         }
 
         // Reset inactivity timer on every button click
-        if (session != null) { // Don't think this can ever be null, but just in case
+// Don't think this can ever be null, but just in case
             session.setLastActivityTime(System.currentTimeMillis());
-        } else {
-            System.out.println("somehow null, TestCommand handleButtonInteraction");
-        }
 
         String buttonId = event.getComponentId();
 

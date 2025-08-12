@@ -53,15 +53,13 @@ public class DiscordBot {
 
         // Checks every 30 seconds for any questions that may be expired to remove
         scheduler.scheduleAtFixedRate(() -> {
-            if (shardManager != null) {
-                ActiveQuestionTracker.checkForExpiredQuestions(shardManager);
-            }
-        }, 0, 30, TimeUnit.SECONDS); // Checks every 30 seconds
+                ActiveQuestionTracker.checkForExpiredQuestions(shardManager); // shardManager never null, so this always works
+        }, 0, Constants.unitQuestionIntervalCheckInSeconds, TimeUnit.SECONDS); // Checks every 30 seconds
 
         // Initialize session cleanup
         this.sessionCleanupService = new SessionCleanupService(
                 shardManager,
-                5,    // Check every 5 minutes
+                Constants.testIntervalCheckInMinutes,    // Check every 5 minutes
                 Constants.testTimeoutInMinutes    // 30 minute timeout
         );
         sessionCleanupService.startCleanupTask();
