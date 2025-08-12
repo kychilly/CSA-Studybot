@@ -2,6 +2,8 @@ package com.Discord.DiscordBot.commands;
 
 import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.TestSession;
+import com.Discord.DiscordBot.Sessions.UserProfile;
+import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
@@ -16,6 +18,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -201,7 +204,12 @@ public class TestCommand {
                 .setColor(percentage >= Constants.percentageFor3 ? 0x00FF00 : 0xFF0000);
 
         // Add points here(add by using the pointsEarned thing)
-
+        try {
+            UserProfile profile = UserProfileManager.loadProfile(event.getUser());
+            profile.addPoints(pointsEarned);
+        } catch (IOException e) {
+            System.err.println("Failed to update profile: " + e.getMessage());
+        }
 
         // Now show the full review button
         Button reviewButton = Button.secondary("test_results_review", "🔍 Review Test with Answers");
@@ -209,7 +217,6 @@ public class TestCommand {
         event.getHook().editOriginalEmbeds(embed.build())
                 .setComponents(ActionRow.of(reviewButton))
                 .queue();
-        System.out.println("points doesnt do anything in test yet btw(showTestResults in TestCommand)");
     }
 
     private static void showFullReview(ButtonInteractionEvent event, TestSession session) {

@@ -3,6 +3,8 @@ package com.Discord.DiscordBot.Sessions;
 import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.entities.User;
 
+import java.io.IOException;
+
 public class UserProfile {
 
     private User user;
@@ -12,11 +14,13 @@ public class UserProfile {
     public UserProfile(User user, int points, String title) {
         this.user = user;
         this.points = points; // Could also just set this to 0 lol
-        this.title = Constants.titles[0];
+        this.title = Constants.titles[0]; // or updateTitle(), both get 0 at the very start
     }
 
     public void addPoints(int points) {
         this.points += points;
+        updateTitle();
+        saveToFile();
     }
 
     // 5 : 1000
@@ -41,5 +45,13 @@ public class UserProfile {
     public User getUser() { return user; }
     public int getPoints() { return points; }
     public String getTitle() { return title; }
+
+    private void saveToFile() {
+        try {
+            UserProfileManager.saveProfile(this);
+        } catch (IOException e) {
+            System.err.println("Failed to save profile: " + e.getMessage());
+        }
+    }
 
 }

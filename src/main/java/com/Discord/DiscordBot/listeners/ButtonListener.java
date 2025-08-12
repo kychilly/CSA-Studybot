@@ -1,6 +1,8 @@
 package com.Discord.DiscordBot.listeners;
 
 import com.Discord.DiscordBot.Constants;
+import com.Discord.DiscordBot.Sessions.UserProfile;
+import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.QuestionBankCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
@@ -15,6 +17,7 @@ import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,8 +90,14 @@ public class ButtonListener extends ListenerAdapter {
         // Points!!!
         // Going to take it from ActiveQuestions, can also take it from incorrectUserQuestions for future ref
         int points = isCorrect ? CalculatePoints.calculatePoints(ActiveQuestionTracker.getActiveQuestion(user)) : 0;
+
         if (isCorrect) {
-            // Add point shere
+            try {
+                UserProfile profile = UserProfileManager.loadProfile(user);
+                profile.addPoints(points);
+            } catch (IOException e) {
+                System.err.println("Failed to update profile: " + e.getMessage());
+            }
         }
 
         // Build the sussy embed
@@ -121,7 +130,6 @@ public class ButtonListener extends ListenerAdapter {
 
         event.getHook().editOriginal(messageBuilder.build()).queue();
         ActiveQuestionTracker.removeActiveQuestion(user, event.getMessageIdLong());
-        System.out.println("Points dont do anything yet btw add json later(handleAnswer line 120)"); // Remove this later lol
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {
