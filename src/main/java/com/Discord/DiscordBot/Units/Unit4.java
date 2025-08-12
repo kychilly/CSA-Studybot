@@ -337,6 +337,129 @@ public class Unit4 {
                 "Arrays have fixed size, ArrayLists can grow", "ArrayLists are faster for access", "Arrays can only hold primitives", "ArrayLists use [] syntax",
                 "A", 4, 3059, "easy"));
 
+        // ArrayList remove by index
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<Integer> list = new ArrayList<>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\nlist.remove(1);\nSystem.out.println(list.get(1));\n```",
+                "10", "20", "30", "Error",
+                "C", 4, 3060, "medium"));
+
+// 2D array row sum
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[][] nums = {{1,2},{3,4}};\nint sum = 0;\nfor (int num : nums[1]) {\n    sum += num;\n}\nSystem.out.println(sum);\n```",
+                "3", "4", "7", "10",
+                "C", 4, 3061, "easy"));
+
+// Array element swapping
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] arr = {1, 2, 3, 4};\narr[1] = arr[arr[1]];\nSystem.out.println(Arrays.toString(arr));\n```",
+                "[1, 2, 3, 4]", "[1, 3, 3, 4]", "[2, 2, 3, 4]", "[1, 4, 3, 4]",
+                "B", 4, 3062, "hard"));
+
+// ArrayList contains
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<String> words = new ArrayList<>();\nwords.add(\"hello\");\nwords.add(\"world\");\nSystem.out.println(words.contains(\"hello\"));\n```",
+                "true", "false", "0", "1",
+                "A", 4, 3063, "easy"));
+
+// Array traversal (backwards)
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] arr = {5, 6, 7, 8};\nfor (int i = arr.length-1; i >= 0; i--) {\n    System.out.print(arr[i]);\n}\n```",
+                "5678", "8765", "1234", "Error",
+                "B", 4, 3064, "medium"));
+
+// 2D array initialization
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[][] grid = new int[2][3];\nSystem.out.println(grid[1][2]);\n```",
+                "0", "null", "2", "Error",
+                "A", 4, 3065, "easy"));
+
+// ArrayList set method
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<Integer> nums = new ArrayList<>();\nnums.add(5);\nnums.add(7);\nnums.set(0, 3);\nSystem.out.println(nums.get(0));\n```",
+                "3", "5", "7", "Error",
+                "A", 4, 3066, "easy"));
+
+// Array algorithm (find min)
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] data = {12, 5, 8, 3, 10};\nint min = data[0];\nfor (int num : data) {\n    if (num < min) min = num;\n}\nSystem.out.println(min);\n```",
+                "3", "5", "10", "12",
+                "A", 4, 3067, "medium"));
+
+// ArrayList size vs array length
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<String> list = new ArrayList<>();\nlist.add(\"A\");\nlist.add(\"B\");\nString[] arr = {\"A\", \"B\"};\nSystem.out.println(list.size() == arr.length);\n```",
+                "true", "false", "0", "Error",
+                "A", 4, 3068, "easy"));
+
+// 2D array diagonal
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[][] mat = {{1,2,3},{4,5,6},{7,8,9}};\nSystem.out.println(mat[1][1]);\n```",
+                "1", "5", "9", "Error",
+                "B", 4, 3069, "easy"));
+
+// Array copy with System.arraycopy
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] a = {1,2,3};\nint[] b = new int[3];\nSystem.arraycopy(a, 0, b, 0, 2);\nSystem.out.println(b[2]);\n```",
+                "0", "1", "2", "3",
+                "A", 4, 3070, "hard"));
+
+// ArrayList remove by object
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<Integer> list = new ArrayList<>();\nlist.add(5);\nlist.add(10);\nlist.remove(Integer.valueOf(5));\nSystem.out.println(list.size());\n```",
+                "0", "1", "2", "Error",
+                "B", 4, 3071, "medium"));
+
+// Array algorithm (average)
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] nums = {2, 4, 6};\ndouble sum = 0;\nfor (int num : nums) {\n    sum += num;\n}\nSystem.out.println(sum / nums.length);\n```",
+                "3", "4", "4.0", "4.5",
+                "C", 4, 3072, "medium"));
+
+// 2D array row lengths
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[][] arr = {{1}, {2,3}, {4,5,6}};\nSystem.out.println(arr[2].length);\n```",
+                "1", "2", "3", "6",
+                "C", 4, 3073, "easy"));
+
+// ArrayList add at index
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<String> list = new ArrayList<>();\nlist.add(\"A\");\nlist.add(0, \"B\");\nSystem.out.println(list.get(0));\n```",
+                "A", "B", "AB", "Error",
+                "B", 4, 3074, "medium"));
+
+// Array out of bounds
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] arr = {1,2,3};\nSystem.out.println(arr[3]);\n```",
+                "0", "null", "3", "Error",
+                "D", 4, 3075, "easy"));
+
+// ArrayList clear
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nArrayList<Double> list = new ArrayList<>();\nlist.add(3.14);\nlist.clear();\nSystem.out.println(list.size());\n```",
+                "0", "1", "3.14", "Error",
+                "A", 4, 3076, "easy"));
+
+// Array algorithm (count evens)
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[] nums = {2, 3, 4, 5};\nint count = 0;\nfor (int num : nums) {\n    if (num % 2 == 0) count++;\n}\nSystem.out.println(count);\n```",
+                "1", "2", "3", "4",
+                "B", 4, 3077, "easy"));
+
+// 2D array traversal
+        unit4Questions.add(new Question(
+                "What is printed?\n```java\nint[][] grid = {{1,2},{3,4}};\nint sum = 0;\nfor (int[] row : grid) {\n    for (int num : row) {\n        sum += num;\n    }\n}\nSystem.out.println(sum);\n```",
+                "4", "10", "14", "24",
+                "B", 4, 3078, "medium"));
+
+// ArrayList vs array syntax
+        unit4Questions.add(new Question(
+                "Which is correct syntax for creating an ArrayList of Strings?",
+                "ArrayList<String> list = new ArrayList[];",
+                "ArrayList<String> list = new ArrayList();",
+                "ArrayList<String> list = new ArrayList<String>();",
+                "String[] list = new ArrayList<String>();",
+                "C", 4, 3079, "easy"));
+
         numUnit4Questions = unit4Questions.size();
         System.out.printf("There are %d questions in unit 4%n", numUnit4Questions);
     }

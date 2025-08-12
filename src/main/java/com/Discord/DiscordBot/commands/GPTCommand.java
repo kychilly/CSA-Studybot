@@ -97,7 +97,7 @@ public class GPTCommand {
                     .get(0).getAsJsonObject()
                     .getAsJsonObject("message")
                     .get("content").getAsString();
-            return changeToKyche(reply);
+            return reply; // Not changeToKyche(reply) since it isnt working + too much computing power.
         }
     }
 

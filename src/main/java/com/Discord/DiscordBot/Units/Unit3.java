@@ -314,6 +314,139 @@ public class Unit3 {
                 "```java\npublic void move()\npublic static void move()\n```",
                 "B", 3, 2059, "medium"));
 
+        unit3Questions.add(new Question(
+                "Which of the following is an example of proper encapsulation?",
+                "A public instance variable `balance`",
+                "A private instance variable `balance` with public `getBalance()` and `setBalance(double newBalance)` methods",
+                "A public method that directly modifies a private instance variable of another class",
+                "A class with no methods and only private instance variables",
+                "B", 3, 2060, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is printed?\n```java\npublic class Time {\n    private int hour, minute;\n    public Time(int h, int m) { this.hour = h; this.minute = m; }\n    public void addMinutes(int minutes) { minute += minutes; }\n    public String toString() { return hour + \":\" + minute; }\n}\n\nTime t = new Time(9, 30);\nt.addMinutes(45);\nSystem.out.println(t);\n```",
+                "9:30", "9:75", "10:15", "10:75",
+                "B", 3, 2061, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class Grade {\n    private int score;\n    public Grade() { this(90); }\n    public Grade(int s) { score = s; }\n    public int getScore() { return score; }\n}\n\nGrade g = new Grade();\nSystem.out.println(g.getScore());\n```",
+                "0", "90", "Error", "NullPointerException",
+                "B", 3, 2062, "medium"));
+
+        unit3Questions.add(new Question(
+                "Which of the following is a key characteristic of a constructor?",
+                "It must have a return type of `void`",
+                "It must be declared as `private`",
+                "It has the same name as the class",
+                "It must be declared as `static`",
+                "C", 3, 2063, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class Account {\n    private double balance;\n    public Account(double balance) { this.balance = balance; }\n    public void transfer(Account other, double amount) {\n        this.balance -= amount;\n        other.balance += amount;\n    }\n    public double getBalance() { return balance; }\n}\n\nAccount a1 = new Account(100);\nAccount a2 = new Account(50);\na1.transfer(a2, 25);\nSystem.out.println(a1.getBalance());\n```",
+                "100.0", "75.0", "50.0", "25.0",
+                "B", 3, 2064, "medium"));
+
+        unit3Questions.add(new Question(
+                "What does the `this` keyword refer to?",
+                "A static reference to the class itself",
+                "A reference to the superclass",
+                "A reference to the current object",
+                "A reference to a local variable",
+                "C", 3, 2065, "easy"));
+
+        unit3Questions.add(new Question(
+                "Which constructor is missing from the class definition below?\n```java\npublic class Rectangle {\n    private int width, height;\n    public Rectangle(int s) { width = s; height = s; }\n}\n```",
+                "A no-argument constructor", "A copy constructor", "A constructor with two integer arguments", "A constructor with a double argument",
+                "A", 3, 2066, "medium"));
+
+        unit3Questions.add(new Question(
+                "What is printed?\n```java\npublic class Phone {\n    private String brand;\n    public Phone(String brand) { this.brand = brand; }\n    public String getBrand() { return brand; }\n}\n\nPhone p1 = new Phone(\"Apple\");\nPhone p2 = p1;\np2 = new Phone(\"Samsung\");\nSystem.out.println(p1.getBrand());\n```",
+                "Apple", "Samsung", "null", "Error",
+                "A", 3, 2067, "hard"));
+
+        unit3Questions.add(new Question(
+                "Which of the following method signatures correctly overloads the method `public int doSomething()`?",
+                "`public int doSomething(int x)`",
+                "`public double doSomething()`",
+                "`private int doSomething()`",
+                "`public static int doSomething()`",
+                "A", 3, 2068, "medium"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class Student {\n    private String name;\n    public Student(String name) { this.name = name; }\n    public String toString() { return \"Student: \" + name; }\n}\n\nStudent s = new Student(\"Alice\");\nSystem.out.println(s);\n```",
+                "Student: Alice",
+                "s",
+                "Alice",
+                "Student@1c7a10",
+                "A", 3, 2069, "easy"));
+
+        unit3Questions.add(new Question(
+                "Which of these is NOT a good reason to use a `private` access modifier for an instance variable?",
+                "To prevent direct access from outside the class",
+                "To allow controlled modification of the variable",
+                "To hide implementation details",
+                "To make the variable accessible by other classes",
+                "D", 3, 2070, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class StaticCounter {\n    private static int count = 0;\n    public StaticCounter() { count++; }\n    public static int getCount() { return count; }\n}\n\nnew StaticCounter();\nnew StaticCounter();\nSystem.out.println(StaticCounter.getCount());\n```",
+                "0", "1", "2", "Error",
+                "C", 3, 2071, "medium"));
+
+        unit3Questions.add(new Question(
+                "Given the class definition `public class Circle { private double radius; }`, which line of code will cause a compile-time error?",
+                "`Circle c = new Circle();`",
+                "`c.radius = 10.0;`",
+                "`public Circle() { radius = 0; }`",
+                "`Circle c;`",
+                "B", 3, 2072, "hard"));
+
+        unit3Questions.add(new Question(
+                "What is the main role of a mutator method?",
+                "To return the value of an instance variable",
+                "To change the value of an instance variable",
+                "To create a new object of the class",
+                "To convert an object to a string representation",
+                "B", 3, 2073, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class GameCharacter {\n    private String name;\n    public GameCharacter(String name) { this.name = name; }\n    public void changeName(String newName) { name = newName; }\n}\n\nGameCharacter gc1 = new GameCharacter(\"Hero\");\nGameCharacter gc2 = gc1;\ngc1.changeName(\"Knight\");\nSystem.out.println(gc2.name);\n```",
+                "Hero", "Knight", "Null", "Error",
+                "B", 3, 2074, "medium"));
+
+        unit3Questions.add(new Question(
+                "Which statement is true about a class's default constructor?",
+                "It takes one or more parameters",
+                "It must be declared as `public`",
+                "It is always provided by the compiler",
+                "It initializes instance variables to their default values",
+                "D", 3, 2075, "medium"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class Point {\n    private int x, y;\n    public Point(int x) { this(x, x); }\n    public Point(int x, int y) { this.x = x; this.y = y; }\n    public String toString() { return \"(\" + x + \", \" + y + \")\"; }\n}\n\nPoint p = new Point(5);\nSystem.out.println(p);\n```",
+                "(5, 5)", "(5, 0)", "(0, 5)", "Error",
+                "A", 3, 2076, "medium"));
+
+        unit3Questions.add(new Question(
+                "Which of the following is true about method overloading?",
+                "Methods must have the same parameter list",
+                "Methods must have the same return type",
+                "Methods must have the same name but different parameter lists",
+                "Methods can be in different classes",
+                "C", 3, 2077, "easy"));
+
+        unit3Questions.add(new Question(
+                "What is the output?\n```java\npublic class Item {\n    private String name;\n    private double price;\n    public Item(String name, double price) { this.name = name; this.price = price; }\n    public String getName() { return name; }\n}\n\nItem i1 = new Item(\"Laptop\", 1200);\nItem i2 = new Item(\"Phone\", 800);\ni2 = i1;\nSystem.out.println(i2.getName());\n```",
+                "Laptop", "Phone", "Null", "Error",
+                "A", 3, 2078, "medium"));
+
+        unit3Questions.add(new Question(
+                "What is the primary difference between a static method and a non-static (instance) method?",
+                "A static method can be called without creating an object of the class",
+                "A static method can access and modify private instance variables",
+                "A non-static method can only be called from inside the class",
+                "A non-static method cannot be overloaded",
+                "A", 3, 2079, "hard"));
+
         numUnit3Questions = unit3Questions.size();
         System.out.printf("There are %d questions in unit 3%n", numUnit3Questions);
     }

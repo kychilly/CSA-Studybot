@@ -339,6 +339,127 @@ public class Unit2 {
                 "6", "9", "3", "0",
                 "A", 2, 1058, "hard"));
 
+        // Simple if condition
+        unit2Questions.add(new Question(
+                "What is printed when x = 4?\n```java\nif (x > 3) {\n    System.out.print(\"Hi\");\n}\n```",
+                "Hi", "Nothing", "Error", "x",
+                "A", 2, 1060, "easy"));
+
+// If-else example
+        unit2Questions.add(new Question(
+                "What is printed when num = 5?\n```java\nif (num % 2 == 0) {\n    System.out.print(\"Even\");\n} else {\n    System.out.print(\"Odd\");\n}\n```",
+                "Even", "Odd", "5", "Error",
+                "B", 2, 1061, "easy"));
+
+// Nested if-else
+        unit2Questions.add(new Question(
+                "What is printed when score = 85?\n```java\nif (score >= 90) {\n    System.out.print(\"A\");\n} else if (score >= 80) {\n    System.out.print(\"B\");\n} else {\n    System.out.print(\"C\");\n}\n```",
+                "A", "B", "C", "Error",
+                "B", 2, 1062, "easy"));
+
+// While loop counting
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nint i = 1;\nwhile (i <= 3) {\n    System.out.print(i);\n    i++;\n}\n```",
+                "123", "12", "1234", "Error",
+                "A", 2, 1063, "easy"));
+
+// For loop decrement
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 5; i > 2; i--) {\n    System.out.print(i);\n}\n```",
+                "543", "5432", "54", "Error",
+                "A", 2, 1064, "easy"));
+
+// Do-while loop
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nint x = 0;\ndo {\n    System.out.print(x);\n    x++;\n} while (x < 3);\n```",
+                "012", "01", "123", "Error",
+                "A", 2, 1065, "medium"));
+
+// Logical AND
+        unit2Questions.add(new Question(
+                "What is printed when a = 5, b = 10?\n```java\nSystem.out.print(a > 0 && b < 5);\n```",
+                "true", "false", "Error", "Nothing",
+                "B", 2, 1066, "easy"));
+
+// Logical OR
+        unit2Questions.add(new Question(
+                "What is printed when x = -1, y = 2?\n```java\nSystem.out.print(x > 0 || y > 0);\n```",
+                "true", "false", "Error", "Nothing",
+                "A", 2, 1067, "easy"));
+
+// Break in loop
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 1; i <= 5; i++) {\n    if (i == 3) break;\n    System.out.print(i);\n}\n```",
+                "12", "12345", "123", "Error",
+                "A", 2, 1068, "medium"));
+
+// Continue in loop
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 1; i <= 5; i++) {\n    if (i % 2 == 0) continue;\n    System.out.print(i);\n}\n```",
+                "135", "12345", "24", "Error",
+                "A", 2, 1069, "medium"));
+
+// Switch without break
+        unit2Questions.add(new Question(
+                "What is printed when n = 2?\n```java\nswitch(n) {\n    case 1: System.out.print(\"A\");\n    case 2: System.out.print(\"B\");\n    default: System.out.print(\"C\");\n}\n```",
+                "B", "BC", "ABC", "C",
+                "B", 2, 1070, "hard"));
+
+// Switch with break
+        unit2Questions.add(new Question(
+                "What is printed when n = 2?\n```java\nswitch(n) {\n    case 1: System.out.print(\"A\"); break;\n    case 2: System.out.print(\"B\"); break;\n    default: System.out.print(\"C\");\n}\n```",
+                "B", "BC", "ABC", "C",
+                "A", 2, 1071, "easy"));
+
+// Nested loop simple
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 1; i <= 2; i++) {\n    for (int j = 1; j <= 3; j++) {\n        System.out.print(j);\n    }\n}\n```",
+                "123123", "123", "112233", "321321",
+                "A", 2, 1072, "medium"));
+
+// Nested loop with condition
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 1; i <= 3; i++) {\n    for (int j = 1; j <= i; j++) {\n        System.out.print(\"*\");\n    }\n}\n```",
+                "* ** ***", "*****", "* ** *** ", "Error",
+                "A", 2, 1073, "medium"));
+
+// While with break
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nint i = 1;\nwhile (true) {\n    if (i > 3) break;\n    System.out.print(i);\n    i++;\n}\n```",
+                "123", "12", "1234", "Error",
+                "A", 2, 1074, "easy"));
+
+// Do-while condition check
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nint i = 5;\ndo {\n    System.out.print(i);\n    i++;\n} while (i < 5);\n```",
+                "5", "Nothing", "Error", "55",
+                "A", 2, 1075, "medium"));
+
+// If with multiple conditions
+        unit2Questions.add(new Question(
+                "What is printed when x = 4, y = 7?\n```java\nif (x < 5 && y > 5) {\n    System.out.print(\"Yes\");\n} else {\n    System.out.print(\"No\");\n}\n```",
+                "Yes", "No", "Error", "Nothing",
+                "A", 2, 1076, "easy"));
+
+// Combined loop and if
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nfor (int i = 1; i <= 4; i++) {\n    if (i % 2 == 0) {\n        System.out.print(\"E\");\n    } else {\n        System.out.print(\"O\");\n    }\n}\n```",
+                "OEOE", "EOEO", "OOEE", "Error",
+                "A", 2, 1077, "medium"));
+
+// Complex boolean
+        unit2Questions.add(new Question(
+                "What is printed when a = true, b = false?\n```java\nSystem.out.print((a && !b) || (!a && b));\n```",
+                "true", "false", "Error", "Nothing",
+                "A", 2, 1078, "medium"));
+
+// Infinite loop with break
+        unit2Questions.add(new Question(
+                "What is printed?\n```java\nint count = 0;\nwhile (true) {\n    count++;\n    if (count == 3) break;\n    System.out.print(count);\n}\n```",
+                "12", "123", "3", "Error",
+                "A", 2, 1079, "hard"));
+
+
         numUnit2Questions = unit2Questions.size();
         System.out.printf("There are %d questions in unit 2%n", numUnit2Questions);
     }
