@@ -87,6 +87,9 @@ public class ButtonListener extends ListenerAdapter {
         // Points!!!
         // Going to take it from ActiveQuestions, can also take it from incorrectUserQuestions for future ref
         int points = isCorrect ? CalculatePoints.calculatePoints(ActiveQuestionTracker.getActiveQuestion(user)) : 0;
+        if (isCorrect) {
+            // Add point shere
+        }
 
         // Build the sussy embed
         EmbedBuilder embedBuilder = new EmbedBuilder()

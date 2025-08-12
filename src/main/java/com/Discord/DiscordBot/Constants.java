@@ -13,6 +13,10 @@ public class Constants {
     public static int testTimeoutInMinutes = 30;
     public static int testIntervalCheckInMinutes = 5;
 
+    public static int percentageFor3 = 42;
+
+    public static String[] titles = {"Level 1 Sleeper", "Level 2 Learner", "Level 3 Casual", "Level 4 Honored", "Level 5 AP Deity"};
+
     public static String COMMAND_GUIDE_PROMPT =
             "You are the in-bot help and guide for the CSA-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them.\n" +
                     "\n" +

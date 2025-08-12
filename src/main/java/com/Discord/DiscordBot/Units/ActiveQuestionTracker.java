@@ -67,14 +67,18 @@ public class ActiveQuestionTracker {
 
         if (channelId != null) { // So far, only sends DM notification??? possible fix later
             TextChannel channel = shardManager.getTextChannelById(channelId);
+            System.out.println("Line 70");
             if (channel != null) {
+                System.out.println("Line 72");
                 try { // Just sends the message that the user hasn't answered in like 2 minutes
+                    System.out.println("Line 74");
                     channel.sendMessage(user.getAsMention() + " ⌛ Your question has expired because you didn't respond within " + Constants.unitQuestionTimeoutInMinutes + " minutes.")
                             .queue(
                                     success -> {},
                                     error -> sendDMNotification(shardManager, user)
                             );
                 } catch (Exception e) {
+                    System.out.println("I failed the thing above me lol");
                     sendDMNotification(shardManager, user);
                 }
             } else {

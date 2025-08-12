@@ -187,17 +187,21 @@ public class TestCommand {
     }
 
     private static void showTestResults(ButtonInteractionEvent event, TestSession session) {
-        int score = session.calculateScore();
+        int score = session.calculateScore(); // Score in terms of like n/m, not the points
         int total = session.getTotalQuestions();
         double percentage = (double) score / total * 100;
+        int pointsEarned = CalculatePoints.calculateTestPoints(session);
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Test Results")
                 .setDescription(String.format("You scored **%d/%d** (%.1f%%)\n%s", score, total, percentage, getScoreMessage(percentage)))
                 .addField("", getOtherScoreMessage(percentage), false)
-                .setFooter(String.format("Points earned: %d", CalculatePoints.calculateTestPoints(session)))
+                .setFooter(String.format("Points earned: %d", pointsEarned))
                 .setThumbnail(event.getUser().getEffectiveAvatarUrl())
-                .setColor(percentage >= 42 ? 0x00FF00 : 0xFF0000);
+                .setColor(percentage >= Constants.percentageFor3 ? 0x00FF00 : 0xFF0000);
+
+        // Add points here(add by using the pointsEarned thing)
+
 
         // Now show the full review button
         Button reviewButton = Button.secondary("test_results_review", "🔍 Review Test with Answers");
