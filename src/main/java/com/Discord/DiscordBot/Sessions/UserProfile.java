@@ -14,7 +14,7 @@ public class UserProfile {
     public UserProfile(User user, int points, String title) {
         this.user = user;
         this.points = points; // Could also just set this to 0 lol
-        this.title = Constants.titles[0]; // or updateTitle(), both get 0 at the very start
+        updateTitle(); // Updates the title
     }
 
     public void addPoints(int points) {
@@ -40,6 +40,7 @@ public class UserProfile {
         } else {
             title = Constants.titles[0]; // You technically dont have to put this here, but just in case I guess
         }
+        saveToFile();
     }
 
     public User getUser() { return user; }
