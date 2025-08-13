@@ -6,6 +6,7 @@ import com.Discord.DiscordBot.Sessions.UserProfile;
 import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
+import com.Discord.DiscordBot.listeners.ButtonListener;
 import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -239,9 +240,9 @@ public class TestCommand {
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Review - Question " + (currentIndex + 1) + "/" + session.getTotalQuestions())
-                .setDescription(question.getQuestion())
-                .addField("Your Answer", userAnswer != null ? userAnswer : "Not answered", false)
-                .addField("Correct Answer", correctAnswer, false)
+                .setDescription(question.getQuestion()) // Using the question description getting method from ButtonListener getAnswerText(Question, String(a b c or d)
+                .addField("Your Answer", userAnswer != null ? userAnswer + ") " + ButtonListener.getAnswerText(question, userAnswer): "Not answered", false)
+                .addField("Correct Answer", correctAnswer + ") " + ButtonListener.getAnswerText(question, correctAnswer), false)
                 .setColor(isCorrect ? 0x00FF00 : 0xFF0000)
                 .setFooter(isCorrect ? "Correct!" : "Incorrect");
 
@@ -296,11 +297,9 @@ public class TestCommand {
                 .addField("A", current.getOptionA(), false)
                 .addField("B", current.getOptionB(), false)
                 .addField("C", current.getOptionC(), false)
-                .addField("D", current.getOptionD(), false);
+                .addField("D", current.getOptionD(), false)
+                .setFooter("Your answer: " + (userAnswer != null ? userAnswer : "__"));
 
-        if (userAnswer != null) {
-            embed.setFooter("Your answer: " + userAnswer);
-        }
 
         return embed.build();
     }
