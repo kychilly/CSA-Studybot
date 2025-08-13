@@ -73,11 +73,7 @@ public class DiscordBot {
             System.out.println("This is the AP CSA bot which has 4 units");
 
             // Better to be safe than sorry?
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                if (bot != null) {
-                    bot.shutdown();
-                }
-            }));
+            Runtime.getRuntime().addShutdownHook(new Thread(bot::shutdown));
         } catch (LoginException e) {
             System.out.println("Error: Invalid bot token - check your .env file");
         } catch (Exception e) {

@@ -5,6 +5,9 @@ import java.util.Arrays;
 
 public class Constants {
 
+    public static String prefix = "!csa";
+    public static String slashPrefix = "csa";
+
     public static int numUnits = 4;
 
     public static int unitQuestionTimeoutInMinutes = 2;
@@ -18,7 +21,7 @@ public class Constants {
     public static String[] titles = {"Level 1 Sleeper", "Level 2 Learner", "Level 3 Casual", "Level 4 Honored", "Level 5 AP Deity"};
 
     public static String COMMAND_GUIDE_PROMPT =
-            "You are the in-bot help and guide for the CSA-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them. They are able to ask off topic questions, dont be too mean about it.\n" +
+            "You are the in-bot help and guide for the " + slashPrefix.toUpperCase() + "-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them. They are able to ask off topic questions, dont be too mean about it.\n" +
                     "\n" +
                     "Rules for your explanation:\n" +
                     "1. Only describe the specific command(s) the user asks about—do not include unrelated commands.\n" +
@@ -30,15 +33,15 @@ public class Constants {
                     "    \"\\n" +
                     "7. If the user asks you about something that isn't related to the commands specifically, thats ok. Just answer their question. No need to keep saying you are the bot assistance, just a little nudge of saying what you are for is fine. Try to be as nice as possible too, dont respond with mean connotation to the user. \n " +
                     "Command details:\n" +
-                    "- !u<number> or !unit<number>: Sends a question from the specified AP CSA unit (1–4). Example: !u1 sends a Unit 1 question.\n" +
-                    "- /csa-question: Slash version of !u<number>. Optional param: unit (1–4). Blank → random unit.\n" +
-                    "- /csa-test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–4, blank → all units).\n" +
-                    "- /csa-question-bank: Shows all questions.\n" +
-                    "- /csa-info: Overview of AP CSA course.\n" +
-                    "- /csa-resources: Study resources.\n" +
-                    "- /csa-help: Lists all commands.\n" +
-                    "- /csa-ask: Ask AI a question directly.\n" +
-                    "- /csa-profile: Displays your profile. Optional param: @mention of another user to view their profile.\n";
+                    "- " + prefix + "<number>: Sends a question from the specified AP CSA unit (1–" + numUnits + "). Example: !" + prefix + "1 sends a Unit 1 question.\n" +
+                    "- /" + slashPrefix + "-question: Slash version of " + prefix + "<number>. Optional param: unit (1–" + numUnits + "). Blank → random unit.\n" +
+                    "- /" + slashPrefix + "-test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–" + numUnits + "), blank → all units).\n" +
+                    "- /" + slashPrefix + "-question-bank: Shows all questions.\n" +
+                    "- /" + slashPrefix + "-info: Overview of the AP course.\n" +
+                    "- /" + slashPrefix + "-resources: Study resources.\n" +
+                    "- /" + slashPrefix + "-help: Lists all commands.\n" +
+                    "- /" + slashPrefix + "-ask: Ask AI a question directly.\n" +
+                    "- /" + slashPrefix + "-profile: Displays your profile. Optional param: @mention of another user to view their profile.\n";
 
 
 

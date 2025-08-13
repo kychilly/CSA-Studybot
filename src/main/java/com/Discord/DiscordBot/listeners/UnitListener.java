@@ -1,17 +1,11 @@
 package com.Discord.DiscordBot.listeners;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.*;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
-
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserAnswers;
-import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectUserQuestions;
 
 public class UnitListener extends ListenerAdapter {
 
@@ -22,23 +16,13 @@ public class UnitListener extends ListenerAdapter {
 
         if (user.isBot()) return;
 
-        if (message.equalsIgnoreCase("!end")) {
-            // Idk how to implement this yet lol
-        }
-
-        // Just tells you how many questions there are. should probably be a slash command btw
-        if (message.equalsIgnoreCase("!questions")) {
-            SendAvailableQuestionsCommand.execute(event);
-
-        }
-
-        if (message.equalsIgnoreCase("!unit1") || message.equalsIgnoreCase("!u1")) {
+        if (message.equalsIgnoreCase(Constants.prefix + "1")) {
             HandleUnitsCommand.execute(event, user, 1, QuestionBank.getUnit1Questions());
-        } else if (message.equalsIgnoreCase("!unit2")  || message.equalsIgnoreCase("!u2")) { // Unit 2, 3, and 4 not implemented yet
+        } else if (message.equalsIgnoreCase(Constants.prefix + "2")) {
             HandleUnitsCommand.execute(event, user, 2, QuestionBank.getUnit2Questions());
-        } else if (message.equalsIgnoreCase("!unit3")  || message.equalsIgnoreCase("!u3")) {
+        } else if (message.equalsIgnoreCase(Constants.prefix + "3")) {
             HandleUnitsCommand.execute(event, user, 3, QuestionBank.getUnit3Questions());
-        } else if (message.equalsIgnoreCase("!unit4")  || message.equalsIgnoreCase("!u4")) {
+        } else if (message.equalsIgnoreCase(Constants.prefix + "4")) {
             HandleUnitsCommand.execute(event, user, 4, QuestionBank.getUnit4Questions());
         }
 
