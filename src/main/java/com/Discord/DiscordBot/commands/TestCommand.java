@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class TestCommand {
 
     private static final Map<Long, TestSession> activeTests = new HashMap<>();
-    private static final Map<Long, TestSession> reviewTests = new HashMap<>();
 
     public static Map<Long, TestSession> getActiveTests() {
         return activeTests;
@@ -67,26 +66,29 @@ public class TestCommand {
 
         // Defer the reply to prepare for multiple messages
         event.deferReply().queue(hook -> {
-            // Remove previous test if exists
-            boolean hadPreviousTest = activeTests.remove(event.getUser().getIdLong()) != null;
+            // Get and remove previous test in one operation
+            TestSession previousTest = activeTests.remove(event.getUser().getIdLong());
+            boolean hadPreviousTest = previousTest != null;
 
             // Create new session
             TestSession session = new TestSession(questions, event.getUser());
             activeTests.put(event.getUser().getIdLong(), session);
 
-            // Send notification if needed (as ephemeral follow-up)
+            // Send appropriate notification
             if (hadPreviousTest) {
-                hook.sendMessage("⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.")
+                String message = previousTest.isSubmitted()
+                        ? "⌛ " + event.getUser().getAsMention() + ", here is your new test!"
+                        : "⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.";
+
+                hook.sendMessage(message)
                         .setEphemeral(true)
                         .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
             }
 
-            // Send the actual test (as the main response)
+            // Send the test
             hook.sendMessageEmbeds(createTestEmbed(session))
                     .setComponents(createActionRows(session))
-                    .queue(message -> {
-                        session.setMessageId(message.getIdLong());
-                    });
+                    .queue(message -> session.setMessageId(message.getIdLong()));
         });
     }
 
@@ -109,8 +111,7 @@ public class TestCommand {
 
         // Reset inactivity timer on every button click
         // Don't think this can ever be null
-        session.setLastActivityTime(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
+        session.setLastActivityTime(System.currentTimeMillis()); // 1755075541021+ ish milliseconds passed since 1970
 
         String buttonId = event.getComponentId();
 
