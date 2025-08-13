@@ -1,20 +1,23 @@
 package com.Discord.DiscordBot.Sessions;
 import com.Discord.DiscordBot.Units.Question;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.*;
 
 public class TestSession {
     private final List<Question> questions;
     private final Map<Integer, String> userAnswers;
+    private final User user;
     private int currentIndex;
     private long messageId;
     private boolean submitted = false;
     private volatile long lastActivityTime = System.currentTimeMillis();
 
-    public TestSession(List<Question> questions) {
+    public TestSession(List<Question> questions, User user) {
         this.questions = new ArrayList<>(questions);
         this.userAnswers = new HashMap<>();
         this.currentIndex = 0;
+        this.user = user;
     }
 
     public List<Question> getQuestionList() {
@@ -56,6 +59,8 @@ public class TestSession {
     public void setAnswer(int index, String answer) {
         userAnswers.put(index, answer);
     }
+
+    public User getUser() { return user; }
 
     public void nextQuestion() {
         if (currentIndex < questions.size() - 1) {

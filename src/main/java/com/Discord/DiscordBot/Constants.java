@@ -20,6 +20,8 @@ public class Constants {
 
     public static String[] titles = {"Level 1 Sleeper", "Level 2 Learner", "Level 3 Casual", "Level 4 Honored", "Level 5 AP Deity"};
 
+    public static int[] scorePercents = {77, 60, 42, 36}; // index 0 is score for 5, index 1 is score for 4.
+
     public static String COMMAND_GUIDE_PROMPT =
             "You are the in-bot help and guide for the " + slashPrefix.toUpperCase() + "-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them. They are able to ask off topic questions, dont be too mean about it.\n" +
                     "\n" +

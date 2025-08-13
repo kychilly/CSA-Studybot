@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 public class ResourcesCommand {
 
     public static SlashCommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "resources", "Get helpful resources for AP " + Constants.slashPrefix);
+        return Commands.slash(Constants.slashPrefix + "-resources", "Get helpful resources for AP " + Constants.slashPrefix);
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

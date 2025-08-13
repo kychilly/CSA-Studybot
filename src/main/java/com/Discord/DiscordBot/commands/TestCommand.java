@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class TestCommand {
 
     private static final Map<Long, TestSession> activeTests = new HashMap<>();
+    private static final Map<Long, TestSession> reviewTests = new HashMap<>();
 
     public static Map<Long, TestSession> getActiveTests() {
         return activeTests;
@@ -64,21 +65,29 @@ public class TestCommand {
             return;
         }
 
-        // Ends the previous test no matter what (maybe implement timer later)
-        // Method checks if there was a previous test. If not, does nothing
-        removeUserTest(event);
+        // Defer the reply to prepare for multiple messages
+        event.deferReply().queue(hook -> {
+            // Remove previous test if exists
+            boolean hadPreviousTest = activeTests.remove(event.getUser().getIdLong()) != null;
 
-        TestSession session = new TestSession(questions);
-        activeTests.put(event.getUser().getIdLong(), session);
+            // Create new session
+            TestSession session = new TestSession(questions, event.getUser());
+            activeTests.put(event.getUser().getIdLong(), session);
 
-        // Send initial message and store its ID in the session without blocking
-        event.replyEmbeds(createTestEmbed(session))
-                .setComponents(createActionRows(session))
-                .queue(message -> {
-                    message.retrieveOriginal().queue(original -> {
-                        session.setMessageId(original.getIdLong());
+            // Send notification if needed (as ephemeral follow-up)
+            if (hadPreviousTest) {
+                hook.sendMessage("⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.")
+                        .setEphemeral(true)
+                        .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
+            }
+
+            // Send the actual test (as the main response)
+            hook.sendMessageEmbeds(createTestEmbed(session))
+                    .setComponents(createActionRows(session))
+                    .queue(message -> {
+                        session.setMessageId(message.getIdLong());
                     });
-                });
+        });
     }
 
     public static void handleButtonInteraction(ButtonInteractionEvent event) {
@@ -99,8 +108,9 @@ public class TestCommand {
         }
 
         // Reset inactivity timer on every button click
-// Don't think this can ever be null, but just in case
-            session.setLastActivityTime(System.currentTimeMillis());
+        // Don't think this can ever be null
+        session.setLastActivityTime(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
 
         String buttonId = event.getComponentId();
 
@@ -281,7 +291,7 @@ public class TestCommand {
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Question " + (currentIndex + 1) + " of " + total)
-                .setDescription(current.getQuestion())
+                .setDescription(session.getUser().getAsMention() + ", " + current.getQuestion())
                 .addField("A", current.getOptionA(), false)
                 .addField("B", current.getOptionB(), false)
                 .addField("C", current.getOptionC(), false)
@@ -364,13 +374,13 @@ public class TestCommand {
     // 2 = 36%+
     // 1 = 36%-
     public static String getScoreMessage(double percentage) {
-        if (percentage >= 77) {
+        if (percentage >= Constants.scorePercents[0]) {
             return "Your score likely earns you a **5**.";
-        } else if (percentage >= 60) {
+        } else if (percentage >= Constants.scorePercents[1]) {
             return "Your score likely earns you a **4**.";
-        } else if (percentage >= 42) {
+        } else if (percentage >= Constants.scorePercents[2]) {
             return "Your score likely earns you a **3**.";
-        } else if (percentage >= 36) {
+        } else if (percentage >= Constants.scorePercents[3]) {
             return "Your score likely earns you a **2**.";
         } else {
             return "Your score likely earns you a **1**.";
@@ -378,36 +388,26 @@ public class TestCommand {
     }
 
     public static String getOtherScoreMessage(double percentage) {
-        if (percentage >= 77) {
+        if (percentage >= Constants.scorePercents[0]) {
             return Constants.FIVE_SCORE_MESSAGES.get((int)(Math.random() * Constants.FIVE_SCORE_MESSAGES.size()));
-        } else if (percentage >= 60) {
+        } else if (percentage >= Constants.scorePercents[1]) {
             return Constants.FOUR_SCORE_MESSAGES.get((int)(Math.random() * Constants.FOUR_SCORE_MESSAGES.size()));
-        } else if (percentage >= 42) {
+        } else if (percentage >= Constants.scorePercents[2]) {
             return Constants.THREE_SCORE_MESSAGES.get((int)(Math.random() * Constants.THREE_SCORE_MESSAGES.size()));
-        } else if (percentage >= 36) {
+        } else if (percentage >= Constants.scorePercents[3]) {
             return Constants.TWO_SCORE_MESSAGES.get((int)(Math.random() * Constants.TWO_SCORE_MESSAGES.size()));
         } else {
             return Constants.ONE_SCORE_MESSAGES.get((int)(Math.random() * Constants.ONE_SCORE_MESSAGES.size()));
         }
     }
 
+    // Eventually make this a used method lol
     public static void removeUserTest(SlashCommandInteractionEvent event) {
         Long userId = event.getUser().getIdLong();
-        if (activeTests.containsKey(userId)) {
-            event.getUser().openPrivateChannel().queue(
-                    privateChannel -> {
-                        privateChannel.sendMessage("⌛ Your previous test was ended as you started a new test.").queue(
-                                success -> activeTests.remove(userId),
-                                error -> {
-                                    // Fallback to ephemeral reply if DM fails
-                                    event.reply("⌛ Your previous test was ended as you started a new test.")
-                                            .setEphemeral(true)
-                                            .queue(hook -> hook.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
-                                    activeTests.remove(userId);
-                                }
-                        );
-                    }
-            );
+        if (activeTests.remove(userId) != null) {
+            event.reply("⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.")
+                    .setEphemeral(true)
+                    .queue(hook -> hook.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
         }
     }
 
