@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.UserProfile;
 import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class ProfileCommand extends ListenerAdapter {
 
     public static CommandData getCommandData() {
-        return Commands.slash("csa-profile", "Gets your profile!")
+        return Commands.slash(Constants.slashPrefix + "-profile", "Gets your profile!")
                 .addOption(OptionType.USER, "user", "Who's profile do you want to see? Leave blank if you just want yours", false);
     }
 

@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -28,7 +29,7 @@ public class QuestionBankCommand {
     private static final Map<Long, Integer> userUnitStates = new HashMap<>();
 
     public static CommandData getCommandData() {
-        return Commands.slash("csa-question-bank", "Browse all available questions by unit");
+        return Commands.slash(Constants.slashPrefix + "question-bank", "Browse all available questions by unit");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

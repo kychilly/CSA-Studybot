@@ -1,6 +1,5 @@
 package com.Discord.DiscordBot.Units;
 
-import com.Discord.DiscordBot.listeners.ButtonListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -35,7 +34,7 @@ public class HandleUnitsCommand {
                 }
             }
             if (entryToRemove == -1L) {
-                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 37 of HandleUnitsCommand execute").queue();
             }
             incorrectMessageIds.remove(entryToRemove);
         }
@@ -58,7 +57,7 @@ public class HandleUnitsCommand {
                 }
             }
             if (entryToRemove == -1L) {
-                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 60 in HandleUnitsCommand execute").queue();
             }
             incorrectMessageIds.remove(entryToRemove);
         }

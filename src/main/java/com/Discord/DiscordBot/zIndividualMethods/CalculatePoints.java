@@ -22,7 +22,7 @@ public class CalculatePoints {
                 break;
             default:
                 points = 1; // In case a scary bug happens lol
-                System.out.println("bug with calculatePoints in ButtonListener");
+                System.out.println("bug with calculatePoints in CalculatePoints");
                 break; // Break here just in case of more bugs
         }
         return points;

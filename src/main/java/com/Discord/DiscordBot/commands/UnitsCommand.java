@@ -25,7 +25,7 @@ import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectMessageId
 public class UnitsCommand {
 
     public static CommandData getCommandData() {
-        return Commands.slash("csa-question", "Get a random AP CSA question")
+        return Commands.slash(Constants.slashPrefix + "-question", "Get a random AP " + Constants.slashPrefix.toUpperCase() + " question")
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "unit", "The unit you would like to study. Leave blank to be tested on a random unit.", false)
                                 .addChoice("Unit 1", 1)
@@ -40,7 +40,7 @@ public class UnitsCommand {
         if (event.getOption("unit") != null) {
             unit = Objects.requireNonNull(event.getOption("unit")).getAsInt();
             if (1 > unit || unit > 4) {
-                event.reply(String.format("Unit %d is not a unit in AP CSA! Please choose a unit 1-%d.", unit, Constants.numUnits)).setEphemeral(true).queue();
+                event.reply(String.format("Unit %d is not a unit in AP %s! Please choose a unit 1-%d.", unit, Constants.slashPrefix.toUpperCase(), Constants.numUnits)).setEphemeral(true).queue();
                 return;
             }
         }

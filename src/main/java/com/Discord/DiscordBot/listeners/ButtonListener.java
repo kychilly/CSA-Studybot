@@ -64,7 +64,7 @@ public class ButtonListener extends ListenerAdapter {
 
     private void handleAnswer(ButtonInteractionEvent event, User user, String buttonId) {
         if (!ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getHook().sendMessage("You don't have an active question. Use `!unit1, !unit2, !unit3, or !unit4` to get started!")
+            event.getHook().sendMessage("You don't have an active question. Use `" + Constants.prefix + "<number>` to get started!")
                     .setEphemeral(true).queue();
             return;
         }
@@ -234,7 +234,7 @@ public class ButtonListener extends ListenerAdapter {
                 }
             }
             if (entryToRemove == -1L) {
-                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 210 of buttonListener handleNewQuestion").queue();
+                event.getChannel().sendMessage("MASSIVE BUG, PLEASE DONT DO WHATEVER U JUST DID LOL (line 237 or so of buttonListener handleNewQuestion").queue();
             }
             incorrectMessageIds.remove(entryToRemove);
         }

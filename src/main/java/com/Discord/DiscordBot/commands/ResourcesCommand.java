@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 
@@ -11,7 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 public class ResourcesCommand {
 
     public static SlashCommandData getCommandData() {
-        return Commands.slash("csa-resources", "Get helpful resources for AP CSA");
+        return Commands.slash(Constants.slashPrefix + "resources", "Get helpful resources for AP " + Constants.slashPrefix);
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

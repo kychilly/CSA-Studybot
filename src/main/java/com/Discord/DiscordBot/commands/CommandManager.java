@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -17,21 +18,21 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
-        if (command.equalsIgnoreCase("csa-help")) {
+        if (command.equalsIgnoreCase(Constants.slashPrefix + "-help")) {
             HelpCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-info")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-info")) {
             InfoCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-question-bank")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-question-bank")) {
             QuestionBankCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-test")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-test")) {
             TestCommand.execute(event); // Needs work
-        } else if (command.equalsIgnoreCase("csa-question")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-question")) {
             UnitsCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-resources")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-resources")) {
             ResourcesCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-ask")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-ask")) {
             GPTCommand.execute(event);
-        } else if (command.equalsIgnoreCase("csa-profile")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-profile")) {
             ProfileCommand.execute(event);
         }
 
