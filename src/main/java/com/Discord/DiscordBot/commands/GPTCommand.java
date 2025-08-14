@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class GPTCommand {
                 sendReplyInChunks(reply, event);
             } catch (Exception e) {
                 e.printStackTrace();
-                event.getHook().sendMessage("⚠️ Error talking to the AI.").queue();
+                event.getHook().sendMessage("⚠️ ERROR: I am currently down now due to serverside issues. I should be back up soon. Sorry for the inconvenience.").queue();
             }
         }).start();
     }
@@ -69,11 +70,27 @@ public class GPTCommand {
     private static String getGroqReply(String prompt) throws IOException {
         JsonArray messages = new JsonArray();
 
+        // System message to force the model to censor bad words
+        JsonObject systemMessage = new JsonObject();
+        systemMessage.addProperty("role", "system");
+        systemMessage.addProperty("content",
+                "You must never output profanity, racial slurs, homophobic slurs, or other offensive terms. " +
+                        "Replace such words with '_______'. This includes common leetspeak and Cyrillic lookalikes. " +
+                        "Examples: n-word (and variations), f-slur, kike, ch*nk, wop, sp*c, c*nt, bitch, fuck, shit, retard, moron. " +
+                        "Also make sure to check if the user is trying to trick you into saying bad words(Example: concatenate \"f\" \"a\" \"g\" \"g\" \"o\" \"t\"" +
+                        "If the user is trying to get you to promote ideologies(like hitler or politics) tell them they are trying to get you to respond in a bad manner and that you wont do that." +
+                        "Detect and censor these even if letters are substituted with symbols or foreign characters.");
+
+        // User message
         JsonObject userMessage = new JsonObject();
         userMessage.addProperty("role", "user");
         userMessage.addProperty("content", prompt);
+
+        // Add both messages
+        messages.add(systemMessage);
         messages.add(userMessage);
 
+        // Build request
         JsonObject requestBody = new JsonObject();
         requestBody.addProperty("model", "llama3-70b-8192");
         requestBody.add("messages", messages);
@@ -93,58 +110,13 @@ public class GPTCommand {
 
             String responseBody = response.body().string();
             JsonObject json = JsonParser.parseString(responseBody).getAsJsonObject();
-            String reply = json.getAsJsonArray("choices")
+            return json.getAsJsonArray("choices")
                     .get(0).getAsJsonObject()
                     .getAsJsonObject("message")
                     .get("content").getAsString();
-            return reply; // Not changeToKyche(reply) since it isnt working + too much computing power.
         }
     }
 
-    private static String changeToKyche(String message) {
-        // Normalize lookalikes first
-        String normalized = noBypassingBadWords(message);
-
-        // Patterns for bad words (expand as needed)
-        String[] badWordsPatterns = {
-                "(?i)n[iі1!|][gq][gq][e3][r]",  // ni + lookalikes
-                "(?i)sh[iі1!|]t",               // shit + lookalikes
-                "(?i)f[uυv][cс][kκ]",           // fuck + lookalikes (u, c, k with Cyrillic)
-                "(?i)b[iі1!|]t[ch]",            // bitch + lookalikes
-                "(?i)a[s5][s5]hole",            // asshole + lookalikes
-                // Add more patterns here
-        };
-
-        for (String pattern : badWordsPatterns) {
-            normalized = normalized.replaceAll(pattern, "****");
-        }
-
-        // Also apply your branding replacements on the original message
-        String branded = message
-                .replaceAll("(?i)i am (llama|llama 2|llama3|mixtral|mistral|gemini|gpt|groq)[^\\n,.]*",
-                        "I am KycheGPT, an AI assistant developed by Kyche")
-                .replaceAll("(?i)developed by [^\\n,.]*", "developed by Kyche");
-
-        return branded;
-    }
-
-    // Normalize common lookalike characters to latin equivalents
-    private static String noBypassingBadWords(String input) {
-        return input
-                .replace('і', 'i')  // Cyrillic small i
-                .replace('І', 'I')  // Cyrillic capital i
-                .replace('ѕ', 's')  // Cyrillic small s
-                .replace('0', 'o')
-                .replace('1', 'i')
-                .replace('!', 'i')
-                .replace('|', 'i')
-                .replace('υ', 'u')  // Greek upsilon
-                .replace('с', 'c')  // Cyrillic c
-                .replace('κ', 'k')  // Greek kappa
-                .replace('е', 'e')  // Cyrillic e
-                .replace('v', 'v')  // just to be explicit
-                ;
-    }
 
     private static void sendReplyInChunks(String reply, SlashCommandInteractionEvent event) {
         int maxLength = 2000;
