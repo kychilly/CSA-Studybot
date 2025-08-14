@@ -20,6 +20,8 @@ public class Constants {
 
     public static String[] titles = {"Level 1 Sleeper", "Level 2 Learner", "Level 3 Casual", "Level 4 Honored", "Level 5 AP Deity"};
 
+    public static int[] pointTitles = {0, 100, 250, 500, 1000}; // index 1 is for level 2, index 2 is for level 3, index 4 is for level 5
+
     public static int[] scorePercents = {77, 60, 42, 36}; // index 0 is score for 5, index 1 is score for 4.
 
     public static String collegeBoardThumbnail = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2KG3StxIW0KW9EZP4pbSYbW-_1pJw9YtdR3HsZnyGTu1as-kFCJusA-qDROINnG9vJI&usqp=CAU";

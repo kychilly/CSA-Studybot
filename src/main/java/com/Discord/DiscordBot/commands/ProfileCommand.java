@@ -29,6 +29,7 @@ public class ProfileCommand extends ListenerAdapter {
 
         try {
             UserProfile profile = UserProfileManager.loadProfile(targetUser);
+            String footerDescription = getFooterDescription(profile);
 
             EmbedBuilder embed = new EmbedBuilder()
                     .setTitle(targetUser.getName() + "'s Profile")
@@ -36,12 +37,29 @@ public class ProfileCommand extends ListenerAdapter {
                     .addField("🏆 Title", profile.getTitle(), true)
                     .addField("⭐ Points", String.valueOf(profile.getPoints()), true)
                     .setColor(Color.decode("#5865F2"))
-                    .setFooter("Keep answering questions to earn more points!");
+                    .setFooter(footerDescription);
 
             event.replyEmbeds(embed.build()).queue();
         } catch (IOException e) {
             event.reply("❌ An error occurred while loading the profile.").setEphemeral(true).queue();
             e.printStackTrace();
         }
+    }
+
+    public static String getFooterDescription(UserProfile profile) {
+        int points = profile.getPoints();
+
+        if (points >= 1000) {
+            return "You've reached the highest level - " + Constants.titles[4];
+        } else if (points >= 500) {
+            return (1000 - points) + " points until you're a " + Constants.titles[4];
+        } else if (points >= 250) {
+            return (500 - points) + " points until you're a " + Constants.titles[3];
+        } else if (points >= 100) {
+            return (250 - points) + " points until you're a " + Constants.titles[2];
+        } else {
+            return (100 - points) + " points until you're a " + Constants.titles[1];
+        }
+
     }
 }

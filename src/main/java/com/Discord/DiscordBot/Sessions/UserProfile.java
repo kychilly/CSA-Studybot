@@ -29,13 +29,13 @@ public class UserProfile {
     // 2 : 100
     // 1 : 50
     public void updateTitle() {
-        if (points >= 1000) {
+        if (points >= Constants.pointTitles[4]) {
             title = Constants.titles[4];
-        } else if (points >= 500) {
+        } else if (points >= Constants.pointTitles[3]) {
             title = Constants.titles[3];
-        } else if (points >= 250) {
+        } else if (points >= Constants.pointTitles[2]) {
             title = Constants.titles[2];
-        } else if (points >= 100) {
+        } else if (points >= Constants.pointTitles[1]) {
             title = Constants.titles[1];
         } else {
             title = Constants.titles[0]; // You technically dont have to put this here, but just in case I guess
