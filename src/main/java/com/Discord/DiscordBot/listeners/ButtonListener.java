@@ -3,8 +3,9 @@ package com.Discord.DiscordBot.listeners;
 import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.UserProfile;
 import com.Discord.DiscordBot.Sessions.UserProfileManager;
+import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
 import com.Discord.DiscordBot.Units.*;
-import com.Discord.DiscordBot.commands.QuestionBankCommand;
+import com.Discord.DiscordBot.commands.HelpCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
 import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -50,9 +51,11 @@ public class ButtonListener extends ListenerAdapter {
             } else if (buttonId.equals("review_question")) {
                 handleReviewQuestion(event, user); // For review button
             } else if (buttonId.startsWith("qbank_")) {
-                QuestionBankCommand.handleButtonInteraction(event); // Question bank command
+                QuestionBankTextCommand.handleButtonInteraction(event); // Question bank command
             } else if (buttonId.startsWith("test_")) {
                 TestCommand.handleButtonInteraction(event); // Test command
+            } else if (buttonId.startsWith("help_")) {
+                HelpCommand.handleButtonInteraction(event);
             }
 
         } catch (Exception e) {

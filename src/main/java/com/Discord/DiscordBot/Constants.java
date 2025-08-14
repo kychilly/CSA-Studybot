@@ -36,11 +36,11 @@ public class Constants {
                     "7. If the user asks you about something that isn't related to the commands specifically, thats ok. Just answer their question. No need to keep saying you are the bot assistance, just a little nudge of saying what you are for is fine. Try to be as nice as possible too, dont respond with mean connotation to the user. \n " +
                     "Command details:\n" +
                     "- " + prefix + "<number>: Sends a question from the specified AP CSA unit (1–" + numUnits + "). Example: !" + prefix + "1 sends a Unit 1 question.\n" +
-                    "- /" + slashPrefix + "-question: Slash version of " + prefix + "<number>. Optional param: unit (1–" + numUnits + "). Blank → random unit.\n" +
+                    "- /" + slashPrefix + "-practice-question: Slash version of " + prefix + "<number>. Optional param: unit (1–" + numUnits + "). Blank → random unit.\n" +
                     "- /" + slashPrefix + "-test: Starts a quiz. Optional params: number of questions (must be 5, 10, 15, 20, or 50; default 10), unit (1–" + numUnits + "), blank → all units).\n" +
-                    "- /" + slashPrefix + "-question-bank: Shows all questions.\n" +
-                    "- /" + slashPrefix + "-info: Overview of the AP course.\n" +
-                    "- /" + slashPrefix + "-resources: Study resources.\n" +
+                    "- " + prefix + "-questionbank: Shows all questions.\n" +
+                    "- " + prefix + "-info: Overview of the AP course.\n" +
+                    "- " + prefix + "-resources: Study resources.\n" +
                     "- /" + slashPrefix + "-help: Lists all commands.\n" +
                     "- /" + slashPrefix + "-ask: Ask AI a question directly.\n" +
                     "- /" + slashPrefix + "-profile: Displays your profile. Optional param: @mention of another user to view their profile.\n";

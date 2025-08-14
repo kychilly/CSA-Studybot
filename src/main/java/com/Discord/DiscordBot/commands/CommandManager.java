@@ -18,22 +18,17 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
-        if (command.equalsIgnoreCase(Constants.slashPrefix + "-help")) {
-            HelpCommand.execute(event);
-        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-info")) {
-            InfoCommand.execute(event);
-        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-question-bank")) {
-            QuestionBankCommand.execute(event);
-        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-test")) {
+
+        if (command.equalsIgnoreCase(Constants.slashPrefix + "-test")) {
             TestCommand.execute(event); // Needs work
-        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-question")) {
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-practice-question")) {
             UnitsCommand.execute(event);
-        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-resources")) {
-            ResourcesCommand.execute(event);
         } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-ask")) {
             GPTCommand.execute(event);
         } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-profile")) {
             ProfileCommand.execute(event);
+        } else if (command.equalsIgnoreCase(Constants.slashPrefix + "-help")) {
+            HelpCommand.execute(event);
         }
 
     }
@@ -41,14 +36,11 @@ public class CommandManager extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
 
-        commandData.add(HelpCommand.getCommandData());
-        commandData.add(InfoCommand.getCommandData());
-        commandData.add(QuestionBankCommand.getCommandData());
         commandData.add(TestCommand.getCommandData());
         commandData.add(UnitsCommand.getCommandData());
-        commandData.add(ResourcesCommand.getCommandData());
         commandData.add(GPTCommand.getCommandData());
         commandData.add(ProfileCommand.getCommandData());
+        commandData.add(HelpCommand.getCommandData());
 
         //updates all commands in guilds
         event.getGuild().updateCommands()

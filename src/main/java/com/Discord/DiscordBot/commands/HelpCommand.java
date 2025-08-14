@@ -3,63 +3,111 @@ package com.Discord.DiscordBot.commands;
 import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class HelpCommand {
+
+    private static final String BUTTON_PREV = "help_prev";
+    private static final String BUTTON_NEXT = "help_next";
 
     public static CommandData getCommandData() {
         return Commands.slash(Constants.slashPrefix + "-help", "Displays a help page for users");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {
-        EmbedBuilder embed = new EmbedBuilder();
-
-        embed.setTitle("📚 AP " + Constants.slashPrefix.toUpperCase() + " StudyBot Help")
-                .setDescription("Thanks for using the **AP " + Constants.slashPrefix.toUpperCase() + " StudyBot**! Here's a list of commands you can use!")
-
-                .addField("📌 `" + Constants.prefix + "<number>`",
-                        "Get a practice question from that AP CSA unit (1–" + Constants.numUnits + ").\nExample: `" + Constants.prefix + "1` → Unit 1 question.",
-                        false)
-
-                .addField("📌 `/" + Constants.slashPrefix + "-question`",
-                        "Slash version of `" + Constants.prefix + "<number>`.\n**Optional parameter:** Unit number (1–" + Constants.numUnits + "). Leave blank for a random unit.\nExample: `/" + Constants.slashPrefix + "-question unit:2` → Unit 2 question.",
-                        false)
-
-                .addField("🧪 `/" + Constants.slashPrefix + "-test`",
-                        "Start a mini-test.\n**Optional parameters:**\n1️⃣ Number of questions: 5, 10, 15, 20, or 50 (default: 10)\n2️⃣ Unit number (1–" + Constants.numUnits + "). Leave blank for all units.\nExample: `/" + Constants.slashPrefix + "-test number:5 unit:3` → Test with 5 questions from Unit 3.",
-                        false)
-
-                .addField("📚 `/" + Constants.slashPrefix + "-question-bank`",
-                        "View the full question bank used by the bot.",
-                        false)
-
-                .addField("ℹ️ `/" + Constants.slashPrefix + "-info`",
-                        "Get general info about the AP " + Constants.slashPrefix.toUpperCase() + " course.",
-                        false)
-
-                .addField("📖 `/" + Constants.slashPrefix + "-resources`",
-                        "Get helpful study resources for AP CSA.",
-                        false)
-
-                .addField("💡 `/" + Constants.slashPrefix + "-help`",
-                        "Show this help message again.",
-                        false)
-
-                .addField("\u200B", "\u200B", false)
-
-                .addField("💬 Need help or have suggestions?",
-                        "Contact <@840216337119969301> or email [jyam478@gmail.com](mailto:jyam478@gmail.com)\n\n" +
-                                "💡💡💡 If you’re unsure how to use a command or need study help, feel free to type `/" + Constants.slashPrefix + "-ask <your question>` for a customized AI to guide you through your studies!\n" +
-                                "Example: `/" + Constants.slashPrefix + "-ask <How do I use the /" + Constants.slashPrefix + "test command?>`",
-                        false)
-
-                .setColor(0x1E90FF) // DodgerBlue
-                .setFooter("Good luck with your studies!!! \uD83E\uDEE1\uD83E\uDEE1\uD83E\uDEE1\uD83E\uDEE1\uD83E\uDEE1", null);
-
-        event.replyEmbeds(embed.build()).queue();
+        sendHelpPage(event, 1);
     }
 
+    public static void handleButtonInteraction(ButtonInteractionEvent event) {
+        // Get current page from footer text
+        String footer = event.getMessage().getEmbeds().get(0).getFooter().getText();
+        int currentPage = footer.contains("Page 1/2") ? 1 : 2;
 
+        // Determine new page based on button clicked
+        int newPage = event.getComponentId().equals(BUTTON_NEXT) ? 2 : 1;
 
+        // Only update if we're actually changing pages
+        if (newPage != currentPage) {
+            sendHelpPage(event, newPage);
+        }
+        // No need for else case since we already deferred in the listener
+    }
+
+    private static void sendHelpPage(ButtonInteractionEvent event, int page) {
+        EmbedBuilder embed = buildHelpEmbed(page);
+        ActionRow buttons = buildButtons(page);
+
+        // Use editOriginal() since we already deferred
+        event.getHook().editOriginalEmbeds(embed.build())
+                .setComponents(buttons)
+                .queue();
+    }
+
+    private static void sendHelpPage(SlashCommandInteractionEvent event, int page) {
+        EmbedBuilder embed = buildHelpEmbed(page);
+        ActionRow buttons = buildButtons(page);
+
+        if (event.isAcknowledged()) {
+            event.getHook().editOriginalEmbeds(embed.build())
+                    .setComponents(buttons)
+                    .queue();
+        } else {
+            event.replyEmbeds(embed.build())
+                    .setComponents(buttons)
+                    .setEphemeral(false)
+                    .queue();
+        }
+    }
+
+    private static EmbedBuilder buildHelpEmbed(int page) {
+        EmbedBuilder embed = new EmbedBuilder();
+        String title = "📚 AP " + Constants.slashPrefix.toUpperCase() + " StudyBot Help";
+        String description = "These are the commands you may use.";
+
+        // Common AI help field for both pages
+        String aiHelpField = "Use `/" + Constants.slashPrefix + "-ask` for:\n" +
+                "- Help with using commands\n" +
+                "- CS-related concepts\n" +
+                "Example: " + Constants.slashPrefix + "-ask <How to use the test command?>";
+
+        if (page == 1) {
+            embed.setTitle(title)
+                    .setDescription(description)
+                    .setColor(0x1E90FF)
+                    .addField("Slash Commands",
+                            "• `/" + Constants.slashPrefix + "-practice-question`\n" +
+                                    "• `/" + Constants.slashPrefix + "-test`\n" +
+                                    "• `/" + Constants.slashPrefix + "-profile`\n" +
+                                     "• `/" + Constants.slashPrefix + "-help`",
+                            false);
+        } else {
+            embed.setTitle(title)
+                    .setDescription(description)
+                    .setColor(0x1E90FF)
+                    .addField("Prefix Commands",
+                            "• `" + Constants.prefix + "<unit>`\n" +
+                                    "• `" + Constants.prefix + "-questionbank`\n" +
+                                    "• `" + Constants.prefix + "-resources`\n" +
+                                    "• `" + Constants.prefix + "-info`\n",
+                            false);
+        }
+
+        // Add consistent AI help section
+        embed.addField("\u200B", "\u200B", false)
+                .addField("💡 Instant AI Help Available", aiHelpField, false)
+                .setFooter("Page " + page + "/2 | Good luck! \uD83E\uDEE1", null);
+
+        embed.setThumbnail("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2KG3StxIW0KW9EZP4pbSYbW-_1pJw9YtdR3HsZnyGTu1as-kFCJusA-qDROINnG9vJI&usqp=CAU");
+        return embed;
+    }
+
+    private static ActionRow buildButtons(int page) {
+        Button prevButton = Button.secondary(BUTTON_PREV, "◀ Previous").withDisabled(page == 1);
+        Button nextButton = Button.secondary(BUTTON_NEXT, "Next ▶").withDisabled(page == 2);
+        return ActionRow.of(prevButton, nextButton);
+    }
 }

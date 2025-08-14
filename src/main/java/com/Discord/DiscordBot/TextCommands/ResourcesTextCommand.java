@@ -1,25 +1,15 @@
-package com.Discord.DiscordBot.commands;
-
-import com.Discord.DiscordBot.Constants;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.Command;
+package com.Discord.DiscordBot.TextCommands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class ResourcesCommand {
+public class ResourcesTextCommand {
 
-    public static SlashCommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-resources", "Get helpful resources for AP " + Constants.slashPrefix);
-    }
-
-    public static void execute(SlashCommandInteractionEvent event) {
+    public static void execute(MessageReceivedEvent event) {
         MessageEmbed resourcesEmbed = createResourcesEmbed();
-        event.replyEmbeds(resourcesEmbed).queue();
+        event.getChannel().sendMessageEmbeds(resourcesEmbed).queue();
     }
-
 
     private static MessageEmbed createResourcesEmbed() {
         EmbedBuilder embed = new EmbedBuilder()
@@ -65,4 +55,5 @@ public class ResourcesCommand {
     private static String getBotInviteLink() {
         return "https://discord.com/oauth2/authorize?client_id=1401736371508613120&permissions=2147503104&integration_type=0&scope=bot";
     }
+
 }

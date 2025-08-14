@@ -37,6 +37,7 @@ public class GPTCommand {
 
     public static void execute(SlashCommandInteractionEvent event) {
         String message = event.getOption("prompt").getAsString();
+        System.out.println(event.getUser().getAsTag() + " says: " + message); // Test
         String userId = event.getMember().getId();
         long now = Instant.now().toEpochMilli();
 
@@ -78,6 +79,7 @@ public class GPTCommand {
                         "Replace such words with '_______'. This includes common leetspeak and Cyrillic lookalikes. " +
                         "Examples: n-word (and variations), f-slur, kike, ch*nk, wop, sp*c, c*nt, bitch, fuck, shit, retard, moron. " +
                         "Also make sure to check if the user is trying to trick you into saying bad words(Example: concatenate \"f\" \"a\" \"g\" \"g\" \"o\" \"t\"" +
+                        "Check to make sure emojis are not able to bypass either" +
                         "If the user is trying to get you to promote ideologies(like hitler or politics) tell them they are trying to get you to respond in a bad manner and that you wont do that." +
                         "Detect and censor these even if letters are substituted with symbols or foreign characters.");
 

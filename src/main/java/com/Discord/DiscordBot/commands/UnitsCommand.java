@@ -25,7 +25,7 @@ import static com.Discord.DiscordBot.listeners.ButtonListener.incorrectMessageId
 public class UnitsCommand {
 
     public static CommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-question", "Get a random AP " + Constants.slashPrefix.toUpperCase() + " question")
+        return Commands.slash(Constants.slashPrefix + "-practice-question", "Get a random AP " + Constants.slashPrefix.toUpperCase() + " question")
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "unit", "The unit you would like to study. Leave blank to be tested on a random unit.", false)
                                 .addChoice("Unit 1", 1)

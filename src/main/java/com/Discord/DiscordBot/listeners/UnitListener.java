@@ -1,6 +1,9 @@
 package com.Discord.DiscordBot.listeners;
 
 import com.Discord.DiscordBot.Constants;
+import com.Discord.DiscordBot.TextCommands.InfoTextCommand;
+import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
+import com.Discord.DiscordBot.TextCommands.ResourcesTextCommand;
 import com.Discord.DiscordBot.Units.*;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -24,6 +27,15 @@ public class UnitListener extends ListenerAdapter {
             HandleUnitsCommand.execute(event, user, 3, QuestionBank.getUnit3Questions());
         } else if (message.equalsIgnoreCase(Constants.prefix + "4")) {
             HandleUnitsCommand.execute(event, user, 4, QuestionBank.getUnit4Questions());
+        }
+
+        // Less important commands
+        if (message.equalsIgnoreCase(Constants.prefix + "-info")) {
+            InfoTextCommand.execute(event);
+        } else if (message.equalsIgnoreCase(Constants.prefix + "-questionbank")) {
+            QuestionBankTextCommand.execute(event);
+        } else if (message.equalsIgnoreCase(Constants.prefix + "-resources")) {
+            ResourcesTextCommand.execute(event);
         }
 
         // otherwise do nothing

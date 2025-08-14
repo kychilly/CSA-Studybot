@@ -1,14 +1,12 @@
-package com.Discord.DiscordBot.commands;
+package com.Discord.DiscordBot.TextCommands;
 
-import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -23,17 +21,14 @@ import java.util.stream.Collectors;
 
 import static com.Discord.DiscordBot.listeners.ButtonListener.getAnswerText;
 
-public class QuestionBankCommand {
+public class QuestionBankTextCommand {
+
     private static final int QUESTIONS_PER_PAGE = 5;
     private static final Map<Long, Integer> userPageStates = new HashMap<>();
     private static final Map<Long, Integer> userUnitStates = new HashMap<>();
 
-    public static CommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-question-bank", "Browse all available questions by unit");
-    }
-
-    public static void execute(SlashCommandInteractionEvent event) {
-        User user = event.getUser();
+    public static void execute(MessageReceivedEvent event) {
+        User user = event.getMember().getUser();
 
         // Get questions from your existing QuestionBank
         ArrayList<Question> allQuestions = QuestionBank.getQuestionBank();
@@ -50,9 +45,9 @@ public class QuestionBankCommand {
         sendQuestionBankPage(event, unit1Questions, 0, 1);
     }
 
-    private static void sendQuestionBankPage(SlashCommandInteractionEvent event, List<Question> questions, int page, int unit) {
+    private static void sendQuestionBankPage(MessageReceivedEvent event, List<Question> questions, int page, int unit) {
         MessageCreateBuilder messageBuilder = createQuestionBankMessage(questions, page, unit);
-        event.reply(messageBuilder.build()).queue();
+        event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
     private static void updateQuestionBankPage(ButtonInteractionEvent event, List<Question> questions, int page, int unit) {
@@ -109,14 +104,14 @@ public class QuestionBankCommand {
         int totalPages = (int) Math.ceil((double) totalQuestions / QUESTIONS_PER_PAGE);
 
         // Navigation buttons
-        Button prevButton = Button.primary("qbank_prev", "◀").withDisabled(page == 0);
-        Button nextButton = Button.primary("qbank_next", "▶").withDisabled(page >= totalPages - 1 || totalQuestions == 0);
+        net.dv8tion.jda.api.interactions.components.buttons.Button prevButton = net.dv8tion.jda.api.interactions.components.buttons.Button.primary("qbank_prev", "◀").withDisabled(page == 0);
+        net.dv8tion.jda.api.interactions.components.buttons.Button nextButton = net.dv8tion.jda.api.interactions.components.buttons.Button.primary("qbank_next", "▶").withDisabled(page >= totalPages - 1 || totalQuestions == 0);
 
         // Unit selection buttons
-        Button unit1Button = Button.secondary("qbank_unit1", "Unit 1").withDisabled(unit == 1);
-        Button unit2Button = Button.secondary("qbank_unit2", "Unit 2").withDisabled(unit == 2);
-        Button unit3Button = Button.secondary("qbank_unit3", "Unit 3").withDisabled(unit == 3);
-        Button unit4Button = Button.secondary("qbank_unit4", "Unit 4").withDisabled(unit == 4);
+        net.dv8tion.jda.api.interactions.components.buttons.Button unit1Button = net.dv8tion.jda.api.interactions.components.buttons.Button.secondary("qbank_unit1", "Unit 1").withDisabled(unit == 1);
+        net.dv8tion.jda.api.interactions.components.buttons.Button unit2Button = net.dv8tion.jda.api.interactions.components.buttons.Button.secondary("qbank_unit2", "Unit 2").withDisabled(unit == 2);
+        net.dv8tion.jda.api.interactions.components.buttons.Button unit3Button = net.dv8tion.jda.api.interactions.components.buttons.Button.secondary("qbank_unit3", "Unit 3").withDisabled(unit == 3);
+        net.dv8tion.jda.api.interactions.components.buttons.Button unit4Button = Button.secondary("qbank_unit4", "Unit 4").withDisabled(unit == 4);
 
         // Create action rows (max 5 buttons per row)
         ActionRow navigationRow = ActionRow.of(prevButton, nextButton);
@@ -179,4 +174,6 @@ public class QuestionBankCommand {
         // Update the existing message
         updateQuestionBankPage(event, unitQuestions, currentPage, currentUnit);
     }
+
+
 }
