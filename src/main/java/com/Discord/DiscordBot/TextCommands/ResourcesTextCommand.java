@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.TextCommands;
 
+import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -16,7 +17,7 @@ public class ResourcesTextCommand {
                 .setTitle("📚 AP CSA Study Resources")
                 .setDescription("Here are some valuable resources to help you succeed in AP Computer Science A:")
                 .setColor(0x3498db)
-                .setThumbnail("https://i.imgur.com/5Z3Qk9a.png") // Thumbnail doesnt work, replace later
+                .setThumbnail(Constants.collegeBoardThumbnail) // Thumbnail doesnt work, replace later
 
                 // Official College Board Resources
                 .addField("🎓 Official College Board Resources",
@@ -45,15 +46,12 @@ public class ResourcesTextCommand {
 
                 // Bot Invite
                 .addField("🤖 Bot Invite",
-                        "[Invite this bot to your server](" + getBotInviteLink() + ")", false)
+                        "[Invite this bot to your server](" + Constants.botInviteLink + ")", false)
 
                 .setFooter("Good luck with your studies! 🍀");
 
         return embed.build();
     }
 
-    private static String getBotInviteLink() {
-        return "https://discord.com/oauth2/authorize?client_id=1401736371508613120&permissions=2147503104&integration_type=0&scope=bot";
-    }
 
 }

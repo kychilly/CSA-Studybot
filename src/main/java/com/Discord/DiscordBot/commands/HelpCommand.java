@@ -71,8 +71,8 @@ public class HelpCommand {
         // Common AI help field for both pages
         String aiHelpField = "Use `/" + Constants.slashPrefix + "-ask` for:\n" +
                 "- Help with using commands\n" +
-                "- CS-related concepts\n" +
-                "Example: " + Constants.slashPrefix + "-ask <How to use the test command?>";
+                "- " + Constants.slashPrefix.toUpperCase() + " concepts\n" +
+                "Example: `/" + Constants.slashPrefix + "-ask How do I use the test command?`";
 
         if (page == 1) {
             embed.setTitle(title)
@@ -88,8 +88,8 @@ public class HelpCommand {
             embed.setTitle(title)
                     .setDescription(description)
                     .setColor(0x1E90FF)
-                    .addField("Prefix Commands",
-                            "• `" + Constants.prefix + "<unit>`\n" +
+                    .addField("Less Important Commands",
+                            "• `" + Constants.prefix + "<unit>` - \"Replace <unit> with a number\"\n" +
                                     "• `" + Constants.prefix + "-questionbank`\n" +
                                     "• `" + Constants.prefix + "-resources`\n" +
                                     "• `" + Constants.prefix + "-info`\n",
@@ -101,7 +101,7 @@ public class HelpCommand {
                 .addField("💡 Instant AI Help Available", aiHelpField, false)
                 .setFooter("Page " + page + "/2 | Good luck! \uD83E\uDEE1", null);
 
-        embed.setThumbnail("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2KG3StxIW0KW9EZP4pbSYbW-_1pJw9YtdR3HsZnyGTu1as-kFCJusA-qDROINnG9vJI&usqp=CAU");
+        embed.setThumbnail(Constants.collegeBoardThumbnail);
         return embed;
     }
 
