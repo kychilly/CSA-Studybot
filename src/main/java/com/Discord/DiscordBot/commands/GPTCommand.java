@@ -31,7 +31,7 @@ public class GPTCommand {
     private static final long COOLDOWN_MILLIS = 5000; // 5 seconds
 
     public static CommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-ask", "Ask me a question!")
+        return Commands.slash(Constants.slashPrefix + "-ask", "Ask me questions about the AP " + Constants.slashPrefix.toUpperCase() + " Course or how to use my commands!")
                 .addOption(OptionType.STRING,"prompt", "What do you want to ask me?", true);
     }
 

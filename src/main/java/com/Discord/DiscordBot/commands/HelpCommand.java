@@ -15,7 +15,7 @@ public class HelpCommand {
     private static final String BUTTON_NEXT = "help_next";
 
     public static CommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-help", "Displays a help page for users");
+        return Commands.slash(Constants.slashPrefix + "-help", "Displays a help page");
     }
 
     public static void execute(SlashCommandInteractionEvent event) {

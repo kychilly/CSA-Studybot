@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ProfileCommand extends ListenerAdapter {
 
     public static CommandData getCommandData() {
-        return Commands.slash(Constants.slashPrefix + "-profile", "Gets your profile!")
+        return Commands.slash(Constants.slashPrefix + "-profile", "Gets your AP " +  Constants.slashPrefix.toUpperCase() + " profile!")
                 .addOption(OptionType.USER, "user", "Who's profile do you want to see? Leave blank if you just want yours", false);
     }
 

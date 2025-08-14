@@ -49,6 +49,8 @@ public class DiscordBot {
         shardManager.addEventListener(new ButtonListener());
         shardManager.addEventListener(new JoinGuild());
 
+        CommandManager.initializeCommands(); // Initialize commands here
+
         // Checks every 30 seconds for any questions that may be expired to remove
         scheduler.scheduleAtFixedRate(() -> {
                 ActiveQuestionTracker.checkForExpiredQuestions(shardManager); // shardManager never null, so this always works

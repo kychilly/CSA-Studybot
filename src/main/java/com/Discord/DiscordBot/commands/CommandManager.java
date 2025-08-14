@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
 
-    List<CommandData> commandData = new ArrayList<>();
+    static List<CommandData> commandData = new ArrayList<>();
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -33,14 +33,16 @@ public class CommandManager extends ListenerAdapter {
 
     }
 
-    @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {
-
+    public static void initializeCommands() {
         commandData.add(TestCommand.getCommandData());
         commandData.add(UnitsCommand.getCommandData());
         commandData.add(GPTCommand.getCommandData());
         commandData.add(ProfileCommand.getCommandData());
         commandData.add(HelpCommand.getCommandData());
+    }
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
 
         //updates all commands in guilds
         event.getGuild().updateCommands()

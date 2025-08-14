@@ -21,7 +21,8 @@ public class JoinGuild extends ListenerAdapter {
                 .setTitle("Thanks for adding me to " + guild.getName() + " \uD83E\uDD73 \uD83E\uDD73 \uD83E\uDD73")
                 .setDescription("I am currently in development, here are some setup instructions...")
                 .addField("Getting Started", "Use `/help` to see commands\n", false) // Add \n to the field value
-                .addField("Support", "[Visit our website](https://customdiscordbots.org)", false)
+                .addField("Support",
+                        "DM <@840216337119969301> for any questions\n" + "[Visit our website](https://customdiscordbots.org)", false)
                 .setColor(0x00ff00);
 
         // Try system channel first
