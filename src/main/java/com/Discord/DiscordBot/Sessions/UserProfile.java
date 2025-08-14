@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class UserProfile {
 
-    private User user;
+    private final User user;
     private int points;
     private String title;
 
@@ -23,11 +23,7 @@ public class UserProfile {
         saveToFile();
     }
 
-    // 5 : 1000
-    // 4 : 500
-    // 3 : 250
-    // 2 : 100
-    // 1 : 50
+    // Constants.titles has all info needed here
     public void updateTitle() {
         if (points >= Constants.pointTitles[4]) {
             title = Constants.titles[4];

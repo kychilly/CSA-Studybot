@@ -7,7 +7,7 @@ import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.HelpCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
-import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
+import com.Discord.DiscordBot.zzzIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -82,13 +82,10 @@ public class ButtonListener extends ListenerAdapter {
         Question question = ActiveQuestionTracker.getActiveQuestion(user);
         boolean isCorrect = CheckQuestionAnswer.checkAnswer(question, answer);
 
-//        if (!isCorrect) {
-        // I know this says incorrect, but this just stores the user's previous
-        // questions and answers for possible review lol
+        // Stores the user's previous questions and answers for possible review (name possibly misleading)
         incorrectUserQuestions.put(user, question);
         incorrectUserAnswers.put(user, answer);
         incorrectMessageIds.put(event.getMessageIdLong(), user);
-//        }
 
         // Points!!!
         // Going to take it from ActiveQuestions, can also take it from incorrectUserQuestions for future ref
@@ -183,8 +180,6 @@ public class ButtonListener extends ListenerAdapter {
                 Button.primary("new_question", "Try Another Question"));
 
         event.getHook().editOriginal(messageBuilder.build()).queue();
-//        incorrectUserAnswers.remove(user); temp removing, see if this works
-//        incorrectUserQuestions.remove(user);
     }
 
     private void handleNewQuestion(ButtonInteractionEvent event, User user) {

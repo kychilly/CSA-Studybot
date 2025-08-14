@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ProfileCommand extends ListenerAdapter {
 
@@ -25,7 +26,7 @@ public class ProfileCommand extends ListenerAdapter {
 
         User targetUser = event.getOption("user") == null
                 ? event.getUser()
-                : event.getOption("user").getAsUser();
+                : Objects.requireNonNull(event.getOption("user")).getAsUser();
 
         try {
             UserProfile profile = UserProfileManager.loadProfile(targetUser);

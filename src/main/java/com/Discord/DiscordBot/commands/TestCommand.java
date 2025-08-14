@@ -7,7 +7,7 @@ import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.listeners.ButtonListener;
-import com.Discord.DiscordBot.zIndividualMethods.CalculatePoints;
+import com.Discord.DiscordBot.zzzIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -54,9 +54,9 @@ public class TestCommand {
         if (event.getUser().isBot()) return;
 
         int numQuestions = event.getOption("num-questions") != null ?
-                event.getOption("num-questions").getAsInt() : 10;
+                Objects.requireNonNull(event.getOption("num-questions")).getAsInt() : 10;
         Integer unit = event.getOption("unit") != null ?
-                event.getOption("unit").getAsInt() : null;
+                Objects.requireNonNull(event.getOption("unit")).getAsInt() : null;
 
         List<Question> questions = getQuestionsForUnit(unit, numQuestions);
 

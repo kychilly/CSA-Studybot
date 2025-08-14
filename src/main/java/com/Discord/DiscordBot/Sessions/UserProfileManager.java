@@ -5,8 +5,6 @@ import com.google.gson.*;
 import net.dv8tion.jda.api.entities.User;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -25,12 +25,10 @@ import javax.security.auth.login.LoginException;
 
 public class DiscordBot {
     private final ShardManager shardManager;
-    private final Dotenv config;
     private final ScheduledExecutorService scheduler;
-    private SessionCleanupService sessionCleanupService;
 
     public DiscordBot() throws LoginException {
-        config = Dotenv.configure().ignoreIfMissing().load();
+        Dotenv config = Dotenv.configure().ignoreIfMissing().load();
         String token = config.get("TOKEN");
 
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -57,7 +55,9 @@ public class DiscordBot {
         }, 0, Constants.unitQuestionIntervalCheckInSeconds, TimeUnit.SECONDS); // Checks every 30 seconds
 
         // Initialize session cleanup
-        this.sessionCleanupService = new SessionCleanupService(
+        // Check every 5 minutes
+        // 30 minute timeout
+        SessionCleanupService sessionCleanupService = new SessionCleanupService(
                 shardManager,
                 Constants.testIntervalCheckInMinutes,    // Check every 5 minutes
                 Constants.testTimeoutInMinutes    // 30 minute timeout

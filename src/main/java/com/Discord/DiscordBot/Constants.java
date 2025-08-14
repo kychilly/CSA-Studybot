@@ -29,7 +29,8 @@ public class Constants {
     public static String botInviteLink = "https://discord.com/oauth2/authorize?client_id=1401736371508613120&permissions=2147503104&integration_type=0&scope=bot";
 
     public static String COMMAND_GUIDE_PROMPT =
-            "You are the in-bot help and guide for the " + slashPrefix.toUpperCase() + "-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them. They are able to ask off topic questions, dont be too mean about it.\n" +
+            "You are the in-bot help and guide for the " + slashPrefix.toUpperCase() + "-Studybot. Your role is to explain to the user what commands are available, how they work, and how to use them. Your role is also to explain the AP " + prefix + " questions that they have. " + "They are able to ask off topic questions, dont be too mean about it.\n" +
+                    "\nAlso, if the user is asking an AP " + Constants.slashPrefix + " question, answer them but dont say stuff like \"My actual purpose is to explain commands\"" +
                     "\n" +
                     "Rules for your explanation:\n" +
                     "1. Only describe the specific command(s) the user asks about—do not include unrelated commands.\n" +

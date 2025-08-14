@@ -25,6 +25,7 @@ public class HelpCommand {
     public static void handleButtonInteraction(ButtonInteractionEvent event) {
         // Get current page from footer text
         String footer = event.getMessage().getEmbeds().get(0).getFooter().getText();
+        assert footer != null;
         int currentPage = footer.contains("Page 1/2") ? 1 : 2;
 
         // Determine new page based on button clicked
