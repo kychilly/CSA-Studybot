@@ -152,37 +152,86 @@ public class GPTCommand {
         }
     }
 
-    private static boolean hasAReallyBadWord(String input) {
-        if (input.length() > 100) return false; // skip long messages for performance
 
-        // Step 1: Normalize to lowercase
-        String normalized = input.toLowerCase();
+    // Trie node class (Do not change)
+    private static class TrieNode {
+        Map<Character, TrieNode> children = new HashMap<>();
+        boolean isWord = false;
+    }
 
-        // Step 2: Replace common Cyrillic and homoglyphs with Latin equivalents
-        normalized = normalized
-                .replaceAll("[\u0430\u0410@4]", "a") // a: Cyrillic а, A, @, 4
-                .replaceAll("[\u0435\u04153]", "e")  // e: Cyrillic е, E, 3
-                .replaceAll("[\u0456\u0406i1!|]", "i") // i: Cyrillic і, I, 1, !, |
-                .replaceAll("[\u043E\u041E0]", "o") // o: Cyrillic о, O, 0
-                .replaceAll("[\u0441\u0421c]", "c") // c: Cyrillic с, C
-                .replaceAll("[\u0445\u0425x]", "x") // x: Cyrillic х, X
-                .replaceAll("[\u043D\u041D]", "n")  // n: Cyrillic н
-                .replaceAll("[\u0440\u0420p]", "p") // p: Cyrillic р
-                .replaceAll("[\u0442\u0422t]", "t") // t: Cyrillic т
-                .replaceAll("[\u0443\u0423y]", "u"); // u: Cyrillic у, Y
+    private static final TrieNode root = new TrieNode();
 
-        // Step 3: Remove non-alphanumeric noise (spaces, punctuation, emojis)
-        normalized = normalized.replaceAll("[^a-z]", "");
+    static {
+        addWord("nigger");
+        addWord("nigga");
+        addWord("fag");
+        addWord("faggot");
+        // Add more if this becomes a problem
+    }
 
-        // Step 4: List of banned words (can add more)
-        String[] bannedWords = new String[]{
-                "nigger", "faggot", "kike", "chink", "wop", "spic", "cunt", "bitch", "fuck", "shit", "retard", "moron"
-        };
+    private static void addWord(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node = node.children.computeIfAbsent(c, k -> new TrieNode());
+        }
+        node.isWord = true;
+    }
 
-        // Step 5: Check for banned words
-        for (String word : bannedWords) {
-            if (normalized.contains(word)) {
-                return true;
+    // Normalization maps
+    private static final Map<Character, Character> normalizationMap = new HashMap<>();
+    static {
+        // Leetspeak
+        normalizationMap.put('4','a');
+        normalizationMap.put('@','a');
+        normalizationMap.put('1','i');
+        normalizationMap.put('!','i');
+        normalizationMap.put('3','e');
+        normalizationMap.put('0','o');
+        normalizationMap.put('$','s');
+        normalizationMap.put('5','s');
+        normalizationMap.put('7','t');
+
+        // Cyrillic lookalikes
+        normalizationMap.put('а','a'); // Cyrillic a
+        normalizationMap.put('А','a');
+        normalizationMap.put('е','e'); // Cyrillic e
+        normalizationMap.put('Е','e');
+        normalizationMap.put('о','o'); // Cyrillic o
+        normalizationMap.put('О','o');
+        normalizationMap.put('с','c'); // Cyrillic c
+        normalizationMap.put('С','c');
+        normalizationMap.put('і','i'); // Cyrillic i
+        normalizationMap.put('І','i');
+        normalizationMap.put('г','r'); // Cyrillic g to r
+        normalizationMap.put('Г','r');
+        normalizationMap.put('к','k'); // Cyrillic k
+        normalizationMap.put('К','k');
+        // Possible to add more
+    }
+
+    private static char normalizeChar(char c) {
+        c = Character.toLowerCase(c);
+        return normalizationMap.getOrDefault(c, c);
+    }
+
+    public static boolean hasAReallyBadWord(String input) {
+        input = input.trim();
+        int n = input.length();
+        char[] normalized = new char[n];
+
+        // Normalize input in one pass
+        for (int i = 0; i < n; i++) {
+            normalized[i] = normalizeChar(input.charAt(i));
+        }
+
+        // Check all starting positions
+        for (int i = 0; i < n; i++) {
+            TrieNode node = root;
+            for (int j = i; j < n; j++) {
+                char c = normalized[j];
+                if (!node.children.containsKey(c)) break;
+                node = node.children.get(c);
+                if (node.isWord) return true;
             }
         }
 
