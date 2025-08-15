@@ -1,4 +1,4 @@
-package com.Discord.DiscordBot.zzzIndividualMethods;
+package com.Discord.DiscordBot.A_IndividualMethods;
 
 import com.Discord.DiscordBot.Sessions.TestSession;
 import com.Discord.DiscordBot.Units.Question;

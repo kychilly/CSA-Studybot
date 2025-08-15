@@ -7,7 +7,7 @@ import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
 import com.Discord.DiscordBot.Units.*;
 import com.Discord.DiscordBot.commands.HelpCommand;
 import com.Discord.DiscordBot.commands.TestCommand;
-import com.Discord.DiscordBot.zzzIndividualMethods.CalculatePoints;
+import com.Discord.DiscordBot.A_IndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -21,7 +21,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.Discord.DiscordBot.Units.ActiveQuestionTracker.getUserByMessageId;
 import static com.Discord.DiscordBot.Units.CheckQuestionAnswer.wrongAnswers;

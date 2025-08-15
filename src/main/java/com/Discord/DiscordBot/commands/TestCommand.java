@@ -7,7 +7,7 @@ import com.Discord.DiscordBot.Sessions.UserProfileManager;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.listeners.ButtonListener;
-import com.Discord.DiscordBot.zzzIndividualMethods.CalculatePoints;
+import com.Discord.DiscordBot.A_IndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;

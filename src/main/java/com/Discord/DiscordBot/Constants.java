@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Constants {
 
     public static String prefix = "!csa";
-    public static String slashPrefix = "csa"; // Yea you have to put a / before this everytime lol
+    public static String slashPrefix = "csa"; // Yea you have to put a / before this everytime
 
     public static int numUnits = 4;
 
@@ -25,6 +25,8 @@ public class Constants {
     public static int[] scorePercents = {77, 60, 42, 36}; // index 0 is score for 5, index 1 is score for 4.
 
     public static String collegeBoardThumbnail = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2KG3StxIW0KW9EZP4pbSYbW-_1pJw9YtdR3HsZnyGTu1as-kFCJusA-qDROINnG9vJI&usqp=CAU";
+
+    public static String APPicture = "https://images-ext-1.discordapp.net/external/O91y0nM-QHluCrrKWyJaoTagrp9FvPlPzlggBaS-NZI/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/1401736371508613120/054bf5ff6af1656b42f02def5333e6ed.png?format=webp&quality=lossless&width=768&height=768";
 
     public static String botInviteLink = "https://discord.com/oauth2/authorize?client_id=1401736371508613120&permissions=2147503104&integration_type=0&scope=bot";
 

@@ -14,10 +14,10 @@ public class ResourcesTextCommand {
 
     private static MessageEmbed createResourcesEmbed() {
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("📚 AP CSA Study Resources")
+                .setTitle("📚 AP " + Constants.slashPrefix + " Study Resources")
                 .setDescription("Here are some valuable resources to help you succeed in AP Computer Science A:")
                 .setColor(0x3498db)
-                .setThumbnail(Constants.collegeBoardThumbnail) // Thumbnail doesnt work, replace later
+                .setThumbnail(Constants.collegeBoardThumbnail)
 
                 // Official College Board Resources
                 .addField("🎓 Official College Board Resources",
