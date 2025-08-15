@@ -1,16 +1,14 @@
 package com.Discord.DiscordBot.listeners;
 
 import com.Discord.DiscordBot.Constants;
-import com.Discord.DiscordBot.TextCommands.InfoTextCommand;
-import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
-import com.Discord.DiscordBot.TextCommands.ReportTextCommand;
-import com.Discord.DiscordBot.TextCommands.ResourcesTextCommand;
+import com.Discord.DiscordBot.TextCommands.*;
 import com.Discord.DiscordBot.Units.*;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UnitListener extends ListenerAdapter {
@@ -46,6 +44,8 @@ public class UnitListener extends ListenerAdapter {
                 ResourcesTextCommand.execute(event);
             } else if (message.startsWith(Constants.prefix + "-report")) {
                 ReportTextCommand.execute(event, message.substring(Constants.prefix.length() + 7));
+            } else if (event.getAuthor().getIdLong() == 840216337119969301L && message.startsWith(Constants.prefix + "-remove")) {
+                ResetPointsTextCommand.execute(event);
             } else {
                 // In case the user doesnt know what the commands are
                 event.getChannel().sendMessage("Hello " + Objects.requireNonNull(event.getMember()).getAsMention() + ", I believe you are trying to use one of the " + Constants.prefix + " commands. The commands I have available for use are: " +

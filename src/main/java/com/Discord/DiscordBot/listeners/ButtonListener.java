@@ -144,8 +144,6 @@ public class ButtonListener extends ListenerAdapter {
         Question question = incorrectUserQuestions.get(user);
         if (question == null) {
             handleActiveQuestion(event, user);
-//            event.getHook().sendMessage("No previous question to review!")
-//                    .setEphemeral(true).queue();
             return;
         }
         if (!user.equals(incorrectMessageIds.get(messageID))) {
