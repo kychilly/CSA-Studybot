@@ -72,7 +72,7 @@ public class DiscordBot {
         try {
             var bot = new DiscordBot();
             QuestionBank questionBank = new QuestionBank(); // Needs to be here to initialize questions lol
-            System.out.println("This is the AP CSA bot which has 4 units");
+            System.out.println("This is the AP " + Constants.slashPrefix.toUpperCase() + " bot which has 4 units");
 
             // Better to be safe than sorry?
             Runtime.getRuntime().addShutdownHook(new Thread(bot::shutdown));

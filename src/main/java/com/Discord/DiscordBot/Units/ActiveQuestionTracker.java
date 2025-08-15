@@ -1,11 +1,17 @@
 package com.Discord.DiscordBot.Units;
 
 import com.Discord.DiscordBot.Constants;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
+import java.awt.*;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +32,39 @@ public class ActiveQuestionTracker {
     }
 
     public static void removeActiveQuestion(User user, Long messageId) {
+        // Edit the original message
+        try {
+            Long channelId = questionChannelIds.get(user);
+            if (channelId != null && messageId != null) {
+                TextChannel channel = user.getJDA().getTextChannelById(channelId);
+                if (channel != null) {
+                    channel.editMessageEmbedsById(messageId,
+                            new EmbedBuilder()
+                                    .setTitle("⏰ Question Expired")
+                                    .setDescription(String.format(
+                                            "%s, your question has expired because you didn't respond within %d minutes.\n\n" +
+                                                    "Use `%s<number>` or `/%s-practice-question` to start a new question.",
+                                            user.getAsMention(),
+                                            Constants.unitQuestionTimeoutInMinutes,
+                                            Constants.prefix,
+                                            Constants.slashPrefix
+                                    ))
+                                    .setColor(new Color(255, 82, 82)) // A nicer red color
+                                    .setThumbnail(user.getEffectiveAvatarUrl()) // User's avatar
+                                    .setFooter("⏰ Question timed out • " + Instant.now().atZone(ZoneId.of("America/New_York")).format(DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a")))
+                                    .build()
+                    ).queue(
+                            success -> { channel.editMessageComponentsById(messageId, Collections.emptyList()).queue(); },
+                            error -> {} // Still remove question if can't edit
+                    );
+                }
+            }
+        } catch (Exception e) {
+            // Still remove the question if errors
+            e.printStackTrace();
+        }
+
+        // Then proceed with cleanup as before
         userQuestions.remove(user);
         activeMessageIds.remove(messageId);
         questionIds.remove(user);
@@ -49,7 +88,7 @@ public class ActiveQuestionTracker {
     // Sussy timer stuff
     public static void checkForExpiredQuestions(ShardManager shardManager) {
         long currentTime = System.currentTimeMillis();
-        long timeoutMillis = 1000L * 60 * Constants.unitQuestionTimeoutInMinutes; // 2 minutes in milliseconds
+        long timeoutMillis = 1000L * 60 * Constants.unitQuestionTimeoutInMinutes;
 
         // Create a copy to avoid concurrent modification
         new HashMap<>(questionTimestamps).forEach((user, timestamp) -> {
@@ -94,8 +133,8 @@ public class ActiveQuestionTracker {
                 botUser -> {
                     botUser.openPrivateChannel().queue(
                             channel -> {
-                                channel.sendMessage("⌛ Your question has expired because you didn't respond within 2 minutes. " +
-                                                "Use the commands again to get a new question.")
+                                channel.sendMessage("⌛ Your question has expired because you didn't respond within " + Constants.unitQuestionTimeoutInMinutes +
+                                                " minutes. Use the commands again to get a new question.")
                                         .queue(null,
                                                 e -> System.out.println("Failed to send DM to " + user.getId())
                                         );

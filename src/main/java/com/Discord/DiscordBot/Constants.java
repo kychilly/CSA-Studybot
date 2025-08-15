@@ -10,11 +10,11 @@ public class Constants {
 
     public static int numUnits = 4;
 
-    public static int unitQuestionTimeoutInMinutes = 2;
+    public static int unitQuestionTimeoutInMinutes = 3;
     public static int unitQuestionIntervalCheckInSeconds = 30;
 
-    public static int testTimeoutInMinutes = 30;
-    public static int testIntervalCheckInMinutes = 5;
+    public static int testTimeoutInMinutes = 1; // Should be 30
+    public static int testIntervalCheckInMinutes = 1; // Should be 5
 
     public static int percentageFor3 = 42;
 

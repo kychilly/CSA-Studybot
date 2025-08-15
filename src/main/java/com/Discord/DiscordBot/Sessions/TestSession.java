@@ -10,6 +10,7 @@ public class TestSession {
     private final User user;
     private int currentIndex;
     private long messageId;
+    private long channelId;
     private boolean submitted = false;
     private volatile long lastActivityTime = System.currentTimeMillis();
 
@@ -61,6 +62,14 @@ public class TestSession {
     }
 
     public User getUser() { return user; }
+
+    public long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(long channelId) {
+        this.channelId = channelId;
+    }
 
     public void nextQuestion() {
         if (currentIndex < questions.size() - 1) {

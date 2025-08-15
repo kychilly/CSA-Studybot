@@ -86,10 +86,13 @@ public class TestCommand {
                         .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
             }
 
-            // Send the test
+            // Send the test and store both message and channel IDs
             hook.sendMessageEmbeds(createTestEmbed(session))
                     .setComponents(createActionRows(session))
-                    .queue(message -> session.setMessageId(message.getIdLong()));
+                    .queue(message -> {
+                        session.setMessageId(message.getIdLong());
+                        session.setChannelId(message.getChannel().getIdLong());
+                    });
         });
     }
 

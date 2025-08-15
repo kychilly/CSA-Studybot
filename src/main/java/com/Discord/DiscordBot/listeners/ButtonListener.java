@@ -186,7 +186,7 @@ public class ButtonListener extends ListenerAdapter {
 
         // Checks to make sure before you get to click again, if you have an active question. If so, dont let them get a new question
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getHook().sendMessage("You already have an active question! Please answer that first.")
+            event.getHook().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.")
                     .setEphemeral(false)
                     .queue();
             return;

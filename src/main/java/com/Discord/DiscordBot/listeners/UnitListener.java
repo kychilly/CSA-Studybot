@@ -25,6 +25,7 @@ public class UnitListener extends ListenerAdapter {
         if (!message.startsWith(Constants.prefix)) { return; } // Otherwise the message doesn't matter to the bot
 
             // The !Constants.prefix<number> command
+
             if (message.equalsIgnoreCase(Constants.prefix + "1")) {
                 HandleUnitsCommand.execute(event, user, 1, QuestionBank.getUnit1Questions());
             } else if (message.equalsIgnoreCase(Constants.prefix + "2")) {
@@ -36,7 +37,7 @@ public class UnitListener extends ListenerAdapter {
             }
 
             // Less important commands
-            if (message.equalsIgnoreCase(Constants.prefix + "-info")) {
+            else if (message.equalsIgnoreCase(Constants.prefix + "-info")) {
                 InfoTextCommand.execute(event);
             } else if (message.equalsIgnoreCase(Constants.prefix + "-questionbank")) {
                 QuestionBankTextCommand.execute(event);
