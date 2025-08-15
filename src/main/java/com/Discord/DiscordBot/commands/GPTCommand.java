@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.commands;
 
+import com.Discord.DiscordBot.A_IndividualMethods.BadWordChecker;
 import com.Discord.DiscordBot.Constants;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -122,6 +123,15 @@ public class GPTCommand {
 
 
     private static void sendReplyInChunks(String reply, SlashCommandInteractionEvent event) {
+        // First check the entire reply for bad words
+        if (BadWordChecker.hasAReallyBadWord(reply)) {
+            event.getHook().sendMessage(
+                    "I am unable to answer your question as I believe you are trying to make me say an extremely hateful word."
+            ).queue();
+            return;
+        }
+
+        // If no bad words, start chunking(should always be only 1 chunk though)
         int maxLength = 2000;
         int start = 0;
         boolean firstChunk = true;
@@ -129,7 +139,6 @@ public class GPTCommand {
         while (start < reply.length()) {
             int end = Math.min(start + maxLength, reply.length());
 
-            // Avoid breaking in the middle of a word
             if (end < reply.length() && reply.charAt(end) != ' ') {
                 int lastSpace = reply.lastIndexOf(' ', end);
                 if (lastSpace > start) {
@@ -137,8 +146,7 @@ public class GPTCommand {
                 }
             }
 
-            String theReply = reply.substring(start,end).trim();
-            String chunk = hasAReallyBadWord(theReply) ? "I am unable to answer your question as I believe you are trying to make me say an extremely hateful word." : theReply;
+            String chunk = reply.substring(start, end).trim();
 
             if (firstChunk) {
                 event.getHook().sendMessage(chunk).queue();
@@ -148,94 +156,8 @@ public class GPTCommand {
             }
 
             start = end;
-            while (start < reply.length() && reply.charAt(start) == ' ') start++; // skip space
+            while (start < reply.length() && reply.charAt(start) == ' ') start++;
         }
-    }
-
-
-    // Trie node class (Do not change)
-    private static class TrieNode {
-        Map<Character, TrieNode> children = new HashMap<>();
-        boolean isWord = false;
-    }
-
-    private static final TrieNode root = new TrieNode();
-
-    static {
-        addWord("nigger");
-        addWord("nigga");
-        addWord("fag");
-        addWord("faggot");
-        // Add more if this becomes a problem
-    }
-
-    private static void addWord(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            node = node.children.computeIfAbsent(c, k -> new TrieNode());
-        }
-        node.isWord = true;
-    }
-
-    // Normalization maps
-    private static final Map<Character, Character> normalizationMap = new HashMap<>();
-    static {
-        // Leetspeak
-        normalizationMap.put('4','a');
-        normalizationMap.put('@','a');
-        normalizationMap.put('1','i');
-        normalizationMap.put('!','i');
-        normalizationMap.put('3','e');
-        normalizationMap.put('0','o');
-        normalizationMap.put('$','s');
-        normalizationMap.put('5','s');
-        normalizationMap.put('7','t');
-
-        // Cyrillic lookalikes
-        normalizationMap.put('а','a'); // Cyrillic a
-        normalizationMap.put('А','a');
-        normalizationMap.put('е','e'); // Cyrillic e
-        normalizationMap.put('Е','e');
-        normalizationMap.put('о','o'); // Cyrillic o
-        normalizationMap.put('О','o');
-        normalizationMap.put('с','c'); // Cyrillic c
-        normalizationMap.put('С','c');
-        normalizationMap.put('і','i'); // Cyrillic i
-        normalizationMap.put('І','i');
-        normalizationMap.put('г','r'); // Cyrillic g to r
-        normalizationMap.put('Г','r');
-        normalizationMap.put('к','k'); // Cyrillic k
-        normalizationMap.put('К','k');
-        // Possible to add more
-    }
-
-    private static char normalizeChar(char c) {
-        c = Character.toLowerCase(c);
-        return normalizationMap.getOrDefault(c, c);
-    }
-
-    public static boolean hasAReallyBadWord(String input) {
-        input = input.trim();
-        int n = input.length();
-        char[] normalized = new char[n];
-
-        // Normalize input in one pass
-        for (int i = 0; i < n; i++) {
-            normalized[i] = normalizeChar(input.charAt(i));
-        }
-
-        // Check all starting positions
-        for (int i = 0; i < n; i++) {
-            TrieNode node = root;
-            for (int j = i; j < n; j++) {
-                char c = normalized[j];
-                if (!node.children.containsKey(c)) break;
-                node = node.children.get(c);
-                if (node.isWord) return true;
-            }
-        }
-
-        return false;
     }
 
 }

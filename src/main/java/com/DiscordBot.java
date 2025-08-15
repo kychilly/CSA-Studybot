@@ -1,5 +1,6 @@
 package com;
 
+import com.Discord.DiscordBot.A_IndividualMethods.BadWordChecker;
 import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Sessions.SessionCleanupService;
 import com.Discord.DiscordBot.Units.ActiveQuestionTracker;
