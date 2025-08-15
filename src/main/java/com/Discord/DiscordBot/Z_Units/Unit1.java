@@ -1,10 +1,8 @@
 package com.Discord.DiscordBot.Z_Units;
 
 import com.Discord.DiscordBot.Units.Question;
-import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.Discord.DiscordBot.Units.QuestionBank.unit1Questions;
 

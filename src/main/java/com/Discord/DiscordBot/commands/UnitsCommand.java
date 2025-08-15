@@ -136,7 +136,7 @@ public class UnitsCommand {
 
         // Build the jump URL
         String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
-                event.getGuild().getId(),
+                Objects.requireNonNull(event.getGuild()).getId(),
                 channelId,
                 messageId);
 

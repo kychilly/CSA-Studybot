@@ -126,7 +126,7 @@ public class HandleUnitsCommand {
                         jumpUrl
                 ));
 
-        // Send the response - can't set ephemeral for regular messages
+        // Send response
         event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 

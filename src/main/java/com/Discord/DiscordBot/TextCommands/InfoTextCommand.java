@@ -1,7 +1,10 @@
 package com.Discord.DiscordBot.TextCommands;
 
 import com.Discord.DiscordBot.Constants;
-import com.Discord.DiscordBot.Units.*;
+import com.Discord.DiscordBot.Z_Units.Unit1;
+import com.Discord.DiscordBot.Z_Units.Unit2;
+import com.Discord.DiscordBot.Z_Units.Unit3;
+import com.Discord.DiscordBot.Z_Units.Unit4;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -18,11 +21,11 @@ public class InfoTextCommand {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("📚 Available Practice Questions 📚");
         embed.setThumbnail(Constants.APPicture);
-        embed.setColor(0x3498db); // Blue color
+        embed.setColor(0x3498db);
 
         embed.setDescription(String.format(
-                "**Total Questions:** %d\n\nUse `!u<number>` or `!unit<number>` to start practicing!",
-                sum
+                "**Total Questions:** %d\n\nUse `!" + Constants.slashPrefix + "<number>`,  `/" + Constants.slashPrefix + "-practice-question`, or `/" +
+                        Constants.slashPrefix + "-test` to start practicing!\n----------------------------------------------------", sum
         ));
 
         embed.addField("**Unit 1:** Using Objects & Methods",
