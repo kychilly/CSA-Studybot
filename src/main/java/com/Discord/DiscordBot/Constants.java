@@ -1,5 +1,8 @@
 package com.Discord.DiscordBot;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,6 +65,48 @@ public class Constants {
                     "- /" + slashPrefix + "-help: Lists all commands.\n" +
                     "- /" + slashPrefix + "-ask: Ask AI a question directly.\n" +
                     "- /" + slashPrefix + "-profile: Displays your profile. Optional param: @mention of another user to view their profile.\nHere is their response: ";
+
+    // Change this with whatever AP course this bot is - no need to change botInviteLink, as its already changed
+    public static MessageEmbed createResourcesEmbed() {
+        EmbedBuilder embed = new EmbedBuilder()
+                .setTitle("📚 AP " + Constants.slashPrefix + " Study Resources")
+                .setDescription("Here are some valuable resources to help you succeed in AP Computer Science A:")
+                .setColor(0x3498db)
+                .setThumbnail(Constants.collegeBoardThumbnail)
+
+                // Official College Board Resources
+                .addField("🎓 Official College Board Resources",
+                        "• [Course Overview](https://apstudents.collegeboard.org/courses/ap-computer-science-a)\n" +
+                                "• [Course Description](https://apcentral.collegeboard.org/pdf/ap-computer-science-a-course-and-exam-description.pdf)\n" +
+                                "• [Past Exam Questions](https://apcentral.collegeboard.org/courses/ap-computer-science-a/exam)\n" +
+                                "• [AP Classroom](https://myap.collegeboard.org/) (Requires teacher login)", false)
+
+                // Video Tutorials
+                .addField("📺 Video Tutorials",
+                        "• [College Board AP CSA Playlist](https://www.youtube.com/playlist?list=PLoGgviqq4845xKOY11PnkE4aqdBmDx1LO)\n" +
+                                "• [Khan Academy AP CSA](https://www.khanacademy.org/computing/ap-computer-science-principles)\n" +
+                                "• [CS Awesome Interactive Textbook](https://runestone.academy/ns/books/published/csawesome/index.html)", false)
+
+                // Practice Sites
+                .addField("💻 Practice & Coding Sites",
+                        "• [CodingBat Java Practice](https://codingbat.com/java)\n" +
+                                "• [Practice-it (UW)](https://practiceit.cs.washington.edu/)\n" +
+                                "• [Replit Java Online IDE](https://replit.com/languages/java)", false)
+
+                // Additional Help
+                .addField("🆘 Additional Help",
+                        "• [Java Documentation](https://docs.oracle.com/javase/8/docs/api/)\n" +
+                                "• [GeeksforGeeks Java](https://www.geeksforgeeks.org/java/)\n" +
+                                "• [Stack Overflow](https://stackoverflow.com/)", false)
+
+                // Bot Invite
+                .addField("🤖 Bot Invite",
+                        "[Invite this bot to your server](" + Constants.botInviteLink + ")", false)
+
+                .setFooter("Good luck with your studies! 🍀");
+
+        return embed.build();
+    }
 
 
     // (No Change) - Possible end of test messages

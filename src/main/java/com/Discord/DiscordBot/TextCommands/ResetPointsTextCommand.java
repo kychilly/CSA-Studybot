@@ -29,7 +29,7 @@ public class ResetPointsTextCommand {
                             "\nTheir new title is: " + profile.getTitle() + " with " + profile.getPoints() + " points."
             ).queue();
 
-        } catch (IOException e) { // This only happens when i use the command wrong lol
+        } catch (IOException e) { // This only happens when I use the command wrong
             event.getChannel().sendMessage(
                     "❌ Failed to reset points for " + targetUser.getAsMention() +
                             ": " + e.getMessage()
