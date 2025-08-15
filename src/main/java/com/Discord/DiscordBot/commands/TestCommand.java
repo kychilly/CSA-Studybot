@@ -9,6 +9,7 @@ import com.Discord.DiscordBot.Units.QuestionBank;
 import com.Discord.DiscordBot.listeners.ButtonListener;
 import com.Discord.DiscordBot.zzzIndividualMethods.CalculatePoints;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -19,8 +20,13 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
+import java.awt.*;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -65,7 +71,6 @@ public class TestCommand {
             return;
         }
 
-        // Defer the reply to prepare for multiple messages
         event.deferReply().queue(hook -> {
             // Get and remove previous test in one operation
             TestSession previousTest = activeTests.remove(event.getUser().getIdLong());
@@ -75,23 +80,29 @@ public class TestCommand {
             TestSession session = new TestSession(questions, event.getUser());
             activeTests.put(event.getUser().getIdLong(), session);
 
-            // Send appropriate notification
-            if (hadPreviousTest) {
-                String message = previousTest.isSubmitted()
-                        ? "⌛ " + event.getUser().getAsMention() + ", here is your new test!"
-                        : "⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.";
-
-                hook.sendMessage(message)
-                        .setEphemeral(true)
-                        .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
-            }
-
-            // Send the test and store both message and channel IDs
+            // Send the test first to get its message reference
             hook.sendMessageEmbeds(createTestEmbed(session))
                     .setComponents(createActionRows(session))
-                    .queue(message -> {
-                        session.setMessageId(message.getIdLong());
-                        session.setChannelId(message.getChannel().getIdLong());
+                    .queue(newTestMessage -> {
+                        // Store IDs for the new test
+                        session.setMessageId(newTestMessage.getIdLong());
+                        session.setChannelId(newTestMessage.getChannel().getIdLong());
+
+                        // If there was a previous test, edit its message with link to new test
+                        if (hadPreviousTest && !previousTest.isSubmitted()) {
+                            editPreviousTestMessage(event, previousTest, newTestMessage);
+                        }
+
+                        // Send appropriate notification
+                        if (hadPreviousTest) {
+                            String message = previousTest.isSubmitted()
+                                    ? "⌛ " + event.getUser().getAsMention() + ", here is your new test!"
+                                    : "⌛ " + event.getUser().getAsMention() + ", your previous test was ended as you started a new test.";
+
+                            hook.sendMessage(message)
+                                    .setEphemeral(true)
+                                    .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
+                        }
                     });
         });
     }
@@ -401,6 +412,34 @@ public class TestCommand {
             return Constants.TWO_SCORE_MESSAGES.get((int)(Math.random() * Constants.TWO_SCORE_MESSAGES.size()));
         } else {
             return Constants.ONE_SCORE_MESSAGES.get((int)(Math.random() * Constants.ONE_SCORE_MESSAGES.size()));
+        }
+    }
+
+    // Test method so far
+    private static void editPreviousTestMessage(SlashCommandInteractionEvent event, TestSession previousTest, Message newTestMessage) {
+        try {
+            String newTestLink = String.format("[Continue to your new test](%s)",
+                    newTestMessage.getJumpUrl());
+
+            event.getJDA().getTextChannelById(previousTest.getChannelId())
+                    .editMessageEmbedsById(previousTest.getMessageId(),
+                            new EmbedBuilder()
+                                    .setTitle("⏰ Test Session Ended")
+                                    .setDescription(String.format(
+                                            "%s, this test was ended because you started a new one.\n%s",
+                                            event.getUser().getAsMention(),
+                                            newTestLink))
+                                    .setColor(new Color(255, 82, 82))
+                                    .setThumbnail(event.getUser().getEffectiveAvatarUrl())
+                                    .setFooter("Session ended • " +
+                                                    Instant.now()
+                                                            .atZone(ZoneId.of("America/New_York"))
+                                                            .format(DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a")),
+                                            "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/23f0.png")
+                                    .build()
+                    ).setComponents(Collections.emptyList()).queue();
+        } catch (Exception e) {
+            System.out.println("Failed to edit previous test message: " + e.getMessage());
         }
     }
 

@@ -69,7 +69,7 @@ public class SessionCleanupService {
                                     new EmbedBuilder()
                                             .setTitle("⏰ Test Session Expired")
                                             .setDescription(user.getAsMention() + String.format(", your test session has expired after %d minutes of inactivity." +
-                                                    "\n\n" + "Use /%s to start another test.",
+                                                    "\n\n" + "Use /%s-test to start another test.",
                                                     Constants.testTimeoutInMinutes,
                                                     Constants.slashPrefix))
                                             .setColor(new Color(255, 82, 82))
