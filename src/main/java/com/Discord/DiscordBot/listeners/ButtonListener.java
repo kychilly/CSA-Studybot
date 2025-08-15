@@ -129,8 +129,11 @@ public class ButtonListener extends ListenerAdapter {
                     Button.danger("review_question", "Review Question")
             );
 
-        event.getHook().editOriginal(messageBuilder.build()).queue();
-        ActiveQuestionTracker.removeActiveQuestion(user, event.getMessageIdLong());
+        // FIRST update the message, THEN remove from tracking
+        event.getHook().editOriginal(messageBuilder.build()).queue(success -> {
+            // Runs AFTER the message is updated (
+            ActiveQuestionTracker.removeActiveQuestionByButtonAnswer(user, event.getMessageIdLong());
+        });
     }
 
     private void handleReviewQuestion(ButtonInteractionEvent event, User user) {

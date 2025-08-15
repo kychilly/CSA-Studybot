@@ -31,6 +31,15 @@ public class ActiveQuestionTracker {
         questionChannelIds.put(user, channelId);
     }
 
+    // A lot of spagetti code rn
+    public static void removeActiveQuestionByButtonAnswer(User user, Long messageId) {
+        userQuestions.remove(user);
+        activeMessageIds.remove(messageId);
+        questionIds.remove(user);
+        questionTimestamps.remove(user);
+        questionChannelIds.remove(user);
+    }
+
     public static void removeActiveQuestion(User user, Long messageId) {
         // Edit the original message
         try {
