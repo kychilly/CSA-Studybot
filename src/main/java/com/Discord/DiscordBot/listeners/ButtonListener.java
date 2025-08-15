@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -142,8 +143,9 @@ public class ButtonListener extends ListenerAdapter {
 
         Question question = incorrectUserQuestions.get(user);
         if (question == null) {
-            event.getHook().sendMessage("No previous question to review!")
-                    .setEphemeral(true).queue();
+            handleActiveQuestion(event, user);
+//            event.getHook().sendMessage("No previous question to review!")
+//                    .setEphemeral(true).queue();
             return;
         }
         if (!user.equals(incorrectMessageIds.get(messageID))) {
@@ -270,41 +272,46 @@ public class ButtonListener extends ListenerAdapter {
                 });
     }
 
+    // Needs to not reply since, if it is another person's interaction, replies twice
     public static void handleActiveQuestion(ButtonInteractionEvent event, User user) {
+        // Since reply is already deferred, use getHook() directly
+        InteractionHook hook = event.getHook();
+        hook.setEphemeral(true); // Ensure ephemeral if not already set
+
         Long messageId = ActiveQuestionTracker.getMessageIdForUser(user);
         Long channelId = ActiveQuestionTracker.getChannelIdForUser(user);
 
-        // If we can't find the message or channel, clean up and notify user
+        // Cleanup if message not found
         if (messageId == null || channelId == null) {
             ActiveQuestionTracker.removeActiveQuestion(user, messageId);
-            event.reply("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
-                    .setEphemeral(true)
-                    .queue();
+            hook.sendMessageEmbeds(
+                    new EmbedBuilder()
+                            .setDescription("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
+                            .setColor(0xFFA500)
+                            .build()
+            ).queue();
             return;
         }
 
-        // Build the jump URL
+        // Build jump URL
         String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
                 event.getGuild().getId(),
                 channelId,
                 messageId);
 
-        // Create an embed with the clickable link
-        EmbedBuilder embed = new EmbedBuilder()
-                .setColor(0xFFA500) // Orange color for warning
-                .setThumbnail(event.getUser().getEffectiveAvatarUrl())
-                .setDescription(String.format(
-                        "%s, you already have an active question!\n\n" +
-                                "[➔ Jump to your question](%s)\n\n" +
-                                "Please answer it before requesting a new one.",
-                        user.getAsMention(),
-                        jumpUrl
-                ));
-
-        // Send the response
-        event.replyEmbeds(embed.build())
-                .setEphemeral(true)
-                .queue();
+        // Send embed through the existing hook
+        hook.sendMessageEmbeds(
+                new EmbedBuilder()
+                        .setColor(0xFFA500)
+                        .setThumbnail(user.getEffectiveAvatarUrl())
+                        .setDescription(String.format(
+                                "%s, you already have an active question!\n\n" +
+                                        "[➔ Jump to your question](%s)\n\n" +
+                                        "Please answer it before requesting a new one.",
+                                user.getAsMention(),
+                                jumpUrl))
+                        .build()
+        ).queue();
     }
 
     public static String getAnswerText(Question question, String option) {

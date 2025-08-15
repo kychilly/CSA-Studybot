@@ -123,7 +123,7 @@ public class TestCommand {
 
         // Check if the button is from the user's test message
         if (event.getMessageIdLong() != session.getMessageId()) {
-            sendEphemeralReply(event, "This isn't your test! Please go to your own test or start one with `/test`.");
+            sendEphemeralReply(event, "This isn't your test! Please go to your own test or start a new one with `/" + Constants.slashPrefix + "-test`.");
             return;
         }
 

@@ -44,9 +44,10 @@ public class UnitListener extends ListenerAdapter {
                 QuestionBankTextCommand.execute(event);
             } else if (message.equalsIgnoreCase(Constants.prefix + "-resources")) {
                 ResourcesTextCommand.execute(event);
-            } else if (message.startsWith(Constants.prefix + "-report")) { // Testing out a report command
+            } else if (message.startsWith(Constants.prefix + "-report")) {
                 ReportTextCommand.execute(event, message.substring(Constants.prefix.length() + 7));
-            } else { // In case the user doesnt know what the commands are
+            } else {
+                // In case the user doesnt know what the commands are
                 event.getChannel().sendMessage("Hello " + Objects.requireNonNull(event.getMember()).getAsMention() + ", I believe you are trying to use one of the " + Constants.prefix + " commands. The commands I have available for use are: " +
                         "\n - "+ Constants.prefix + "<unit> : Gets a random unit <unit> question" +
                         "\n - " + Constants.prefix + "-info : Gets information about the AP " + Constants.slashPrefix.toUpperCase() + " Course" +

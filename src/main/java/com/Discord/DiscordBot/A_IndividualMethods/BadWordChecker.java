@@ -63,6 +63,7 @@ public class BadWordChecker {
         NORMALIZATION_TABLE['Г'] = 'r';
         NORMALIZATION_TABLE['к'] = 'k'; // Cyrillic k
         NORMALIZATION_TABLE['К'] = 'k';
+        NORMALIZATION_TABLE['ո'] = 'n'; // Additional n
 
         // Add more mappings as needed
     }
