@@ -90,10 +90,11 @@ public class HelpCommand {
                     .setDescription(description)
                     .setColor(0x1E90FF)
                     .addField("Less Important Commands",
-                            "• `" + Constants.prefix + "<unit>` - \"Replace <unit> with a number\"\n" +
+                            "• `" + Constants.prefix + "<unit>` - Replace <unit> with a number\n" +
                                     "• `" + Constants.prefix + "-questionbank`\n" +
                                     "• `" + Constants.prefix + "-resources`\n" +
-                                    "• `" + Constants.prefix + "-info`\n",
+                                    "• `" + Constants.prefix + "-info`\n" +
+                                    "• `" + Constants.prefix + "-report <message>` - Replace <message> with your report\n",
                             false);
         }
 

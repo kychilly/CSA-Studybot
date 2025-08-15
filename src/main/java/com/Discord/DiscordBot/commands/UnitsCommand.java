@@ -42,7 +42,7 @@ public class UnitsCommand {
         int unit = (int)(Math.random()*numUnits)+1; // random unit for now
         if (event.getOption("unit") != null) {
             unit = Objects.requireNonNull(event.getOption("unit")).getAsInt();
-            if (1 > unit || unit > 4) {
+            if (1 > unit || unit > Constants.numUnits) {
                 event.reply(String.format("Unit %d is not a unit in AP %s! Please choose a unit 1-%d.", unit, Constants.slashPrefix.toUpperCase(), Constants.numUnits)).setEphemeral(true).queue();
                 return;
             }

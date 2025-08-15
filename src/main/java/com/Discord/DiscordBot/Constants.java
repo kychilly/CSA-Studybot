@@ -17,6 +17,8 @@ public class Constants {
     public static int testTimeoutInMinutes = 30; // (No Change) - Should be 30
     public static int testIntervalCheckInMinutes = 5; // (No Change) - Should be 5
 
+    public static int reportCooldown = 10 * 1000 * 60; // (No Change) - 10 minutes(or 600,000ms) for report cooldown
+
     public static int percentageFor3 = 42; // The percent you need to score a 3 or higher on the AP test
 
     public static String[] titles = {"Level 1 Sleeper", "Level 2 Learner", "Level 3 Casual", "Level 4 Honored", "Level 5 AP Deity"}; // (No Change) - Profile Titles
@@ -55,6 +57,7 @@ public class Constants {
                     "- " + prefix + "-questionbank: Shows all questions.\n" +
                     "- " + prefix + "-info: Overview of the AP course.\n" +
                     "- " + prefix + "-resources: Study resources.\n" +
+                    "- " + prefix + "-report <Your message>: Report a bug or issue with the bot. There is a " +
                     "- /" + slashPrefix + "-help: Lists all commands.\n" +
                     "- /" + slashPrefix + "-ask: Ask AI a question directly.\n" +
                     "- /" + slashPrefix + "-profile: Displays your profile. Optional param: @mention of another user to view their profile.\n";

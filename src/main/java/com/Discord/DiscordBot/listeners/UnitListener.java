@@ -3,6 +3,7 @@ package com.Discord.DiscordBot.listeners;
 import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.TextCommands.InfoTextCommand;
 import com.Discord.DiscordBot.TextCommands.QuestionBankTextCommand;
+import com.Discord.DiscordBot.TextCommands.ReportTextCommand;
 import com.Discord.DiscordBot.TextCommands.ResourcesTextCommand;
 import com.Discord.DiscordBot.Units.*;
 import net.dv8tion.jda.api.entities.User;
@@ -43,13 +44,16 @@ public class UnitListener extends ListenerAdapter {
                 QuestionBankTextCommand.execute(event);
             } else if (message.equalsIgnoreCase(Constants.prefix + "-resources")) {
                 ResourcesTextCommand.execute(event);
+            } else if (message.startsWith(Constants.prefix + "-report")) { // Testing out a report command
+                ReportTextCommand.execute(event, message.substring(Constants.prefix.length() + 7));
             } else { // In case the user doesnt know what the commands are
                 event.getChannel().sendMessage("Hello " + Objects.requireNonNull(event.getMember()).getAsMention() + ", I believe you are trying to use one of the " + Constants.prefix + " commands. The commands I have available for use are: " +
                         "\n - "+ Constants.prefix + "<unit> : Gets a random unit <unit> question" +
                         "\n - " + Constants.prefix + "-info : Gets information about the AP " + Constants.slashPrefix.toUpperCase() + " Course" +
                         "\n - " + Constants.prefix + "-questionbank : Gets the questions I have" +
                         "\n - " + Constants.prefix + "-resources : Gets resources to help study for the AP " + Constants.slashPrefix.toUpperCase() + " course" +
-                        "\n\nPlease feel free to use the /" + Constants.slashPrefix + " command for more assistance on how to use these commands!").queue();
+                        "\n - " + Constants.prefix + "-report <Your message>: Report a bug or issue with this bot" +
+                        "\n\nPlease feel free to use the `/" + Constants.slashPrefix + "-ask` or `/" + Constants.slashPrefix + "-help` command for more assistance on how to use these commands!").queue();
             }
 
     }
