@@ -115,7 +115,7 @@ public class SessionCleanupService {
             user.openPrivateChannel().queue(channel -> {
                 channel.sendMessage("⌛ Your test session expired after " +
                                 sessionTimeoutMinutes + " minutes of inactivity.\n" +
-                                "Use the test command again to start a new session.")
+                                "Use the /" + Constants.prefix + "-test command again to start a new session.")
                         .queue();
             }, error -> {
                 System.out.println("[SessionCleanup] Couldn't DM user " + userId);

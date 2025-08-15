@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.Discord.DiscordBot.Units.ActiveQuestionTracker.getUserByMessageId;
 import static com.Discord.DiscordBot.Units.CheckQuestionAnswer.wrongAnswers;
@@ -186,9 +187,7 @@ public class ButtonListener extends ListenerAdapter {
 
         // Checks to make sure before you get to click again, if you have an active question. If so, dont let them get a new question
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getHook().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.")
-                    .setEphemeral(false)
-                    .queue();
+            handleActiveQuestion(event, user);
             return;
         }
 
@@ -267,6 +266,43 @@ public class ButtonListener extends ListenerAdapter {
                 .queue(sentMessage -> {
                     ActiveQuestionTracker.addActiveQuestion(user, question, sentMessage.getIdLong(), question.getQuestionId(), event.getChannelIdLong());
                 });
+    }
+
+    public static void handleActiveQuestion(ButtonInteractionEvent event, User user) {
+        Long messageId = ActiveQuestionTracker.getMessageIdForUser(user);
+        Long channelId = ActiveQuestionTracker.getChannelIdForUser(user);
+
+        // If we can't find the message or channel, clean up and notify user
+        if (messageId == null || channelId == null) {
+            ActiveQuestionTracker.removeActiveQuestion(user, messageId);
+            event.reply("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
+                    .setEphemeral(true)
+                    .queue();
+            return;
+        }
+
+        // Build the jump URL
+        String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
+                event.getGuild().getId(),
+                channelId,
+                messageId);
+
+        // Create an embed with the clickable link
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(0xFFA500) // Orange color for warning
+                .setThumbnail(event.getUser().getEffectiveAvatarUrl())
+                .setDescription(String.format(
+                        "%s, you already have an active question!\n\n" +
+                                "[➔ Jump to your question](%s)\n\n" +
+                                "Please answer it before requesting a new one.",
+                        user.getAsMention(),
+                        jumpUrl
+                ));
+
+        // Send the response
+        event.replyEmbeds(embed.build())
+                .setEphemeral(true)
+                .queue();
     }
 
     public static String getAnswerText(Question question, String option) {

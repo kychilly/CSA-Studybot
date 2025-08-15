@@ -10,7 +10,7 @@ public class Constants {
 
     public static int numUnits = 4;
 
-    public static int unitQuestionTimeoutInMinutes = 3;
+    public static int unitQuestionTimeoutInMinutes = 3; // Should be 3
     public static int unitQuestionIntervalCheckInSeconds = 30;
 
     public static int testTimeoutInMinutes = 30; // Should be 30

@@ -134,7 +134,7 @@ public class ActiveQuestionTracker {
                     botUser.openPrivateChannel().queue(
                             channel -> {
                                 channel.sendMessage("⌛ Your question has expired because you didn't respond within " + Constants.unitQuestionTimeoutInMinutes +
-                                                " minutes. Use the commands again to get a new question.")
+                                                " minutes. Use the `" + Constants.prefix + "<number>` or `/" + Constants.slashPrefix+ "-practice-question` command again to get a new question.")
                                         .queue(null,
                                                 e -> System.out.println("Failed to send DM to " + user.getId())
                                         );
@@ -146,13 +146,15 @@ public class ActiveQuestionTracker {
         );
     }
 
-    private static Long getMessageIdForUser(User user) {
+    public static Long getMessageIdForUser(User user) {
         return activeMessageIds.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(user))
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
     }
+
+
 
     public static Long getChannelIdForUser(User user) {
         return questionChannelIds.get(user);

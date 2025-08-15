@@ -4,10 +4,13 @@ import com.Discord.DiscordBot.Constants;
 import com.Discord.DiscordBot.Units.ActiveQuestionTracker;
 import com.Discord.DiscordBot.Units.Question;
 import com.Discord.DiscordBot.Units.QuestionBank;
+import com.Discord.DiscordBot.listeners.ButtonListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -55,9 +58,7 @@ public class UnitsCommand {
     public static void sendUnit(SlashCommandInteractionEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
         // Check for active question
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.reply(user.getAsMention() + ", you already have an active question! Please answer that first.")
-                    .setEphemeral(true)
-                    .queue();
+            handleActiveQuestion(event, user);
             return;
         }
 
@@ -119,6 +120,39 @@ public class UnitsCommand {
                         ActiveQuestionTracker.addActiveQuestion(user, question, message.getIdLong(), question.getQuestionId(), event.getChannelIdLong());
                     });
                 });
+    }
+
+    public static void handleActiveQuestion(SlashCommandInteractionEvent event, User user) {
+        Long messageId = ActiveQuestionTracker.getMessageIdForUser(user);
+        Long channelId = ActiveQuestionTracker.getChannelIdForUser(user);
+
+        // If we can't find the message or channel, clean up and notify user
+        if (messageId == null || channelId == null) {
+            ActiveQuestionTracker.removeActiveQuestion(user, messageId);
+            event.getChannel().sendMessage("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
+                    .queue();
+            return;
+        }
+
+        // Build the jump URL
+        String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
+                event.getGuild().getId(),
+                channelId,
+                messageId);
+
+        // Create an embed with the clickable link
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(0xFFA500) // Orange color for warning
+                .setThumbnail(event.getUser().getEffectiveAvatarUrl())
+                .setDescription(String.format(
+                        "%s, you already have an active question!\n\n" +
+                                "[➔ Jump to your question](%s)\n\n" +
+                                "Please answer it before requesting a new one.",
+                        user.getAsMention(),
+                        jumpUrl
+                ));
+
+        event.replyEmbeds(embed.build()).queue();
     }
 
 }

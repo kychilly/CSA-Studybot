@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.Units;
 
+import com.Discord.DiscordBot.commands.UnitsCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,6 +9,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.Discord.DiscordBot.listeners.ButtonListener.*;
 
@@ -17,7 +19,7 @@ public class HandleUnitsCommand {
     public static void execute(MessageReceivedEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
 
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
-            event.getChannel().sendMessage(user.getAsMention() + ", you already have an active question! Please answer that first.").queue();
+            handleActiveQuestion(event, user); // Handles if the person already had an active question
             return;
         }
 
@@ -92,6 +94,40 @@ public class HandleUnitsCommand {
             ActiveQuestionTracker.addActiveQuestion(user, question, msg.getIdLong(), question.getQuestionId(), channelId);
         });
 
+    }
+
+    public static void handleActiveQuestion(MessageReceivedEvent event, User user) {
+        Long messageId = ActiveQuestionTracker.getMessageIdForUser(user);
+        Long channelId = ActiveQuestionTracker.getChannelIdForUser(user);
+
+        // If we can't find the message or channel, clean up and notify user
+        if (messageId == null || channelId == null) {
+            ActiveQuestionTracker.removeActiveQuestion(user, messageId);
+            event.getChannel().sendMessage("Your previous question couldn't be found. I've cleared it - you may now request a new one.")
+                    .queue();
+            return;
+        }
+
+        // Build the jump URL
+        String jumpUrl = String.format("https://discord.com/channels/%s/%d/%d",
+                event.getGuild().getId(),
+                channelId,
+                messageId);
+
+        // Create an embed with the clickable link
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(0xFFA500) // Orange color for warning
+                .setThumbnail(Objects.requireNonNull(event.getMember()).getUser().getEffectiveAvatarUrl())
+                .setDescription(String.format(
+                        "%s, you already have an active question!\n\n" +
+                                "[➔ Jump to your question](%s)\n\n" +
+                                "Please answer it before requesting a new one.",
+                        user.getAsMention(),
+                        jumpUrl
+                ));
+
+        // Send the response - can't set ephemeral for regular messages
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
 }
