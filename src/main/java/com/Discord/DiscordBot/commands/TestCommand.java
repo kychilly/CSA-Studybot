@@ -88,11 +88,6 @@ public class TestCommand {
                         session.setMessageId(newTestMessage.getIdLong());
                         session.setChannelId(newTestMessage.getChannel().getIdLong());
 
-                        // If there was a previous test, edit its message with link to new test
-                        if (hadPreviousTest && !previousTest.isSubmitted()) {
-                            editPreviousTestMessage(event, previousTest, newTestMessage);
-                        }
-
                         // Send appropriate notification
                         if (hadPreviousTest) {
                             String message = previousTest.isSubmitted()
@@ -103,10 +98,18 @@ public class TestCommand {
                                     .setEphemeral(true)
                                     .queue(msg -> msg.delete().queueAfter(3, TimeUnit.SECONDS));
                         }
+
+                        // If there was a previous test, edit its message with link to new test
+                        if (hadPreviousTest && !previousTest.isSubmitted()) {
+                            editPreviousTestMessage(event, previousTest, newTestMessage);
+                        }
+
+
                     });
         });
     }
 
+    // Button interaction for TestCommand
     public static void handleButtonInteraction(ButtonInteractionEvent event) {
         long userId = event.getUser().getIdLong();
 
