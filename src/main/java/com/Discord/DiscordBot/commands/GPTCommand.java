@@ -17,6 +17,7 @@ import java.text.Normalizer;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class GPTCommand {
 
@@ -94,7 +95,7 @@ public class GPTCommand {
 
         // Build request
         JsonObject requestBody = new JsonObject();
-        requestBody.addProperty("model", "llama3-70b-8192");
+        requestBody.addProperty("model", "llama3-70b-8192"); // Possible to upgrade to a better model
         requestBody.add("messages", messages);
 
         RequestBody body = RequestBody.create(requestBody.toString(), JSON);
@@ -136,7 +137,8 @@ public class GPTCommand {
                 }
             }
 
-            String chunk = reply.substring(start, end).trim();
+            String theReply = reply.substring(start,end).trim();
+            String chunk = hasAReallyBadWord(theReply) ? "I am unable to answer your question as I believe you are trying to make me say an extremely hateful word." : theReply;
 
             if (firstChunk) {
                 event.getHook().sendMessage(chunk).queue();
@@ -149,5 +151,43 @@ public class GPTCommand {
             while (start < reply.length() && reply.charAt(start) == ' ') start++; // skip space
         }
     }
+
+    private static boolean hasAReallyBadWord(String input) {
+        if (input.length() > 100) return false; // skip long messages for performance
+
+        // Step 1: Normalize to lowercase
+        String normalized = input.toLowerCase();
+
+        // Step 2: Replace common Cyrillic and homoglyphs with Latin equivalents
+        normalized = normalized
+                .replaceAll("[\u0430\u0410@4]", "a") // a: Cyrillic а, A, @, 4
+                .replaceAll("[\u0435\u04153]", "e")  // e: Cyrillic е, E, 3
+                .replaceAll("[\u0456\u0406i1!|]", "i") // i: Cyrillic і, I, 1, !, |
+                .replaceAll("[\u043E\u041E0]", "o") // o: Cyrillic о, O, 0
+                .replaceAll("[\u0441\u0421c]", "c") // c: Cyrillic с, C
+                .replaceAll("[\u0445\u0425x]", "x") // x: Cyrillic х, X
+                .replaceAll("[\u043D\u041D]", "n")  // n: Cyrillic н
+                .replaceAll("[\u0440\u0420p]", "p") // p: Cyrillic р
+                .replaceAll("[\u0442\u0422t]", "t") // t: Cyrillic т
+                .replaceAll("[\u0443\u0423y]", "u"); // u: Cyrillic у, Y
+
+        // Step 3: Remove non-alphanumeric noise (spaces, punctuation, emojis)
+        normalized = normalized.replaceAll("[^a-z]", "");
+
+        // Step 4: List of banned words (can add more)
+        String[] bannedWords = new String[]{
+                "nigger", "faggot", "kike", "chink", "wop", "spic", "cunt", "bitch", "fuck", "shit", "retard", "moron"
+        };
+
+        // Step 5: Check for banned words
+        for (String word : bannedWords) {
+            if (normalized.contains(word)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
