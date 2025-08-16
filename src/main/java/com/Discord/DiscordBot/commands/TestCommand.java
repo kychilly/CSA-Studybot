@@ -42,7 +42,6 @@ public class TestCommand {
         return Commands.slash(Constants.slashPrefix + "-test", "Take a practice AP " + Constants.slashPrefix.toUpperCase() + " test")
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "num-questions", "Number of questions to test. (default: 10)", false)
-                                .addChoice("remove this later", 1)
                                 .addChoice("5 Questions", 5)
                                 .addChoice("10 Questions", 10)
                                 .addChoice("15 Questions", 15)
