@@ -1,5 +1,6 @@
 package com.Discord.DiscordBot.Units;
 
+import com.Discord.DiscordBot.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -16,6 +17,16 @@ public class HandleUnitsCommand {
 
     // This should be for all 4 units. Parameters the unit()
     public static void execute(MessageReceivedEvent event, User user, int unit, ArrayList<Question> specificQuestionList) {
+
+        if (unit > Constants.numUnits) {
+            event.getChannel().sendMessage(Objects.requireNonNull(event.getMember()).getAsMention() + ", the AP " + Constants.slashPrefix.toUpperCase() + " Course only has " + Constants.numUnits + " units!").queue();
+            return;
+        }
+
+        if (unit <= 0) {
+            event.getChannel().sendMessage(Objects.requireNonNull(event.getMember()).getAsMention() + ", Please choose a unit between 1-" + Constants.numUnits).queue();
+            return;
+        }
 
         if (ActiveQuestionTracker.hasActiveQuestion(user)) {
             handleActiveQuestion(event, user); // Handles if the person already had an active question
