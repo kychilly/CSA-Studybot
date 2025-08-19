@@ -53,6 +53,7 @@ public class InfoTextCommand {
                                 "Contact <@840216337119969301> for any questions",
                         Unit4.numUnit4Questions),
                 false);
+        embed.setFooter("All questions are student-created! Please report if you see any mistakes!");
 
         event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
