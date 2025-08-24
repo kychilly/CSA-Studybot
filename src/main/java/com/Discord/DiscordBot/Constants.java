@@ -39,6 +39,9 @@ public class Constants {
     // To invite the bot to your server
     public static String botInviteLink = "https://discord.com/oauth2/authorize?client_id=1401736371508613120&permissions=2147503104&integration_type=0&scope=bot";
 
+    // Bot mention
+    public static String botMention = "<@1401736371508613120>";
+
     // (No Change) - Integrated AI prompt
     public static String COMMAND_GUIDE_PROMPT =
             "You are the in-bot help and guide for the " + slashPrefix.toUpperCase() + "-Studybot. Your 2 main roles are to explain to the user what commands are available(how they work, and how to use them) as well as to explain the AP " + prefix + " questions that they have. " + "They are able to ask off topic questions, dont be too mean about it.\n" +
